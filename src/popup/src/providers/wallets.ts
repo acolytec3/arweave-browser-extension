@@ -1,8 +1,9 @@
 import Arweave from 'arweave/web'
 import axios from 'axios'
 import { Store } from 'webext-redux'
-import { initialStateType, wallet, page } from '../background'
-import { time } from 'console'
+import { initialStateType, wallet, page, pdf } from '../background'
+
+
 const arweave = Arweave.init({
   //TODO: Import node address from settings
   host: 'arweave.net',
@@ -65,6 +66,62 @@ export const archivePage = async (page: any) => {
   }*/
 }
 
+export const archivePdf = async (pdf: pdf) => {
+  await store.ready()
+  let state = store.getState() as initialStateType
+  let key = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let transaction = await arweave.createTransaction({ data: pdf.source }, key);
+  console.log(transaction)
+  console.log(pdf)
+  transaction.addTag('Content-Type', 'application/pdf')
+  transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
+  await arweave.transactions.sign(transaction, key);
+  let pdfDetails:any = { 
+    'url': pdf.url, 
+    'fee': pdf.fee,
+    'txnId': transaction.id,
+    'status': 'pending',
+    'timestamp': Date.now().toString()
+  }
 
+  let result = await store.dispatch({ 
+    type: 'ARCHIVE_PDF', 
+    payload: pdfDetails
+  })
+//  const response = await arweave.transactions.post(transaction);
+ // console.log(response.status); 
+}
+
+export const sendTransfer = async (transfer: any) => {
+  await store.ready()
+  let state = store.getState() as initialStateType
+  let key = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let transaction = await arweave.createTransaction({ 
+    target: transfer.to, 
+    data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,
+    quantity: arweave.ar.arToWinston(transfer.amount)
+   }, key);
+
+  transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
+  await arweave.transactions.sign(transaction, key);
+
+  let transferDetails: any = {
+    'to': transfer.to,
+    'amount': transfer.amount,
+    'message': transfer.message,
+    'fee': transfer.fee,
+    'txnId': transaction.id,
+    'status': 'pending',
+    'timestamp': Date.now().toString()
+  }
+
+  let result = await store.dispatch({ 
+    type: 'INITIATE_TRANSFER', 
+    payload: transferDetails
+  })
+
+  //  const response = await arweave.transactions.post(transaction);
+ // console.log(response.status); 
+}
 
 
