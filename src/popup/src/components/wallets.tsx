@@ -73,7 +73,7 @@ const Wallets = () => {
 
     return (
       <Box w="400px" borderStyle='dashed' borderWidth="2px">
-        <Dropzone onDrop={onDrop}>
+        <Dropzone onDrop={onDrop} accept="application/json">
           {({ getRootProps, getInputProps }) => (
             <section>
               <div {...getRootProps()}>

@@ -1975,6 +1975,7 @@ const Wallets = () => {
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_dropzone__WEBPACK_IMPORTED_MODULE_3__["default"], {
       onDrop: onDrop,
+      accept: "application/json",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
