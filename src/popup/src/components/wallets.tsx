@@ -14,6 +14,7 @@ const Wallets = () => {
   const [address, setAddress] = useState(state.activeWallet)
   const [processing, setProcessing] = useState(false)
   const [nickname, setNickname] = useState('')
+  const [password, setPassword] = useState('')
   
 
   
@@ -32,7 +33,7 @@ const Wallets = () => {
   }
 
   const setWalletName = (evt: any) => setNickname(evt.target.value)
-
+  const updatePassword = (evt: any) => setPassword(evt.target.value)
   const WalletHeader = () => {
     return (
       <Box>
@@ -65,7 +66,7 @@ const Wallets = () => {
 
   const loadWallet = async () => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
-    let res = await addWallet(wallet, nickname);
+    let res = await addWallet(wallet, nickname, password);
     setProcessing(false)
   }
 
@@ -95,6 +96,7 @@ const Wallets = () => {
         <Box w="400px">
           <Text>Enter a wallet nickname</Text>
           <Input value={nickname} onChange={setWalletName} />
+          <Input value={password} onChange={updatePassword} type="password" />
           <Button onClick={loadWallet}>Load Wallet</Button>
         </Box>}
     </Flex>

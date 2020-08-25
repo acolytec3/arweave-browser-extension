@@ -2,6 +2,7 @@ import Arweave from 'arweave/web'
 import axios from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'
+import ArweaveCrypto from './arweaveCrypto'
 
 
 const arweave = Arweave.init({
@@ -12,15 +13,24 @@ const arweave = Arweave.init({
 })
 
 const store = new Store()
+const arweaveCrypto = new ArweaveCrypto();
 
-export const addWallet = async (key: any, nickname: string): Promise<any> => {
+function unicodeToAscii(string: string) {
+  return btoa(unescape(encodeURIComponent(string)));
+}
+
+function asciiToUnicode(string: string) {
+  return decodeURIComponent(escape(atob(string)));
+}
+export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
   let address = await arweave.wallets.jwkToAddress(key)
+  let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
   await store.ready()
   let result = await store.dispatch({ 
     type: 'ADD_WALLET', 
     payload: { 
-      key: key, 
+      key: encryptedKey, 
       address: address, 
       nickname: nickname, 
       balance: arweave.ar.winstonToAr(balance) 
@@ -36,10 +46,13 @@ export const getFee = async (size: number): Promise<string> => {
   return arweave.ar.winstonToAr(res.data)
 }
 
-export const archivePage = async (page: any) => {
+export const archivePage = async (page: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
-  let key = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
+  console.log(key)
   let transaction = await arweave.createTransaction({ data: page.html }, key);
   console.log(transaction)
   transaction.addTag('Content-Type', 'text/html')
@@ -66,10 +79,12 @@ export const archivePage = async (page: any) => {
   }*/
 }
 
-export const archivePdf = async (pdf: pdf) => {
+export const archivePdf = async (pdf: pdf, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
-  let key = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
   let transaction = await arweave.createTransaction({ data: pdf.source }, key);
   console.log(transaction)
   console.log(pdf)
@@ -92,10 +107,12 @@ export const archivePdf = async (pdf: pdf) => {
  // console.log(response.status); 
 }
 
-export const sendTransfer = async (transfer: any) => {
+export const sendTransfer = async (transfer: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
-  let key = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
   let transaction = await arweave.createTransaction({ 
     target: transfer.to, 
     data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,

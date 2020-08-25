@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid,
+  Text, Flex, Button, Modal, SimpleGrid, Input,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -25,6 +25,8 @@ const Pdfs = () => {
   const [source, setSource] = useState(null as any)
   const [fee,setFee] = useState('0')
   const [size, setSize] = useState('0')
+  const [password, setPassword] = useState('')
+
   useEffect(() => {
     console.log(window.location.hash.substr(16,))
     axios({
@@ -64,7 +66,7 @@ const Pdfs = () => {
       'source': source
     }
     console.log(source)
-    archivePdf(pdfDeets)
+    archivePdf(pdfDeets, password)
   }
 
   const PdfTable = () => {
@@ -108,6 +110,7 @@ const Pdfs = () => {
                 <Text>Page Size: {parseInt(size)/1000} kb</Text>
                 <Text>Fee: {fee}</Text>
                 <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+                <Input value={password} onChange={((evt:any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
                 <Button onClick={function () {

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, Box, SimpleGrid,
+  Text, Flex, Button, Modal, SimpleGrid, Input,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -40,7 +40,7 @@ const Pages = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const history = useHistory();
-
+  const [password, setPassword] = useState('')
   const pageSaver = () => {
     let pageDeets = {
       'title': pageSource.title,
@@ -51,7 +51,7 @@ const Pages = () => {
       'timestamp': '',
       'html': pageSource.html
     }
-    archivePage(pageDeets)
+    archivePage(pageDeets, password)
   }
 
   const PageTable = () => {
@@ -99,6 +99,7 @@ const Pages = () => {
                 <Text>Page Size: {pageSource.size}</Text>
                 <Text>Fee: {fee}</Text>
                 <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+                <Input value={password} onChange={((evt:any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
                 <Button onClick={function () {
