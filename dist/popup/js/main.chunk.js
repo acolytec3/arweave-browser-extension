@@ -185,7 +185,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11,
+      lineNumber: 18,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -194,7 +194,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11,
+      lineNumber: 18,
       columnNumber: 87
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
@@ -206,7 +206,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11,
+      lineNumber: 18,
       columnNumber: 4526
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -215,26 +215,31 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 11,
+      lineNumber: 18,
       columnNumber: 4606
     }
   }));
 };
 
 const BrowserPage = route => {
+  const {
+    isOpen,
+    onOpen,
+    onClose
+  } = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useDisclosure"])();
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["HashRouter"], {
     basename: "/mainpage",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16,
+      lineNumber: 25,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ThemeProvider"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 26,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -248,7 +253,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18,
+      lineNumber: 27,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -258,14 +263,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19,
+      lineNumber: 28,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ArweaveLogo, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 20,
+      lineNumber: 29,
       columnNumber: 11
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ButtonGroup"], {
@@ -273,7 +278,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22,
+      lineNumber: 31,
       columnNumber: 9
     }
   }, "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -282,7 +287,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24,
+      lineNumber: 33,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -294,7 +299,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24,
+      lineNumber: 33,
       columnNumber: 43
     }
   }, "PDFs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -303,7 +308,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26,
+      lineNumber: 35,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -315,7 +320,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26,
+      lineNumber: 35,
       columnNumber: 44
     }
   }, "Pages")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -324,7 +329,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28,
+      lineNumber: 37,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -336,31 +341,23 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28,
+      lineNumber: 37,
       columnNumber: 48
     }
-  }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-    as: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"],
-    to: "/wallets",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 30,
-      columnNumber: 11
-    }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+  }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaWallet"],
     bg: "white",
     color: "grey",
     border: "none",
     size: "lg",
+    onClick: onOpen,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 30,
-      columnNumber: 46
+      lineNumber: 38,
+      columnNumber: 11
     }
-  }, "Wallets")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
+  }, "Wallets"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     w: "100%",
     px: 8,
     pt: 4,
@@ -369,14 +366,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33,
+      lineNumber: 41,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34,
+      lineNumber: 42,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -384,14 +381,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 35,
+      lineNumber: 43,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 36,
+      lineNumber: 44,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -399,14 +396,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38,
+      lineNumber: 46,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pdfs__WEBPACK_IMPORTED_MODULE_6__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39,
+      lineNumber: 47,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -414,32 +411,41 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 41,
+      lineNumber: 49,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transfers__WEBPACK_IMPORTED_MODULE_7__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42,
+      lineNumber: 50,
       columnNumber: 13
     }
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-    path: "/wallets",
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Drawer"], {
+    placement: "right",
+    onClose: onClose,
+    isOpen: isOpen,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
-      columnNumber: 11
+      lineNumber: 54,
+      columnNumber: 7
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wallets__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["DrawerOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45,
-      columnNumber: 13
+      lineNumber: 58,
+      columnNumber: 9
     }
-  }))))));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wallets__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 59,
+      columnNumber: 9
+    }
+  }))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (BrowserPage);
@@ -1815,7 +1821,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _providers_wallets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../providers/wallets */ "./src/providers/wallets.ts");
 /* harmony import */ var react_dropzone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dropzone */ "./node_modules/react-dropzone/dist/es/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/fa */ "../../node_modules/react-icons/fa/index.esm.js");
 var _jsxFileName = "/home/jim/development/ar2/src/popup/src/components/wallets.tsx";
+
 
 
 
@@ -1851,6 +1859,7 @@ const Wallets = () => {
 
   const setWalletName = evt => setNickname(evt.target.value);
 
+<<<<<<< HEAD
   const updatePassword = evt => setPassword(evt.target.value);
 
   const WalletHeader = () => {
@@ -1860,60 +1869,110 @@ const Wallets = () => {
         fileName: _jsxFileName,
         lineNumber: 39,
         columnNumber: 7
-      }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
-      columns: 5,
-      flexDirection: "row",
-      alignContent: "start",
+=======
+  const WalletTable = () => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["List"], {
+      spacing: 0,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
+        lineNumber: 36,
+        columnNumber: 13
+>>>>>>> add wallet drawer
+      }
+    }, state.wallets.length > 0 ? state.wallets.map(wallet => {
+      return Wallet(wallet);
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+<<<<<<< HEAD
         lineNumber: 40,
-        columnNumber: 9
+=======
+        lineNumber: 39,
+        columnNumber: 10
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-      fontWeight: "bold",
+    }, "No wallets"));
+  };
+
+  const Wallet = wallet => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ListItem"], {
+      border: "1px",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 41,
-        columnNumber: 11
+        lineNumber: 44,
+        columnNumber: 7
       }
-    }, "Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-      fontWeight: "bold",
-      mx: 4,
-      __self: undefined,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 42,
-        columnNumber: 11
-      }
-    }, "Nickname"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-      fontWeight: "bold",
-      __self: undefined,
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 43,
-        columnNumber: 11
-      }
-    }, "Balance")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletTable, {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Box"], {
+      alignItems: "start",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 45,
+>>>>>>> add wallet drawer
         columnNumber: 9
       }
-    }));
-  };
-
-  const WalletTable = () => {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+      fontSize: "sm",
+      key: wallet.nickname,
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+<<<<<<< HEAD
+        lineNumber: 41,
+=======
+        lineNumber: 46,
+>>>>>>> add wallet drawer
+        columnNumber: 11
+      }
+    }, wallet.nickname), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+      key: wallet.address,
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+<<<<<<< HEAD
+        lineNumber: 42,
+=======
+        lineNumber: 47,
+>>>>>>> add wallet drawer
+        columnNumber: 11
+      }
+    }, wallet.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+      key: wallet.balance,
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+<<<<<<< HEAD
+        lineNumber: 43,
+=======
+        lineNumber: 48,
+>>>>>>> add wallet drawer
+        columnNumber: 11
+      }
+    }, wallet.balance, " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+      isInline: true,
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+<<<<<<< HEAD
+        lineNumber: 45,
+        columnNumber: 9
+=======
+        lineNumber: 49,
+        columnNumber: 11
+>>>>>>> add wallet drawer
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+      align: "center",
+      justifyContent: "center",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 50,
         columnNumber: 13
       }
+<<<<<<< HEAD
     }, state.wallets.length > 0 ? state.wallets.map(wallet => {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
         columns: 5,
@@ -1988,8 +2047,66 @@ const Wallets = () => {
         fileName: _jsxFileName,
         lineNumber: 64,
         columnNumber: 9
+=======
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaCheck"], {
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 51,
+        columnNumber: 15
+>>>>>>> add wallet drawer
       }
-    }, "No wallets"));
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+      bg: "white",
+      border: "none",
+      onClick: () => {
+        dispatch({
+          type: 'SET_ACTIVE',
+          payload: {
+            address: wallet.address
+          }
+        });
+      },
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 52,
+        columnNumber: 15
+      }
+    }, "Use")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+      align: "center",
+      justifyContent: "center",
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 55,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaTrash"], {
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 56,
+        columnNumber: 15
+      }
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+      bg: "white",
+      border: "none",
+      onClick: () => {
+        dispatch({
+          type: 'REMOVE_WALLET',
+          payload: {
+            address: wallet.address
+          }
+        });
+      },
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 57,
+        columnNumber: 15
+      }
+    }, "Remove")))));
   };
 
   const loadWallet = async () => {
@@ -2063,42 +2180,109 @@ const Wallets = () => {
     }, "Drop a wallet file or click to load wallet"))))));
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
-    direction: "column",
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerContent"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 92,
       columnNumber: 5
     }
-  }, state.activeWallet && !processing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletHeader, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerHeader"], {
+    borderBottomWidth: "1px",
+    bg: "#434750",
+    color: "#fff",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
+<<<<<<< HEAD
       lineNumber: 93,
       columnNumber: 45
+=======
+      lineNumber: 92,
+      columnNumber: 7
+>>>>>>> add wallet drawer
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+    isInline: true,
+    align: "center",
+    justify: "space-between",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+<<<<<<< HEAD
+      lineNumber: 94,
+      columnNumber: 25
+=======
+      lineNumber: 93,
+      columnNumber: 9
+>>>>>>> add wallet drawer
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 94,
+      columnNumber: 11
+    }
+  }, "Wallets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaWallet"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+<<<<<<< HEAD
+      lineNumber: 96,
+=======
+      lineNumber: 95,
+      columnNumber: 11
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerBody"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 96,
+      columnNumber: 7
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
+    direction: "column",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 97,
+>>>>>>> add wallet drawer
+      columnNumber: 9
+    }
+  }, state.activeWallet && !processing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletTable, {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 98,
+      columnNumber: 49
     }
   }), !processing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletLoader, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94,
-      columnNumber: 25
+      lineNumber: 99,
+      columnNumber: 29
     }
   }), processing && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Box"], {
     w: "400px",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 96,
-      columnNumber: 9
+      lineNumber: 101,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
+<<<<<<< HEAD
       lineNumber: 97,
       columnNumber: 11
+=======
+      lineNumber: 102,
+      columnNumber: 15
+>>>>>>> add wallet drawer
     }
   }, "Enter a wallet nickname"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
     value: nickname,
@@ -2106,6 +2290,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
+<<<<<<< HEAD
       lineNumber: 98,
       columnNumber: 11
     }
@@ -2118,16 +2303,25 @@ const Wallets = () => {
       fileName: _jsxFileName,
       lineNumber: 99,
       columnNumber: 11
+=======
+      lineNumber: 103,
+      columnNumber: 15
+>>>>>>> add wallet drawer
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     onClick: loadWallet,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
+<<<<<<< HEAD
       lineNumber: 100,
       columnNumber: 11
+=======
+      lineNumber: 104,
+      columnNumber: 15
+>>>>>>> add wallet drawer
     }
-  }, "Load Wallet")));
+  }, "Load Wallet")))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Wallets);
