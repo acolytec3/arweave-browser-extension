@@ -2612,8 +2612,8 @@ const archivePage = async (page, password) => {
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
   console.log(encryptedKey);
   let rawKey = await cryptor.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(password));
-  let key = arweave.utils.bufferToString(rawKey);
-  console.log(JSON.parse(key));
+  let key = JSON.parse(arweave.utils.bufferToString(rawKey));
+  console.log(key);
   let transaction = await arweave.createTransaction({
     data: page.html
   }, key);
@@ -2812,5 +2812,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

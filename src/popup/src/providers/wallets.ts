@@ -45,9 +45,8 @@ export const archivePage = async (page: any, password: string) => {
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
   console.log((encryptedKey))
   let rawKey = await cryptor.decrypt(Arweave.utils.stringToBuffer(encryptedKey), Arweave.utils.stringToBuffer(password))
-
-  let key = arweave.utils.bufferToString(rawKey)
-  console.log(JSON.parse(key))
+  let key = JSON.parse(arweave.utils.bufferToString(rawKey))
+  console.log(key)
   let transaction = await arweave.createTransaction({ data: page.html }, key);
   console.log(transaction)
   transaction.addTag('Content-Type', 'text/html')
