@@ -35,20 +35,18 @@ const Wallets = () => {
   const updatePassword = (evt: any) => setPassword(evt.target.value)
 
   const WalletTable = () => {
-    return (<List spacing={0} >{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
+    return (<Flex direction="column" >{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
       return (
         Wallet(wallet) )
-    }) : <span>No wallets</span>}</List>)
+    }) : <span>No wallets</span>}</Flex>)
   }
 
   const Wallet = (wallet: any) => {
     return (
-      <ListItem border="1px" >
-        <Box alignItems="start">
+      <PseudoBox border="1px" >
           <Text fontSize="sm"key={wallet.nickname}>{wallet.nickname}</Text>
           <Text key={wallet.address}>{wallet.address}</Text>
           <Text key={wallet.balance}>{wallet.balance} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
-          
           <Stack isInline>
             <PseudoBox as="button" bg="white" onClick={() => {
                 dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
@@ -60,10 +58,8 @@ const Wallets = () => {
               }} alignContent="center" justifyContent="center">
               <FaTrash />
               <Text>Remove</Text></PseudoBox>
-
           </Stack>
-        </Box>
-      </ListItem>
+      </PseudoBox>
     )
   }
   const loadWallet = async () => {
@@ -75,7 +71,7 @@ const Wallets = () => {
   const WalletLoader = () => {
 
     return (
-      <Box w="400px" borderStyle='dashed' borderWidth="2px">
+      <Box w="200px" borderStyle='dashed' borderWidth="2px">
         <Dropzone onDrop={onDrop} accept="application/json">
           {({ getRootProps, getInputProps }) => (
             <section>
@@ -101,7 +97,7 @@ const Wallets = () => {
           {state.activeWallet && !processing && <WalletTable />}
           {(!processing) && <WalletLoader />}
           {(processing) &&
-            <Box w="400px">
+            <Box w="200px">
               <Text>Enter a wallet nickname</Text>
               <Input value={nickname} onChange={setWalletName} />
               <Input value={password} onChange={updatePassword} type="password" />
