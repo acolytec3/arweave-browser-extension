@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Box,
+  Text, Flex, Button, Modal, SimpleGrid, Input,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -24,6 +24,7 @@ const Transfers = () => {
   const [fee, setFee] = useState('0')
   const [to, setToAddress] = useState('')
   const [message, setMessage] = useState('')
+  const [password, setPassword] = useState('')
 
 
   const updateFee = () => {
@@ -42,7 +43,7 @@ const Transfers = () => {
       'message': message
     }
     console.log(amount)
-    sendTransfer(transfterDeets)
+    sendTransfer(transfterDeets, password)
   }
 
   const TransfersTable = () => {
@@ -92,6 +93,7 @@ const Transfers = () => {
               <Input placeholder="Message (optional)" value={message} onChange={(evt: any) => setMessage(evt.target.value)} onBlur={updateFee}></Input>
               <Text>Fee: {fee}</Text>
               <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+              <Input value={password} onChange={((evt:any) => setPassword(evt.target.value))} type="password" />
             </ModalBody>
             <ModalFooter>
               <Button onClick={function () {
