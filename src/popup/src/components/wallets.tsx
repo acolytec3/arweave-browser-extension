@@ -35,7 +35,6 @@ const Wallets = () => {
   const setWalletName = (evt: any) => setNickname(evt.target.value)
   const updatePassword = (evt: any) => setPassword(evt.target.value)
 
-
   const WalletTable = () => {
     return (<List spacing={0} >{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
       return (
