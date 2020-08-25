@@ -35,17 +35,17 @@ const Wallets = () => {
   const updatePassword = (evt: any) => setPassword(evt.target.value)
 
   const WalletTable = () => {
-    return (<Flex direction="column" >{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
+    return (<Flex direction="column" >{state.wallets.length > 0 && state.wallets.map((wallet: any) => {
       return (
         Wallet(wallet) )
-    }) : <span>No wallets</span>}</Flex>)
+    })}</Flex>)
   }
 
   const Wallet = (wallet: any) => {
     return (
-      <PseudoBox border="1px" >
+      <PseudoBox border="1px" overflow="ellipsis">
           <Text fontSize="sm"key={wallet.nickname}>{wallet.nickname}</Text>
-          <Text key={wallet.address}>{wallet.address}</Text>
+          <Text overflow="hidden" key={wallet.address}>{wallet.address}</Text>
           <Text key={wallet.balance}>{wallet.balance} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
           <Stack isInline>
             <PseudoBox as="button" bg="white" onClick={() => {

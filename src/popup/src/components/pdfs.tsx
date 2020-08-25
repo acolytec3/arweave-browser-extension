@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -10,7 +10,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/core";
 import axios from 'axios'
-
+import { FaCheckDouble } from 'react-icons/fa'
 import { getFee, archivePdf } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, page } from '../background'
@@ -23,7 +23,7 @@ const Pdfs = () => {
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const history = useHistory();
   const [source, setSource] = useState(null as any)
-  const [fee,setFee] = useState('0')
+  const [fee, setFee] = useState('0')
   const [size, setSize] = useState('0')
   const [password, setPassword] = useState('')
 
@@ -50,11 +50,12 @@ const Pdfs = () => {
         setSize(response.data.size)
         getFee(response.data.size).then((res) => {
           setFee(res);
-          setOpen(true)})
+          setOpen(true)
+        })
         reader.readAsArrayBuffer(response.data)
       })
-  
-  },[])
+
+  }, [])
 
   const pdfSaver = () => {
     let pdfDeets = {
@@ -83,7 +84,10 @@ const Pdfs = () => {
         return (
           <SimpleGrid columns={3} key={pdf.txnId + '1'} >
             <Text key={pdf.url}>{pdf.url}</Text>
-            <Text mx={5} key={pdf.fee}>{pdf.fee}</Text>
+            <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
+            <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
+              {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
+            </Stack>
             <Text key={pdf.timestamp}>{pdf.timestamp}</Text>
           </SimpleGrid>
         )
@@ -107,10 +111,10 @@ const Pdfs = () => {
               <ModalBody>
                 <Text>From: {state.activeWallet}</Text>
                 <Text>Page URL: {window.location.hash.substr(16,).split('#')[0]}</Text>
-                <Text>Page Size: {parseInt(size)/1000} kb</Text>
+                <Text>Page Size: {parseInt(size) / 1000} kb</Text>
                 <Text>Fee: {fee}</Text>
                 <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-                <Input value={password} onChange={((evt:any) => setPassword(evt.target.value))} type="password" />
+                <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
                 <Button onClick={function () {
