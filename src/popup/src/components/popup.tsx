@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf } from 'react-icons/fa'
-import { ThemeProvider, Box, Text, Flex, IconButton, Button } from "@chakra-ui/core";
+import { ThemeProvider, Box, Text, Flex, Button, PseudoBox } from "@chakra-ui/core";
 import { openTab } from '../providers/browser'
 import { useSelector } from 'react-redux'
 import { initialStateType } from '../background'
@@ -46,10 +46,10 @@ const Popup = () => {
               <Text background="gray" color="white" fontSize="2xl">Archiving this page not supported</Text>}
 
             <Flex direction="row" justifyContent="space-evenly" alignItems="space-between" >
-              <Box onClick={() => openTab('pdfs')}><IconButton aria-label="PDFs" icon={FaFilePdf} bg="white" color="grey" border="none" size="lg" /><Text>PDFs</Text></Box>
-              <Box onClick={() => openTab('pages')}><IconButton aria-label="pages" icon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg" /><Text>Pages</Text></Box>
-              <Box onClick={() => openTab('transfers')}><IconButton aria-label="transfers" icon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg" /><Text>Transfers</Text></Box>
-              <Box onClick={() => openTab('wallets')}><IconButton aria-label="wallets" icon={FaWallet} bg="white" color="grey" border="none" size="lg" /><Text>Wallets</Text></Box>
+              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pdfs')}><FaFilePdf color="grey" size={24} /><Text>PDFs</Text></PseudoBox>
+              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pages')}><FaRegFileAlt color="grey" size={24} /><Text>Pages</Text></PseudoBox>
+              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('transfers')}><FaMoneyCheckAlt color="grey" size={24} /><Text>Transfers</Text></PseudoBox>
+              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('wallets')}><FaWallet color="grey" size={24} /><Text>Wallets</Text></PseudoBox>
             </Flex>
           </Box>}
       </div>

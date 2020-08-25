@@ -1,6 +1,13 @@
 import React from 'react';
 import { HashRouter as Router, Switch, Route, Link as ReactLink } from 'react-router-dom';
-import { ThemeProvider, Flex, Box, ButtonGroup, Button, Text, Link } from "@chakra-ui/core";
+import {
+  ThemeProvider, Flex, ButtonGroup, Button, Link, Drawer, DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton, useDisclosure
+} from "@chakra-ui/core";
 import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf } from 'react-icons/fa'
 import Wallets from './wallets'
 import Pages from './pages'
@@ -13,6 +20,8 @@ const ArweaveLogo = () => {
 
 
 const BrowserPage = (route: any) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (<Router basename="/mainpage">
     <ThemeProvider>
       <Flex w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
@@ -26,8 +35,7 @@ const BrowserPage = (route: any) => {
           <Link as={ReactLink} to="/pages"><Button leftIcon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg">Pages</Button></Link>
           {/*@ts-ignore*/}
           <Link as={ReactLink} to="/transfers"><Button leftIcon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg">Transfers</Button></Link>
-          {/*@ts-ignore*/}
-          <Link as={ReactLink} to="/wallets"><Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg">Wallets</Button></Link>
+          <Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg" onClick={onOpen}>Wallets</Button>
         </ButtonGroup>
       </Flex >
       <Flex w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
@@ -41,11 +49,15 @@ const BrowserPage = (route: any) => {
           <Route path="/transfers">
             <Transfers />
           </Route>
-          <Route path="/wallets">
-            <Wallets />
-          </Route>
         </Switch>
       </Flex>
+      <Drawer
+        placement="right"
+        onClose={onClose}
+        isOpen={isOpen}>
+        <DrawerOverlay />
+        <Wallets />
+      </Drawer>
     </ThemeProvider></Router>
   )
 }

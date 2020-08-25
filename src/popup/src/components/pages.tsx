@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -10,6 +10,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/core";
 import axios from 'axios'
+import { FaCheckDouble} from 'react-icons/fa'
 import inline from '../providers/inline'
 import { getFee, archivePage } from '../providers/wallets'
 import { useSelector } from 'react-redux'
@@ -54,27 +55,30 @@ const Pages = () => {
     archivePage(pageDeets, password)
   }
 
+  const PageRow = (page: page) => {
+    return <SimpleGrid columns={4} key={page.txnId + '1'} onClick={() => {}}>
+      <Text overflow="hidden" key={page.title}>{page.title}</Text>
+      <Text key={page.url}>{page.url}</Text>
+      <Text key={page.fee}>{parseFloat(page.fee).toFixed(6).toLocaleString()} AR</Text>
+      <Stack isInline><Text key={page.timestamp}>{Date.now() - parseInt(page.timestamp)} ago</Text>
+      {page.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
+      </Stack>
+      
+    </SimpleGrid>
+  }
   const PageTable = () => {
     let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
-    console.log(pages)
+
     return <Fragment><Flex direction="column">
-      <SimpleGrid columns={4}>
+      {pages && pages.length > 0 && <SimpleGrid columns={4}>
         <Text fontWeight="bold" key="title">Title</Text>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Timestamp</Text>
-      </SimpleGrid>
-      {pages ? pages.map((page: page) => {
-        return (
-          <SimpleGrid columns={4} key={page.txnId + '1'} >
-            <Text key={page.title}>{page.title}</Text>
-            <Text key={page.url}>{page.url}</Text>
-            <Text key={page.fee}>{page.fee}</Text>
-            <Text key={page.timestamp}>{page.timestamp}</Text>
-          </SimpleGrid>
-        )
-      }) :
-        <span>You shouldn't be seeing this</span>}
+      </SimpleGrid>}
+      {pages && pages.length > 0 && pages.map((page: page) => {
+        return PageRow(page)
+      })}
     </Flex></Fragment>
   }
 
@@ -99,7 +103,7 @@ const Pages = () => {
                 <Text>Page Size: {pageSource.size}</Text>
                 <Text>Fee: {fee}</Text>
                 <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-                <Input value={password} onChange={((evt:any) => setPassword(evt.target.value))} type="password" />
+                <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
                 <Button onClick={function () {
