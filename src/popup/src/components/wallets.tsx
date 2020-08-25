@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { Flex, Box, Button, Text, Input, SimpleGrid, DrawerContent, DrawerBody, DrawerHeader, DrawerFooter, Stack, List, ListItem } from "@chakra-ui/core";
+import React, { useState} from 'react';
+import { Flex, Box, Button, Text, Input, PseudoBox , DrawerContent, DrawerBody, DrawerHeader, DrawerFooter, Stack, List, ListItem } from "@chakra-ui/core";
 import { addWallet } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,7 +11,6 @@ const Wallets = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const dispatch = useDispatch()
   const [wallet, updateWallet] = useState()
-  const [address, setAddress] = useState(state.activeWallet)
   const [processing, setProcessing] = useState(false)
   const [nickname, setNickname] = useState('')
   const [password, setPassword] = useState('')
@@ -48,19 +47,20 @@ const Wallets = () => {
         <Box alignItems="start">
           <Text fontSize="sm"key={wallet.nickname}>{wallet.nickname}</Text>
           <Text key={wallet.address}>{wallet.address}</Text>
-          <Text key={wallet.balance}>{wallet.balance} AR</Text>
+          <Text key={wallet.balance}>{wallet.balance} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
+          
           <Stack isInline>
-            <Stack align="center" justifyContent="center">
-              <FaCheck />
-              <Button bg="white" border="none" onClick={() => {
+            <PseudoBox as="button" bg="white" onClick={() => {
                 dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
-              }}>Use</Button></Stack>
-            <Stack align="center" justifyContent="center">
-              <FaTrash />
-              <Button bg="white" border="none" onClick={() => {
+              }} alignContent="center" justifyContent="center" bg="green">
+              <FaCheck />
+              <Text>Use</Text></PseudoBox>
+              <PseudoBox as="button" onClick={() => {
                 dispatch({ type: 'REMOVE_WALLET', payload: { address: wallet.address } })
-              }}>
-                Remove</Button></Stack>
+              }} alignContent="center" justifyContent="center">
+              <FaTrash />
+              <Text>Remove</Text></PseudoBox>
+
           </Stack>
         </Box>
       </ListItem>
