@@ -1,22 +1,21 @@
 import React, { useState, Fragment } from 'react';
-import { Flex, Box, Button, Text, Input, SimpleGrid } from "@chakra-ui/core";
+import { Flex, Box, Button, Text, Input, SimpleGrid, DrawerContent, DrawerBody, DrawerHeader, DrawerFooter, Stack, List, ListItem } from "@chakra-ui/core";
 import { addWallet } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
-
+import { FaWallet, FaCheck, FaTrash } from 'react-icons/fa'
 
 const Wallets = () => {
 
-  const state = useSelector((rootState : initialStateType) => rootState)
+  const state = useSelector((rootState: initialStateType) => rootState)
   const dispatch = useDispatch()
   const [wallet, updateWallet] = useState()
   const [address, setAddress] = useState(state.activeWallet)
   const [processing, setProcessing] = useState(false)
   const [nickname, setNickname] = useState('')
-  
 
-  
+
   const onDrop = (acceptedFiles: any) => {
     setProcessing(true);
     const reader = new FileReader()
@@ -33,36 +32,37 @@ const Wallets = () => {
 
   const setWalletName = (evt: any) => setNickname(evt.target.value)
 
-  const WalletHeader = () => {
+  const WalletTable = () => {
+    return (<List spacing={0} >{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
+      return (
+        Wallet(wallet) )
+    }) : <span>No wallets</span>}</List>)
+  }
+
+  const Wallet = (wallet: any) => {
     return (
-      <Box>
-        <SimpleGrid columns={5} flexDirection="row" alignContent="start">
-          <Text fontWeight="bold">Address</Text>
-          <Text fontWeight="bold" mx={4}>Nickname</Text>
-          <Text fontWeight="bold" >Balance</Text>
-        </SimpleGrid>
-        <WalletTable /></Box>
+      <ListItem border="1px" >
+        <Box alignItems="start">
+          <Text fontSize="sm"key={wallet.nickname}>{wallet.nickname}</Text>
+          <Text key={wallet.address}>{wallet.address}</Text>
+          <Text key={wallet.balance}>{wallet.balance} AR</Text>
+          <Stack isInline>
+            <Stack align="center" justifyContent="center">
+              <FaCheck />
+              <Button bg="white" border="none" onClick={() => {
+                dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
+              }}>Use</Button></Stack>
+            <Stack align="center" justifyContent="center">
+              <FaTrash />
+              <Button bg="white" border="none" onClick={() => {
+                dispatch({ type: 'REMOVE_WALLET', payload: { address: wallet.address } })
+              }}>
+                Remove</Button></Stack>
+          </Stack>
+        </Box>
+      </ListItem>
     )
   }
-
-  const WalletTable = () => {
-    return (<Fragment>{state.wallets.length > 0 ? state.wallets.map((wallet: any) => {
-      return (
-        <SimpleGrid columns={5} key={wallet.nickname + '1'} flexDirection="row" alignContent="start">
-          <Text key={wallet.address}>{wallet.address}</Text>
-          <Text mx={4} key={wallet.nickname}>{wallet.nickname}</Text>
-          <Text key={wallet.balance}>{wallet.balance} AR</Text>
-          <Button onClick={() => {
-            dispatch({ type: 'REMOVE_WALLET', payload: { address: wallet.address } })
-          }}>
-            Remove Wallet</Button>
-          <Button onClick={() => {
-            dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
-          }}>Use Wallet</Button>
-        </SimpleGrid>)
-    }): <span>No wallets</span>}</Fragment>)
-  }
-
   const loadWallet = async () => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
     let res = await addWallet(wallet, nickname);
@@ -88,16 +88,23 @@ const Wallets = () => {
   }
 
   return (
-    <Flex direction="column">
-      {state.activeWallet && !processing && <WalletHeader />}
-      {(!processing) && <WalletLoader />}
-      {(processing) &&
-        <Box w="400px">
-          <Text>Enter a wallet nickname</Text>
-          <Input value={nickname} onChange={setWalletName} />
-          <Button onClick={loadWallet}>Load Wallet</Button>
-        </Box>}
-    </Flex>
+    <DrawerContent>
+      <DrawerHeader borderBottomWidth="1px" bg="#434750" color="#fff">
+        <Stack isInline align="center" justify="space-between">
+          <Text>Wallets</Text>
+          <FaWallet /></Stack></DrawerHeader>
+      <DrawerBody>
+        <Flex direction="column">
+          {state.activeWallet && !processing && <WalletTable />}
+          {(!processing) && <WalletLoader />}
+          {(processing) &&
+            <Box w="400px">
+              <Text>Enter a wallet nickname</Text>
+              <Input value={nickname} onChange={setWalletName} />
+              <Button onClick={loadWallet}>Load Wallet</Button>
+            </Box>}
+        </Flex></DrawerBody>
+    </DrawerContent>
   )
 }
 
