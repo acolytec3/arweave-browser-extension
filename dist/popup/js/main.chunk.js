@@ -2584,10 +2584,19 @@ const arweave = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.init({
   protocol: 'https'
 });
 const store = new webext_redux__WEBPACK_IMPORTED_MODULE_2__["Store"]();
-const cryptor = new _arweaveCrypto__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const arweaveCrypto = new _arweaveCrypto__WEBPACK_IMPORTED_MODULE_3__["default"]();
+
+function unicodeToAscii(string) {
+  return btoa(unescape(encodeURIComponent(string)));
+}
+
+function asciiToUnicode(string) {
+  return decodeURIComponent(escape(atob(string)));
+}
+
 const addWallet = async (key, nickname, password) => {
   let address = await arweave.wallets.jwkToAddress(key);
-  let encryptedKey = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.bufferToString(await cryptor.encrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(JSON.stringify(key)), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(password)));
+  let encryptedKey = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.bufferTob64Url(await arweaveCrypto.encrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password))));
   let balance = await arweave.wallets.getBalance(address);
   await store.ready();
   let result = await store.dispatch({
@@ -2610,9 +2619,8 @@ const archivePage = async (page, password) => {
   await store.ready();
   let state = store.getState();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  console.log(encryptedKey);
-  let rawKey = await cryptor.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.stringToBuffer(password));
-  let key = JSON.parse(arweave.utils.bufferToString(rawKey));
+  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   console.log(key);
   let transaction = await arweave.createTransaction({
     data: page.html
@@ -2644,7 +2652,8 @@ const archivePdf = async (pdf, password) => {
   await store.ready();
   let state = store.getState();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  let key = JSON.parse(arweave.utils.bufferToString(await arweave.crypto.decrypt(encryptedKey, password)));
+  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   let transaction = await arweave.createTransaction({
     data: pdf.source
   }, key);
@@ -2670,7 +2679,8 @@ const sendTransfer = async (transfer, password) => {
   await store.ready();
   let state = store.getState();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  let key = JSON.parse(arweave.utils.bufferToString(await arweave.crypto.decrypt(encryptedKey, password)));
+  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   let transaction = await arweave.createTransaction({
     target: transfer.to,
     data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,
@@ -2812,5 +2822,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",0]]]);
+},[[0,"runtime-main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

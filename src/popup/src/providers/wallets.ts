@@ -13,11 +13,18 @@ const arweave = Arweave.init({
 })
 
 const store = new Store()
-const cryptor = new ArweaveCrypto();
+const arweaveCrypto = new ArweaveCrypto();
 
+function unicodeToAscii(string: string) {
+  return btoa(unescape(encodeURIComponent(string)));
+}
+
+function asciiToUnicode(string: string) {
+  return decodeURIComponent(escape(atob(string)));
+}
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
   let address = await arweave.wallets.jwkToAddress(key)
-  let encryptedKey = Arweave.utils.bufferToString(await cryptor.encrypt(Arweave.utils.stringToBuffer(JSON.stringify(key)), Arweave.utils.stringToBuffer(password)))
+  let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
   await store.ready()
   let result = await store.dispatch({ 
@@ -43,9 +50,8 @@ export const archivePage = async (page: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  console.log((encryptedKey))
-  let rawKey = await cryptor.decrypt(Arweave.utils.stringToBuffer(encryptedKey), Arweave.utils.stringToBuffer(password))
-  let key = JSON.parse(arweave.utils.bufferToString(rawKey))
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
   console.log(key)
   let transaction = await arweave.createTransaction({ data: page.html }, key);
   console.log(transaction)
@@ -77,7 +83,8 @@ export const archivePdf = async (pdf: pdf, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  let key = JSON.parse(arweave.utils.bufferToString(await arweave.crypto.decrypt(encryptedKey, password)))
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
   let transaction = await arweave.createTransaction({ data: pdf.source }, key);
   console.log(transaction)
   console.log(pdf)
@@ -104,7 +111,8 @@ export const sendTransfer = async (transfer: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  let key = JSON.parse(arweave.utils.bufferToString(await arweave.crypto.decrypt(encryptedKey, password)))
+  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
   let transaction = await arweave.createTransaction({ 
     target: transfer.to, 
     data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,
