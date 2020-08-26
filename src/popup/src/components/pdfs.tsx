@@ -88,7 +88,6 @@ const Pdfs = () => {
             <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
               {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
             </Stack>
-            <Text key={pdf.timestamp}>{pdf.timestamp}</Text>
           </SimpleGrid>
         )
       }) :

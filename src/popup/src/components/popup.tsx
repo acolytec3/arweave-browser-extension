@@ -30,7 +30,7 @@ const Popup = () => {
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
   
-  //updateWallets();
+  updateWallets();
 
   return (
     <ThemeProvider>

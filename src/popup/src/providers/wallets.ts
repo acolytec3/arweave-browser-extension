@@ -149,39 +149,39 @@ export const sendTransfer = async (transfer: any, password: string) => {
 export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
-  if (Date.now()-state.lastUpdated < 3600) return
+  if (Date.now()-state.lastUpdated < 360000) return
   let updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
     let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
-    let pages = await wallet.pages?.map(async (txn) => {
+    
+    let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
       if (txn.status === 'pending') {
         let status = await arweave.transactions.getStatus(txn.txnId)
+        console.log('Got status and its ' + status.status)
         return status.status === 200 ? {...txn, status:'confirmed'} : txn
       } else return txn
-    })
-/*    let pdfs = await wallet.pdfs?.map(async (txn) => {
+    })) : undefined
+    let pdfs = wallet.pdfs ? await Promise.all(wallet.pdfs?.map(async (txn) => {
       if (txn.status === 'pending') {
         let status = await arweave.transactions.getStatus(txn.txnId)
         return status.status === 200 ? {...txn, status:'confirmed'} : txn
       }
       return txn
-    })
-      let transfers = await wallet.transfers?.map(async (txn) => {
+    })) : undefined
+      let transfers = wallet.transfers ? await Promise.all(wallet.transfers?.map(async (txn) => {
         if (txn.status === 'pending') {
           let status = await arweave.transactions.getStatus(txn.txnId)
           return status.status === 200 ? {...txn, status:'confirmed'} : txn
         }
         return txn
-      })*/
+      })) : undefined
       console.log(pages)
-      let pdfs = wallet.pdfs
-      let transfers = wallet.transfers
       return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers }
   }))
-  console.log(updatedWallets)
-  console.log(Date.now())
-  let result = await store.dispatch({
+  let result = store.dispatch({
     type: 'UPDATE_WALLETS',
     payload: { wallets: updatedWallets, activeWallet: state.activeWallet, lastUpdated: Date.now() }
   })
+  console.log(updatedWallets)
+  console.log(Date.now())
 }
 

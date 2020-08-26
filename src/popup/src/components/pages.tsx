@@ -103,7 +103,7 @@ const Pages = () => {
                 <Text>Page Size: {pageSource.size}</Text>
                 <Text>Fee: {fee}</Text>
                 <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-                <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
+                <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
                 <Button onClick={function () {

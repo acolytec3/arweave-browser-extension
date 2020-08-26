@@ -99,8 +99,11 @@ const Wallets = () => {
           {(processing) &&
             <Box w="200px">
               <Text>Enter a wallet nickname</Text>
-              <Input value={nickname} onChange={setWalletName} />
-              <Input value={password} onChange={updatePassword} type="password" />
+              <Input placeholder="Wallet name" value={nickname} onChange={setWalletName} />
+              <Input placeholder="Set an encryption phrase" value={password} onChange={updatePassword} type="password" />
+              <Text>This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
+
+If you forget your passphrase you'll need to reimport this file again</Text>
               <Button onClick={loadWallet}>Load Wallet</Button>
             </Box>}
         </Flex></DrawerBody>
