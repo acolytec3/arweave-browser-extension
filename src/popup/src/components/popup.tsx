@@ -4,6 +4,7 @@ import { ThemeProvider, Box, Text, Flex, Button, PseudoBox } from "@chakra-ui/co
 import { openTab } from '../providers/browser'
 import { useSelector } from 'react-redux'
 import { initialStateType } from '../background'
+import { updateWallets } from '../providers/wallets';
 
 type pageType = {
   type: string,
@@ -28,6 +29,8 @@ const Popup = () => {
 
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
+  
+  //updateWallets();
 
   return (
     <ThemeProvider>
@@ -38,12 +41,12 @@ const Popup = () => {
           </Box>
           :
           <Box w="400px">
-            <Text fontSize="4xl">{wallet.balance} AR</Text>
+            <Text fontSize="4xl">{parseFloat(wallet.balance).toFixed(3).toLocaleString()} AR</Text>
             <Text>{wallet.address} </Text>
             <Text>{wallet.nickname}</Text>
             {(url.type !== undefined) ? <Button onClick={() => openTab(url.type === 'page' ? 'pages/' + url.url : 'pdfs/' + url.url)}>Archive this {url.type}</Button>
               :
-              <Text background="gray" color="white" fontSize="2xl">Archiving this page not supported</Text>}
+              <Text background="gray" color="white" fontSize="xl">Content type not currently supported</Text>}
 
             <Flex direction="row" justifyContent="space-evenly" alignItems="space-between" >
               <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pdfs')}><FaFilePdf color="grey" size={24} /><Text>PDFs</Text></PseudoBox>

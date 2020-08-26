@@ -78,7 +78,7 @@ const Pdfs = () => {
       <SimpleGrid columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
-        <Text fontWeight="bold" key="timestamp">Timestamp</Text>
+        <Text fontWeight="bold" key="timestamp">Time</Text>
       </SimpleGrid>
       {pdfs ? pdfs.map((pdf: page) => {
         return (

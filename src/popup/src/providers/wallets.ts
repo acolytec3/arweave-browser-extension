@@ -58,26 +58,26 @@ export const archivePage = async (page: any, password: string) => {
   transaction.addTag('Content-Type', 'text/html')
   transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
   await arweave.transactions.sign(transaction, key);
+
+
+  const response = await arweave.transactions.post(transaction);
+  console.log(response);
+
   let pageDetails:page = { 
     'title': page.title, 
     'url': page.url, 
     'fee': page.fee,
     'txnId': transaction.id,
     'status': 'pending',
-    'timestamp': Date.now().toString()
+    'timestamp': Date.now().toString(),
+    'debug': response
   }
-
   await store.ready()
   let result = await store.dispatch({ 
     type: 'ARCHIVE_PAGE', 
     payload: pageDetails
   })
-  /*const response = await arweave.transactions.post(transaction);
-  console.log(response.status);
-  if (response.status === 200) {
-    localStorage.setItem('transaction', JSON.stringify({ 'title': page.title, 'fee': transaction.reward }))
-  }*/
-}
+}  
 
 export const archivePdf = async (pdf: pdf, password: string) => {
   await store.ready()
@@ -91,20 +91,23 @@ export const archivePdf = async (pdf: pdf, password: string) => {
   transaction.addTag('Content-Type', 'application/pdf')
   transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
   await arweave.transactions.sign(transaction, key);
+
+  const response = await arweave.transactions.post(transaction);
+  console.log(response); 
+
   let pdfDetails:any = { 
     'url': pdf.url, 
     'fee': pdf.fee,
     'txnId': transaction.id,
     'status': 'pending',
-    'timestamp': Date.now().toString()
+    'timestamp': Date.now().toString(),
+    'debug': response
   }
 
   let result = await store.dispatch({ 
     type: 'ARCHIVE_PDF', 
     payload: pdfDetails
   })
-//  const response = await arweave.transactions.post(transaction);
- // console.log(response.status); 
 }
 
 export const sendTransfer = async (transfer: any, password: string) => {
@@ -122,6 +125,9 @@ export const sendTransfer = async (transfer: any, password: string) => {
   transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
   await arweave.transactions.sign(transaction, key);
 
+  const response = await arweave.transactions.post(transaction);
+  console.log(response); 
+
   let transferDetails: any = {
     'to': transfer.to,
     'amount': transfer.amount,
@@ -129,16 +135,53 @@ export const sendTransfer = async (transfer: any, password: string) => {
     'fee': transfer.fee,
     'txnId': transaction.id,
     'status': 'pending',
-    'timestamp': Date.now().toString()
+    'timestamp': Date.now().toString(),
+    'debug':response
   }
+  
+ let result = await store.dispatch({ 
+  type: 'INITIATE_TRANSFER', 
+  payload: transferDetails
+})
 
-  let result = await store.dispatch({ 
-    type: 'INITIATE_TRANSFER', 
-    payload: transferDetails
-  })
-
-  //  const response = await arweave.transactions.post(transaction);
- // console.log(response.status); 
 }
 
+export const updateWallets = async () => {
+  await store.ready()
+  let state = store.getState() as initialStateType
+  if (Date.now()-state.lastUpdated < 3600) return
+  let updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
+    let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
+    let pages = await wallet.pages?.map(async (txn) => {
+      if (txn.status === 'pending') {
+        let status = await arweave.transactions.getStatus(txn.txnId)
+        return status.status === 200 ? {...txn, status:'confirmed'} : txn
+      } else return txn
+    })
+/*    let pdfs = await wallet.pdfs?.map(async (txn) => {
+      if (txn.status === 'pending') {
+        let status = await arweave.transactions.getStatus(txn.txnId)
+        return status.status === 200 ? {...txn, status:'confirmed'} : txn
+      }
+      return txn
+    })
+      let transfers = await wallet.transfers?.map(async (txn) => {
+        if (txn.status === 'pending') {
+          let status = await arweave.transactions.getStatus(txn.txnId)
+          return status.status === 200 ? {...txn, status:'confirmed'} : txn
+        }
+        return txn
+      })*/
+      console.log(pages)
+      let pdfs = wallet.pdfs
+      let transfers = wallet.transfers
+      return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers }
+  }))
+  console.log(updatedWallets)
+  console.log(Date.now())
+  let result = await store.dispatch({
+    type: 'UPDATE_WALLETS',
+    payload: { wallets: updatedWallets, activeWallet: state.activeWallet, lastUpdated: Date.now() }
+  })
+}
 

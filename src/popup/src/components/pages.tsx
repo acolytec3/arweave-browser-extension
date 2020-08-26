@@ -74,7 +74,7 @@ const Pages = () => {
         <Text fontWeight="bold" key="title">Title</Text>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text fontWeight="bold" key="fee">Fee</Text>
-        <Text fontWeight="bold" key="timestamp">Timestamp</Text>
+        <Text fontWeight="bold" key="timestamp">Time</Text>
       </SimpleGrid>}
       {pages && pages.length > 0 && pages.map((page: page) => {
         return PageRow(page)

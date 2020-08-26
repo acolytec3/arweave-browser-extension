@@ -19,7 +19,7 @@ import { initialStateType, wallet } from '../background'
 const Transfers = () => {
   const [isOpen, setOpen] = useState(false)
   const state = useSelector((rootState: initialStateType) => rootState)
-  const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
+  const [balance, setBalance] = useState(state ? state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance : '')
   const [amount, setAmount] = useState('')
   const [fee, setFee] = useState('0')
   const [to, setToAddress] = useState('')
@@ -56,7 +56,7 @@ const Transfers = () => {
             <Text fontWeight="bold" key="url">Sendee Address</Text>
             <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
             <Text fontWeight="bold">Amount</Text>
-            <Text fontWeight="bold" key="timestamp">Timestamp</Text>
+            <Text fontWeight="bold" key="timestamp">Time</Text>
           </SimpleGrid>
           {transfers.map((transfer: any) => {
             return (
@@ -64,8 +64,7 @@ const Transfers = () => {
                 <Text key={transfer.to}>{transfer.to}</Text>
                 <Text mx={5} key={transfer.fee}>{parseFloat(transfer.fee).toFixed(6).toLocaleString()} AR</Text>
                 <Text key={transfer.amount}>{parseFloat(transfer.amount).toFixed(6).toLocaleString()} AR</Text>
-
-                <Stack isInline><Text key={transfer.timestamp}>{Date.now() - parseInt(transfer.timestamp)} ago</Text>
+                <Stack isInline><Text key={transfer.timestamp}>{Date.now() - parseInt(transfer.timestamp)} seconds ago</Text>
                   {transfer.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
                 </Stack>
               </SimpleGrid>

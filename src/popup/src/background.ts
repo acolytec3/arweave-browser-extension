@@ -1,6 +1,7 @@
 import Arweave from 'arweave/web'
 import { createStore } from 'redux'
 import { wrapStore } from 'webext-redux'
+import { updateWallets } from './providers/wallets'
 
 const arweave = Arweave.init({
   host: 'arweave.net',
@@ -24,7 +25,8 @@ export type page = {
   'fee': string,
   'timestamp': string,
   'txnId': string,
-  'status': string
+  'status': string,
+  'debug': any
 }
 
 export type pdf = {
@@ -39,12 +41,13 @@ export type pdf = {
 export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
-  pageSource?: any
+  lastUpdated: number
 }
 
 const initialState = {
   wallets: [],
   activeWallet: '',
+  lastUpdated: 0
 }
 
 const reducer = (state: initialStateType, action: any): initialStateType => {
@@ -64,6 +67,9 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       localStorage.setItem('wallets', JSON.stringify(newState))
       return newState;
 
+    case 'UPDATE_WALLETS':
+      return action.payload;
+      
     case 'SET_ACTIVE':
       let newState2 = {
         ...state,
@@ -135,4 +141,7 @@ chrome.runtime.onStartup.addListener(() => {
   let walletData = localStorage.getItem('wallets');
   var wallets = walletData ? JSON.parse(walletData) : undefined
   console.log(wallets)
+  updateWallets();
 })
+
+chrome.browserAction.onClicked.addListener(() => console.log('browserAction clicked!'))
