@@ -52,7 +52,7 @@ const Popup = () => {
               <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pdfs')}><FaFilePdf color="grey" size={24} /><Text>PDFs</Text></PseudoBox>
               <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pages')}><FaRegFileAlt color="grey" size={24} /><Text>Pages</Text></PseudoBox>
               <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('transfers')}><FaMoneyCheckAlt color="grey" size={24} /><Text>Transfers</Text></PseudoBox>
-              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('wallets')}><FaWallet color="grey" size={24} /><Text>Wallets</Text></PseudoBox>
+              <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('wallets/open')}><FaWallet color="grey" size={24} /><Text>Wallets</Text></PseudoBox>
             </Flex>
           </Box>}
       </div>

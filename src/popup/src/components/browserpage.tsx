@@ -1,5 +1,5 @@
-import React from 'react';
-import { HashRouter as Router, Switch, Route, Link as ReactLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { HashRouter as Router, Switch, Route, Link as ReactLink, useHistory, useLocation } from 'react-router-dom';
 import {
   ThemeProvider, Flex, ButtonGroup, Button, Link, Drawer, DrawerBody,
   DrawerFooter,
@@ -21,7 +21,18 @@ const ArweaveLogo = () => {
 
 const BrowserPage = (route: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const history = useHistory();
 
+  const handleClose = () => {
+    history.replace('closed')
+    onClose()
+  }
+
+  const handleOpen = () => {
+    if(history.location.pathname === "/mainpage/wallets/open") {
+      onOpen()
+    }
+  }
   return (<Router basename="/mainpage">
     <ThemeProvider>
       <Flex w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
@@ -49,11 +60,14 @@ const BrowserPage = (route: any) => {
           <Route path="/transfers">
             <Transfers />
           </Route>
+          <Route path="/wallets/open">
+            {handleOpen}
+          </Route>
         </Switch>
       </Flex>
       <Drawer
         placement="right"
-        onClose={onClose}
+        onClose={handleClose}
         isOpen={isOpen}>
         <DrawerOverlay />
         <Wallets />
