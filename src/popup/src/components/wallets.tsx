@@ -48,7 +48,7 @@ const Wallets = () => {
           <Text overflow="hidden" key={wallet.address}>{wallet.address}</Text>
           <Text key={wallet.balance}>{wallet.balance} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
           <Stack isInline>
-            <PseudoBox as="button" bg="white" onClick={() => {
+            <PseudoBox as="button" onClick={() => {
                 dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
               }} alignContent="center" justifyContent="center" bg="green">
               <FaCheck />

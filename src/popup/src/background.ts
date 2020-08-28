@@ -141,7 +141,13 @@ chrome.runtime.onStartup.addListener(() => {
   let walletData = localStorage.getItem('wallets');
   var wallets = walletData ? JSON.parse(walletData) : undefined
   console.log(wallets)
-  updateWallets();
 })
 
-chrome.browserAction.onClicked.addListener(() => console.log('browserAction clicked!'))
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name === 'update') {
+    console.log('Updating wallets in background')
+    updateWallets()
+  }
+})
+
+chrome.alarms.create('update',{periodInMinutes:720}) //Set alarm to update Wallet balances/transaction status twice a day
