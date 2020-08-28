@@ -1586,13 +1586,35 @@ var _jsxFileName = "/home/jim/development/ar2/src/popup/src/components/settings.
 
 
 const Settings = () => {
+  var _state$settings, _state$settings2, _state$settings3, _state$settings4, _state$settings5;
+
   const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(rootState => rootState);
   const dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
+  const [debug, setDebug] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((_state$settings = state.settings) === null || _state$settings === void 0 ? void 0 : _state$settings.debug);
+  const [silo, setSilo] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((_state$settings2 = state.settings) === null || _state$settings2 === void 0 ? void 0 : _state$settings2.silo);
+  const [loki, setLoki] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((_state$settings3 = state.settings) === null || _state$settings3 === void 0 ? void 0 : _state$settings3.loki);
+  const [gateway, setGateway] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(((_state$settings4 = state.settings) === null || _state$settings4 === void 0 ? void 0 : _state$settings4.gateway) || 'https://arweave.net:443');
+  const [lokiGateway, setLokiGateway] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(((_state$settings5 = state.settings) === null || _state$settings5 === void 0 ? void 0 : _state$settings5.lokiGateway) || 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo');
+
+  const updateSettings = () => {
+    let payload = {
+      debug: debug,
+      silo: silo,
+      loki: loki,
+      gateway: gateway,
+      lokiGateway: lokiGateway
+    };
+    dispatch({
+      type: 'UPDATE_SETTINGS',
+      payload: payload
+    });
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerContent"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 13,
+      lineNumber: 28,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerHeader"], {
@@ -1602,7 +1624,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 14,
+      lineNumber: 29,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -1612,21 +1634,21 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 15,
+      lineNumber: 30,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16,
+      lineNumber: 31,
       columnNumber: 11
     }
   }, "Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaCog"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 32,
       columnNumber: 11
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerBody"], {
@@ -1634,7 +1656,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18,
+      lineNumber: 33,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
@@ -1642,7 +1664,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19,
+      lineNumber: 34,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -1652,7 +1674,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 20,
+      lineNumber: 35,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -1661,17 +1683,22 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21,
+      lineNumber: 36,
       columnNumber: 13
     }
   }, "Debug"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     id: "debug-toggle",
     size: "md",
     color: "green",
+    value: debug,
+    isChecked: debug,
+    onChange: () => {
+      setDebug(!debug);
+    },
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22,
+      lineNumber: 37,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1680,7 +1707,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24,
+      lineNumber: 39,
       columnNumber: 11
     }
   }, "Show debug information on transaction receipts."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
@@ -1688,7 +1715,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25,
+      lineNumber: 40,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -1697,15 +1724,16 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26,
+      lineNumber: 41,
       columnNumber: 11
     }
   }, "Host"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    defaultValue: "https://arweave.net:443",
+    value: gateway,
+    onChange: evt => setGateway(evt.target.value),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27,
+      lineNumber: 42,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1715,7 +1743,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28,
+      lineNumber: 43,
       columnNumber: 11
     }
   }, "Use an alternative host when connecting to Arweave."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1725,7 +1753,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 29,
+      lineNumber: 44,
       columnNumber: 11
     }
   }, "E.g. https://arweave.net:443 or http://159.65.213.43:1984"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
@@ -1733,7 +1761,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 30,
+      lineNumber: 45,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -1743,7 +1771,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31,
+      lineNumber: 46,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaExclamationTriangle"], {
@@ -1752,7 +1780,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31,
+      lineNumber: 46,
       columnNumber: 55
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1760,7 +1788,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31,
+      lineNumber: 46,
       columnNumber: 104
     }
   }, "EXPERIMENTAL FEATURE")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -1770,7 +1798,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 32,
+      lineNumber: 47,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -1779,17 +1807,20 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33,
+      lineNumber: 48,
       columnNumber: 13
     }
   }, "Silo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     id: "silo-toggle",
     size: "md",
     color: "green",
+    value: silo,
+    isChecked: silo,
+    onChange: () => setSilo(!silo),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34,
+      lineNumber: 49,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1798,7 +1829,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 36,
+      lineNumber: 51,
       columnNumber: 11
     }
   }, "Enable clearnet Silo protocol using web+silo:// links."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -1808,7 +1839,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 37,
+      lineNumber: 52,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -1817,17 +1848,20 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38,
+      lineNumber: 53,
       columnNumber: 13
     }
   }, "Silo+Loki"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     id: "loki-toggle",
     size: "md",
     color: "green",
+    value: loki,
+    isChecked: loki,
+    onChange: () => setLoki(!loki),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39,
+      lineNumber: 54,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1836,16 +1870,17 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 41,
+      lineNumber: 56,
       columnNumber: 11
     }
   }, "Use Loki when accessing Silo data."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    defaultValue: "http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo",
-    isDisabled: true,
+    isDisabled: !loki || !silo,
+    value: lokiGateway,
+    onChange: evt => setLokiGateway(evt.target.value),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42,
+      lineNumber: 57,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1854,14 +1889,14 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44,
+      lineNumber: 58,
       columnNumber: 11
     }
   }, "Set the Silo + Loki gateway host to use."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45,
+      lineNumber: 59,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -1870,7 +1905,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46,
+      lineNumber: 60,
       columnNumber: 11
     }
   }, "We do not collect any user data in this web extension, this is outlined in our "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1878,7 +1913,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46,
+      lineNumber: 60,
       columnNumber: 133
     }
   }, "privacy policy"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerFooter"], {
@@ -1887,14 +1922,15 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 48,
+      lineNumber: 62,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+    onClick: updateSettings,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49,
+      lineNumber: 63,
       columnNumber: 11
     }
   }, "Save Changes")));

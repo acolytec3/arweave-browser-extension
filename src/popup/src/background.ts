@@ -38,16 +38,32 @@ export type pdf = {
   'source': ArrayBuffer
 }
 
+export type settings = {
+  'gateway': string,
+  'debug': boolean,
+  'loki': boolean,
+  'silo': boolean,
+  'lokiGateway': string
+}
+
 export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
-  lastUpdated: number
+  lastUpdated: number,
+  settings?: settings,
 }
 
 const initialState = {
   wallets: [],
   activeWallet: '',
-  lastUpdated: 0
+  lastUpdated: 0,
+  settings: {
+    'gateway': 'https://arweave.net:443',
+    'debug': false,
+    'loki': false,
+    'silo': false,
+    'lokiGateway': false
+  }
 }
 
 const reducer = (state: initialStateType, action: any): initialStateType => {
@@ -126,6 +142,13 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState6))
       return newState6;
+    case 'UPDATE_SETTINGS':
+      let newState7 = {
+        ...state,
+        settings: action.payload
+      }
+      localStorage.setItem('wallets', JSON.stringify(newState7))
+      return newState7
     default: return state;
   }
 }
