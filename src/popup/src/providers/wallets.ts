@@ -5,16 +5,23 @@ import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
 
 
-const arweave = Arweave.init({
-  //TODO: Import node address from settings
-  host: 'arweave.net',
-  port: 443,
-  protocol: 'https',
-})
+
 
 const store = new Store()
 const arweaveCrypto = new ArweaveCrypto();
 
+const getArweaveInstance = async (): Promise<Arweave> => {
+  await store.ready()
+  let state = await store.getState() as initialStateType;
+  let protocol = state.settings.gateway.split('://')[0]
+  let port = state.settings.gateway.split(':')[2]
+  let host = state.settings.gateway.split('//')[1].split(':')[0]
+  return Arweave.init({
+    host: host,
+    port: port,
+    protocol: protocol,
+  })
+}
 function unicodeToAscii(string: string) {
   return btoa(unescape(encodeURIComponent(string)));
 }
@@ -22,11 +29,14 @@ function unicodeToAscii(string: string) {
 function asciiToUnicode(string: string) {
   return decodeURIComponent(escape(atob(string)));
 }
+
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
+  await store.ready()
+  let state = await store.getState() as initialStateType;
+  let arweave = await getArweaveInstance()
   let address = await arweave.wallets.jwkToAddress(key)
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
-  await store.ready()
   let result = await store.dispatch({ 
     type: 'ADD_WALLET', 
     payload: { 
@@ -43,12 +53,14 @@ export const addWallet = async (key: any, nickname: string, password: string): P
 export const getFee = async (size: number): Promise<string> => {
   //TODO: Change out URL for node from settings
   let res = await axios.get(`https://arweave.net/price/${size}`)
+  let arweave = await getArweaveInstance()
   return arweave.ar.winstonToAr(res.data)
 }
 
 export const archivePage = async (page: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
+  let arweave = await getArweaveInstance()
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
   let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
@@ -82,6 +94,7 @@ export const archivePage = async (page: any, password: string) => {
 export const archivePdf = async (pdf: pdf, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
+  let arweave = await getArweaveInstance()
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
   let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
@@ -113,6 +126,7 @@ export const archivePdf = async (pdf: pdf, password: string) => {
 export const sendTransfer = async (transfer: any, password: string) => {
   await store.ready()
   let state = store.getState() as initialStateType
+  let arweave = await getArweaveInstance()
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
   let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
@@ -150,6 +164,7 @@ export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
   if (Date.now()-state.lastUpdated < 360000) return
+  let arweave = await getArweaveInstance()
   let updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
     let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
     

@@ -3149,14 +3149,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const arweave = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.init({
-  //TODO: Import node address from settings
-  host: 'arweave.net',
-  port: 443,
-  protocol: 'https'
-});
 const store = new webext_redux__WEBPACK_IMPORTED_MODULE_2__["Store"]();
 const arweaveCrypto = new _arweaveCrypto__WEBPACK_IMPORTED_MODULE_3__["default"]();
+
+const getArweaveInstance = async () => {
+  await store.ready();
+  let state = await store.getState();
+  let protocol = state.settings.gateway.split('://')[0];
+  let port = state.settings.gateway.split(':')[2];
+  let host = state.settings.gateway.split('//')[1].split(':')[0];
+  return arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.init({
+    host: host,
+    port: port,
+    protocol: protocol
+  });
+};
 
 function unicodeToAscii(string) {
   return btoa(unescape(encodeURIComponent(string)));
@@ -3167,10 +3174,12 @@ function asciiToUnicode(string) {
 }
 
 const addWallet = async (key, nickname, password) => {
+  await store.ready();
+  let state = await store.getState();
+  let arweave = await getArweaveInstance();
   let address = await arweave.wallets.jwkToAddress(key);
   let encryptedKey = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.bufferTob64Url(await arweaveCrypto.encrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password))));
   let balance = await arweave.wallets.getBalance(address);
-  await store.ready();
   let result = await store.dispatch({
     type: 'ADD_WALLET',
     payload: {
@@ -3185,11 +3194,13 @@ const addWallet = async (key, nickname, password) => {
 const getFee = async size => {
   //TODO: Change out URL for node from settings
   let res = await axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(`https://arweave.net/price/${size}`);
+  let arweave = await getArweaveInstance();
   return arweave.ar.winstonToAr(res.data);
 };
 const archivePage = async (page, password) => {
   await store.ready();
   let state = store.getState();
+  let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
   let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
@@ -3221,6 +3232,7 @@ const archivePage = async (page, password) => {
 const archivePdf = async (pdf, password) => {
   await store.ready();
   let state = store.getState();
+  let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
   let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
@@ -3250,6 +3262,7 @@ const archivePdf = async (pdf, password) => {
 const sendTransfer = async (transfer, password) => {
   await store.ready();
   let state = store.getState();
+  let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
   let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
@@ -3281,6 +3294,7 @@ const updateWallets = async () => {
   await store.ready();
   let state = store.getState();
   if (Date.now() - state.lastUpdated < 360000) return;
+  let arweave = await getArweaveInstance();
   let updatedWallets = await Promise.all(state.wallets.map(async wallet => {
     var _wallet$pages, _wallet$pdfs, _wallet$transfers;
 

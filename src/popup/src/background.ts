@@ -1,13 +1,7 @@
-import Arweave from 'arweave/web'
 import { createStore } from 'redux'
 import { wrapStore } from 'webext-redux'
 import { updateWallets } from './providers/wallets'
 
-const arweave = Arweave.init({
-  host: 'arweave.net',
-  port: 443,
-  protocol: 'https',
-})
 
 export type wallet = {
   'address': string,
@@ -50,7 +44,7 @@ export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
   lastUpdated: number,
-  settings?: settings,
+  settings: settings,
 }
 
 const initialState = {
@@ -62,7 +56,7 @@ const initialState = {
     'debug': false,
     'loki': false,
     'silo': false,
-    'lokiGateway': false
+    'lokiGateway': 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo'
   }
 }
 
@@ -158,6 +152,7 @@ console.log(retrievedStateData)
 //@ts-ignore
 const store = createStore<InitialStateType, null, null, null>(reducer, retrievedStateData ? JSON.parse(retrievedStateData) : initialState!)
 wrapStore(store);
+
 
 chrome.runtime.onStartup.addListener(() => {
   console.log('starting up!')
