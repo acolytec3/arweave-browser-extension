@@ -190,7 +190,7 @@ export const updateWallets = async () => {
         return txn
       })) : undefined
       console.log(pages)
-      return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers }
+      return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname }
   }))
   let result = store.dispatch({
     type: 'UPDATE_WALLETS',

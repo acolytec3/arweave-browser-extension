@@ -43,19 +43,19 @@ const Wallets = () => {
 
   const Wallet = (wallet: any) => {
     return (
-      <PseudoBox border="1px" overflow="ellipsis">
-          <Text fontSize="sm"key={wallet.nickname}>{wallet.nickname}</Text>
-          <Text overflow="hidden" key={wallet.address}>{wallet.address}</Text>
-          <Text key={wallet.balance}>{wallet.balance} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
+      <PseudoBox borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
+          <Text color="#f9f9f9" fontSize="md" my={2} key={wallet.nickname}>{wallet.nickname}</Text>
+          <Text color="#9da1ab" overflow="hidden" key={wallet.address}>{wallet.address}</Text>
+          <Text color="#6d727d" key={wallet.balance}>{parseFloat(wallet.balance).toFixed(5).toLocaleString()} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
           <Stack isInline>
-            <PseudoBox as="button" onClick={() => {
+            <PseudoBox color="white" as="button" onClick={() => {
                 dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
-              }} alignContent="center" justifyContent="center" bg="green">
+              }} alignContent="start">
               <FaCheck />
               <Text>Use</Text></PseudoBox>
-              <PseudoBox as="button" onClick={() => {
+              <PseudoBox color="white" as="button" onClick={() => {
                 dispatch({ type: 'REMOVE_WALLET', payload: { address: wallet.address } })
-              }} alignContent="center" justifyContent="center">
+              }} alignContent="center">
               <FaTrash />
               <Text>Remove</Text></PseudoBox>
           </Stack>
@@ -92,7 +92,7 @@ const Wallets = () => {
         <Stack isInline align="center" justify="space-between">
           <Text>Wallets</Text>
           <FaWallet /></Stack></DrawerHeader>
-      <DrawerBody>
+      <DrawerBody bg="#282d33">
         <Flex direction="column">
           {state.activeWallet && !processing && <WalletTable />}
           {(!processing) && <WalletLoader />}

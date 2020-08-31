@@ -30,7 +30,7 @@ const Popup = () => {
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
   
-  //updateWallets();
+  updateWallets();
 
   return (
     <ThemeProvider>
@@ -40,7 +40,7 @@ const Popup = () => {
             <Box onClick={() => openTab('wallets')}><Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg">Load Wallet</Button></Box>
           </Box>
           :
-          <Box w="400px">
+          <Box w="400px" alignContent="space-between">
             <Text fontSize="4xl">{parseFloat(wallet.balance).toFixed(3).toLocaleString()} AR</Text>
             <Text>{wallet.address} </Text>
             <Text>{wallet.nickname}</Text>
