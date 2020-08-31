@@ -77,7 +77,7 @@ const BrowserPage = (route: any) => {
           </Route>
         </Switch>
         <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer">
-          <Stack isInline px="5px" py="10px">
+          <Stack isInline align="center" px="5px" py="10px">
           <Text>{state.connected ? "Connected" : "Disconnected"}</Text>
           <FaCircle color={state.connected ? "#86dc22" : "red"} />
             </Stack></PseudoBox>

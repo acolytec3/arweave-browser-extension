@@ -504,6 +504,7 @@ const BrowserPage = route => {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
     isInline: true,
+    align: "center",
     px: "5px",
     py: "10px",
     __self: undefined,
