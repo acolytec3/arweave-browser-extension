@@ -59,7 +59,7 @@ const BrowserPage = (route: any) => {
           <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
         </ButtonGroup>
       </Flex >
-      <Flex w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
+      <Flex bg="#f6f6f7" w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
         <Switch>
           <Route path="/pages">
             <Pages />

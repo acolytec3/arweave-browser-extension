@@ -8,13 +8,15 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Link
 } from "@chakra-ui/core";
 import axios from 'axios'
-import { FaCheckDouble} from 'react-icons/fa'
+import { FaCheckDouble } from 'react-icons/fa'
 import inline from '../providers/inline'
 import { getFee, archivePage } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, page } from '../background'
+
 interface inline {
   title: string,
   size: number,
@@ -23,6 +25,7 @@ interface inline {
 
 var pageSource: inline = { title: '', size: 0, html: undefined }
 var fee: string = '0'
+
 const PagePreview = (): any => {
   const [source, setSource] = useState(null as any)
 
@@ -38,10 +41,12 @@ const PagePreview = (): any => {
 
 const Pages = () => {
   const [isOpen, setOpen] = useState(false)
+  const [pageModal, setPageOpen] = useState({ open: false, page: {} as page || null })
   const state = useSelector((rootState: initialStateType) => rootState)
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const history = useHistory();
   const [password, setPassword] = useState('')
+
   const pageSaver = () => {
     let pageDeets = {
       'title': pageSource.title,
@@ -50,21 +55,72 @@ const Pages = () => {
       'status': 'pending',
       'txnId': '',
       'timestamp': '',
+      'size':'',
       'html': pageSource.html
     }
     archivePage(pageDeets, password)
   }
 
   const PageRow = (page: page) => {
-    return <SimpleGrid columns={4} key={page.txnId + '1'} onClick={() => {}}>
+    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} onClick={() => { console.log(pageModal); setPageOpen({ open: true, page: page }) }}>
       <Text overflow="hidden" key={page.title}>{page.title}</Text>
-      <Text key={page.url}>{page.url}</Text>
+      <Text overflow="hidden" key={page.url} >{page.url}</Text>
       <Text key={page.fee}>{parseFloat(page.fee).toFixed(6).toLocaleString()} AR</Text>
       <Stack isInline><Text key={page.timestamp}>{Date.now() - parseInt(page.timestamp)} ago</Text>
-      {page.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
+        {page.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
       </Stack>
-      
+
     </SimpleGrid>
+  }
+
+  const PageModal = () => {
+    
+    return (
+      <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
+        <ModalContent>
+          <ModalHeader borderBottom="1px" borderColor="black">
+            Archived Page
+        </ModalHeader>
+          <ModalBody>
+            <Text>ID</Text>
+            <Text>{pageModal.page.txnId}</Text>
+            <Text>From</Text>
+            <Text>{state.activeWallet}</Text>
+            <Text>Page Title</Text>
+            <Text>{pageModal.page.title}</Text>
+            <Text>Page URL</Text>
+            <Text>{pageModal.page.url}</Text>
+            <Stack isInline>
+              <Stack>
+                <Text>Page Size</Text>
+                <Text>0 KB</Text>
+              </Stack>
+              <Stack>
+                <Text>Fee</Text>
+                <Text>{pageModal.page.fee} AR</Text>
+              </Stack>
+            </Stack>
+            <Stack borderBottom="1px" isInline>
+              <Stack>
+                <Text>Time</Text>
+                <Text>{pageModal.page.timestamp}</Text>
+              </Stack>
+              <Stack>
+                <Text>Status</Text>
+                <Text>{pageModal.page.status}</Text>
+              </Stack>
+            </Stack>
+            <Stack>
+              <Text>Raw Transaction</Text>
+              <Link isExternal href={state.settings? state.settings.gateway : 'https://arweave.net' + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
+            </Stack>
+            <Stack>
+              <Text>Block Explorers</Text>
+              <Link isExternal href={'https://viewblock.io/arweave/tx/' + pageModal.page.txnId}>View on ViewBlock</Link>
+            </Stack>
+          </ModalBody></ModalContent>
+      </Modal>)
+
   }
   const PageTable = () => {
     let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
@@ -86,6 +142,7 @@ const Pages = () => {
     <Switch>
       <Route path="/pages" exact={true}>
         <PageTable />
+        <PageModal />
       </Route>
       <Route path="/pages/" exact={false}>
         <Flex width="100%" direction="column">
