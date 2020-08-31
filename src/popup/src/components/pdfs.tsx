@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Link,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -13,7 +13,7 @@ import axios from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import { getFee, archivePdf } from '../providers/wallets'
 import { useSelector } from 'react-redux'
-import { initialStateType, wallet, page } from '../background'
+import { initialStateType, wallet, pdf } from '../background'
 
 
 
@@ -26,6 +26,7 @@ const Pdfs = () => {
   const [fee, setFee] = useState('0')
   const [size, setSize] = useState('0')
   const [password, setPassword] = useState('')
+  const [pdfModal, setPdfModal] = useState({ open: false, pdf: {} as pdf })
 
   useEffect(() => {
     console.log(window.location.hash.substr(16,))
@@ -70,6 +71,69 @@ const Pdfs = () => {
     archivePdf(pdfDeets, password)
   }
 
+  const PdfModal = () => {
+
+    return (
+      <Modal isOpen={pdfModal.open} onClose={() => setPdfModal({ open: false, pdf: {} as pdf })}>
+        <ModalContent>
+          <ModalHeader>
+            Archived Page
+            <ModalCloseButton />
+          </ModalHeader>
+          <ModalBody >
+            <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
+            <Text>{pdfModal.pdf.txnId}</Text>
+            <Text>From</Text>
+            <Text>{state.activeWallet}</Text>
+            <Text>PDF URL</Text>
+            <Text>{pdfModal.pdf.url}</Text>
+            <Stack isInline>
+              <Stack>
+                <Text>PDF Size</Text>
+                <Text>0 KB</Text>
+              </Stack>
+              <Stack>
+                <Text>Fee</Text>
+                <Text>{pdfModal.pdf.fee} AR</Text>
+              </Stack>
+            </Stack>
+            <Stack borderBottom="1px" marginBottom="20px" isInline>
+              <Stack>
+                <Text>Time</Text>
+                <Text>{pdfModal.pdf.timestamp}</Text>
+              </Stack>
+              <Stack>
+                <Text>Status</Text>
+                <Text>{pdfModal.pdf.status}</Text>
+              </Stack>
+            </Stack>
+            <Stack>
+              <Text>Raw Transaction</Text>
+              <Link isExternal href={(state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pdfModal.pdf.txnId}>View raw transaction</Link>
+            </Stack>
+            <Stack>
+              <Text>Block Explorers</Text>
+              <Link isExternal href={'https://viewblock.io/arweave/tx/' + pdfModal.pdf.txnId}>View on ViewBlock</Link>
+            </Stack>
+          </ModalBody>
+          <ModalFooter>
+            <Button width="99%" bg="#333" color="white"
+              onClick={() => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pdfModal.pdf.txnId, '_blank')}>View PDF</Button>
+          </ModalFooter></ModalContent>
+      </Modal>)
+  }
+
+  const PdfRow = (pdf: pdf) => {
+    return (
+      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => { console.log(pdfModal); setPdfModal({ open: true, pdf: pdf }) }}>
+        <Text key={pdf.url}>{pdf.url}</Text>
+        <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
+        <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
+          {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
+        </Stack>
+      </SimpleGrid>
+    )
+  }
   const PdfTable = () => {
     console.log(state)
     let pdfs = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pdfs
@@ -80,18 +144,9 @@ const Pdfs = () => {
         <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Time</Text>
       </SimpleGrid>
-      {pdfs ? pdfs.map((pdf: page) => {
-        return (
-          <SimpleGrid columns={3} key={pdf.txnId + '1'} >
-            <Text key={pdf.url}>{pdf.url}</Text>
-            <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
-            <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
-              {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
-            </Stack>
-          </SimpleGrid>
-        )
-      }) :
-        <span>You shouldn't be seeing this</span>}
+      {pdfs && pdfs.map((pdf: pdf) => {
+        return PdfRow(pdf)
+      })}
     </Flex></Fragment>
   }
 
@@ -99,6 +154,7 @@ const Pdfs = () => {
     <Switch>
       <Route path="/pdfs" exact={true}>
         <PdfTable />
+        <PdfModal />
       </Route>
       <Route path="/pdfs/" exact={false}>
         <Flex width="100%" direction="column">

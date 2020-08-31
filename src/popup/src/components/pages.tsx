@@ -69,7 +69,6 @@ const Pages = () => {
       <Stack isInline><Text key={page.timestamp}>{Date.now() - parseInt(page.timestamp)} ago</Text>
         {page.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
       </Stack>
-
     </SimpleGrid>
   }
 
@@ -78,11 +77,12 @@ const Pages = () => {
     return (
       <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
         <ModalContent>
-          <ModalHeader borderBottom="1px" borderColor="black">
+          <ModalHeader>
             Archived Page
+            <ModalCloseButton />
         </ModalHeader>
-          <ModalBody>
-            <Text>ID</Text>
+          <ModalBody >
+            <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
             <Text>{pageModal.page.txnId}</Text>
             <Text>From</Text>
             <Text>{state.activeWallet}</Text>
@@ -100,7 +100,7 @@ const Pages = () => {
                 <Text>{pageModal.page.fee} AR</Text>
               </Stack>
             </Stack>
-            <Stack borderBottom="1px" isInline>
+            <Stack borderBottom="1px" marginBottom="20px" isInline>
               <Stack>
                 <Text>Time</Text>
                 <Text>{pageModal.page.timestamp}</Text>
@@ -112,16 +112,20 @@ const Pages = () => {
             </Stack>
             <Stack>
               <Text>Raw Transaction</Text>
-              <Link isExternal href={state.settings? state.settings.gateway : 'https://arweave.net' + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
+              <Link isExternal href={(state.settings? state.settings.gateway : 'https://arweave.net') + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
               <Text>Block Explorers</Text>
               <Link isExternal href={'https://viewblock.io/arweave/tx/' + pageModal.page.txnId}>View on ViewBlock</Link>
             </Stack>
-          </ModalBody></ModalContent>
+          </ModalBody>
+          <ModalFooter>
+          <Button width="99%" bg="#333" color="white"
+          onClick={() => window.open((state.settings? state.settings.gateway : 'https://arweave.net') + '/' + pageModal.page.txnId, '_blank')}>View Page</Button>
+          </ModalFooter></ModalContent>
       </Modal>)
-
   }
+
   const PageTable = () => {
     let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
 
@@ -147,7 +151,7 @@ const Pages = () => {
       <Route path="/pages/" exact={false}>
         <Flex width="100%" direction="column">
           <PagePreview />
-          <Button width="200px" onClick={() => setOpen(true)}> Archive Page</Button>
+          <Button width="200px" onClick={() => setOpen(true)}>Archive Page</Button>
           <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
             <ModalOverlay />
             <ModalContent>
