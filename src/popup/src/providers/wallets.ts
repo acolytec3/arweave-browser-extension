@@ -164,8 +164,11 @@ export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
   if (Date.now()-state.lastUpdated < 360000) return
-  let arweave = await getArweaveInstance()
-  let updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
+  let updatedWallets = null
+  let connected = false
+  try {
+    let arweave = await getArweaveInstance()
+  updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
     let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
     
     let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
@@ -190,11 +193,15 @@ export const updateWallets = async () => {
         return txn
       })) : undefined
       console.log(pages)
-      return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname }
-  }))
+      connected = true
+      return {address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname, connected: connected }
+  }))}
+  catch (error) {
+
+  }
   let result = store.dispatch({
     type: 'UPDATE_WALLETS',
-    payload: { wallets: updatedWallets, activeWallet: state.activeWallet, lastUpdated: Date.now() }
+    payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), connected: connected }
   })
   console.log(updatedWallets)
   console.log(Date.now())

@@ -44,6 +44,7 @@ export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
   lastUpdated: number,
+  connected: boolean,
   settings: settings,
 }
 
@@ -51,6 +52,7 @@ const initialState = {
   wallets: [],
   activeWallet: '',
   lastUpdated: 0,
+  connected: false,
   settings: {
     'gateway': 'https://arweave.net:443',
     'debug': false,

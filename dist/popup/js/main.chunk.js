@@ -186,7 +186,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pdfs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pdfs */ "./src/components/pdfs.tsx");
 /* harmony import */ var _transfers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./transfers */ "./src/components/transfers.tsx");
 /* harmony import */ var _settings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings */ "./src/components/settings.tsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 var _jsxFileName = "/home/jim/development/ar2/src/popup/src/components/browserpage.tsx";
+
 
 
 
@@ -206,7 +208,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 18,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -215,7 +217,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 18,
       columnNumber: 87
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
@@ -227,7 +229,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 18,
       columnNumber: 4526
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
@@ -236,7 +238,7 @@ const ArweaveLogo = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 18,
       columnNumber: 4606
     }
   }));
@@ -250,6 +252,7 @@ const BrowserPage = route => {
   } = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useDisclosure"])();
   const history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   const [drawer, setDrawer] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_9__["useSelector"])(rootState => rootState);
 
   const handleClose = () => {
     history.replace('closed');
@@ -282,7 +285,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46,
+      lineNumber: 48,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -296,7 +299,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47,
+      lineNumber: 49,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -306,22 +309,22 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 48,
+      lineNumber: 50,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ArweaveLogo, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49,
+      lineNumber: 51,
       columnNumber: 11
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ButtonGroup"], {
-    pr: 5,
+    pr: 1,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 51,
+      lineNumber: 53,
       columnNumber: 9
     }
   }, "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -330,7 +333,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
+      lineNumber: 55,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -342,7 +345,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53,
+      lineNumber: 55,
       columnNumber: 43
     }
   }, "PDFs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -351,7 +354,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55,
+      lineNumber: 57,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -363,7 +366,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55,
+      lineNumber: 57,
       columnNumber: 44
     }
   }, "Pages")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -372,7 +375,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
+      lineNumber: 59,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -384,7 +387,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
+      lineNumber: 59,
       columnNumber: 48
     }
   }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -397,7 +400,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 58,
+      lineNumber: 60,
       columnNumber: 11
     }
   }, "Wallets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -410,7 +413,7 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 59,
+      lineNumber: 61,
       columnNumber: 11
     }
   }, "Settings"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -423,14 +426,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62,
+      lineNumber: 64,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63,
+      lineNumber: 65,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -438,14 +441,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 66,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65,
+      lineNumber: 67,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -453,14 +456,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 67,
+      lineNumber: 69,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pdfs__WEBPACK_IMPORTED_MODULE_6__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68,
+      lineNumber: 70,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -468,14 +471,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 70,
+      lineNumber: 72,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transfers__WEBPACK_IMPORTED_MODULE_7__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71,
+      lineNumber: 73,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -483,38 +486,76 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73,
+      lineNumber: 75,
       columnNumber: 11
     }
-  }, () => handleOpen('wallets')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Drawer"], {
+  }, () => handleOpen('wallets'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    bg: "#434750",
+    color: "white",
+    cursor: "pointer",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 79,
+      columnNumber: 9
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    isInline: true,
+    px: "5px",
+    py: "10px",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80,
+      columnNumber: 11
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 81,
+      columnNumber: 11
+    }
+  }, state.connected ? "Connected" : "Disconnected"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaCircle"], {
+    color: state.connected ? "#86dc22" : "red",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 82,
+      columnNumber: 11
+    }
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Drawer"], {
     placement: "right",
     onClose: handleClose,
     isOpen: isOpen,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
+      lineNumber: 85,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["DrawerOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 82,
+      lineNumber: 89,
       columnNumber: 9
     }
   }), drawer === 'wallets' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wallets__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 83,
+      lineNumber: 90,
       columnNumber: 33
     }
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_settings__WEBPACK_IMPORTED_MODULE_8__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 83,
+      lineNumber: 90,
       columnNumber: 47
     }
   })));
@@ -2348,8 +2389,7 @@ const Settings = () => {
       columnNumber: 11
     }
   }, "Host"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
-    isInvalid: validGateway,
-    errorBorderColor: "blue.300",
+    isInvalid: !validGateway,
     onBlur: () => validateAddress(gateway),
     value: gateway,
     onChange: evt => setGateway(evt.target.value),
@@ -2428,6 +2468,7 @@ const Settings = () => {
       columnNumber: 13
     }
   }, "Silo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
+    isDisabled: true,
     id: "silo-toggle",
     size: "md",
     color: "green",
@@ -2469,6 +2510,7 @@ const Settings = () => {
       columnNumber: 13
     }
   }, "Silo+Loki"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
+    isDisabled: true,
     id: "loki-toggle",
     size: "md",
     color: "green",
@@ -3014,6 +3056,7 @@ const Wallets = () => {
 
   const Wallet = wallet => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["PseudoBox"], {
+      key: wallet.nickname + 'pseudo1',
       borderBottom: "1px",
       borderColor: "#44474c",
       overflow: "ellipsis",
@@ -3062,6 +3105,7 @@ const Wallets = () => {
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["PseudoBox"], {
+      key: wallet.nickname + 'pseudo2',
       color: "white",
       as: "button",
       onClick: () => {
@@ -3917,56 +3961,65 @@ const updateWallets = async () => {
   await store.ready();
   let state = store.getState();
   if (Date.now() - state.lastUpdated < 360000) return;
-  let arweave = await getArweaveInstance();
-  let updatedWallets = await Promise.all(state.wallets.map(async wallet => {
-    var _wallet$pages, _wallet$pdfs, _wallet$transfers;
+  let updatedWallets = null;
+  let connected = false;
 
-    let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
-    let pages = wallet.pages ? await Promise.all((_wallet$pages = wallet.pages) === null || _wallet$pages === void 0 ? void 0 : _wallet$pages.map(async txn => {
-      if (txn.status === 'pending') {
-        let status = await arweave.transactions.getStatus(txn.txnId);
-        console.log('Got status and its ' + status.status);
-        return status.status === 200 ? { ...txn,
-          status: 'confirmed'
-        } : txn;
-      } else return txn;
-    })) : undefined;
-    let pdfs = wallet.pdfs ? await Promise.all((_wallet$pdfs = wallet.pdfs) === null || _wallet$pdfs === void 0 ? void 0 : _wallet$pdfs.map(async txn => {
-      if (txn.status === 'pending') {
-        let status = await arweave.transactions.getStatus(txn.txnId);
-        return status.status === 200 ? { ...txn,
-          status: 'confirmed'
-        } : txn;
-      }
+  try {
+    let arweave = await getArweaveInstance();
+    updatedWallets = await Promise.all(state.wallets.map(async wallet => {
+      var _wallet$pages, _wallet$pdfs, _wallet$transfers;
 
-      return txn;
-    })) : undefined;
-    let transfers = wallet.transfers ? await Promise.all((_wallet$transfers = wallet.transfers) === null || _wallet$transfers === void 0 ? void 0 : _wallet$transfers.map(async txn => {
-      if (txn.status === 'pending') {
-        let status = await arweave.transactions.getStatus(txn.txnId);
-        return status.status === 200 ? { ...txn,
-          status: 'confirmed'
-        } : txn;
-      }
+      let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
+      let pages = wallet.pages ? await Promise.all((_wallet$pages = wallet.pages) === null || _wallet$pages === void 0 ? void 0 : _wallet$pages.map(async txn => {
+        if (txn.status === 'pending') {
+          let status = await arweave.transactions.getStatus(txn.txnId);
+          console.log('Got status and its ' + status.status);
+          return status.status === 200 ? { ...txn,
+            status: 'confirmed'
+          } : txn;
+        } else return txn;
+      })) : undefined;
+      let pdfs = wallet.pdfs ? await Promise.all((_wallet$pdfs = wallet.pdfs) === null || _wallet$pdfs === void 0 ? void 0 : _wallet$pdfs.map(async txn => {
+        if (txn.status === 'pending') {
+          let status = await arweave.transactions.getStatus(txn.txnId);
+          return status.status === 200 ? { ...txn,
+            status: 'confirmed'
+          } : txn;
+        }
 
-      return txn;
-    })) : undefined;
-    console.log(pages);
-    return {
-      address: wallet.address,
-      balance: balance,
-      pages: pages,
-      pdfs: pdfs,
-      transfers: transfers,
-      nickname: wallet.nickname
-    };
-  }));
+        return txn;
+      })) : undefined;
+      let transfers = wallet.transfers ? await Promise.all((_wallet$transfers = wallet.transfers) === null || _wallet$transfers === void 0 ? void 0 : _wallet$transfers.map(async txn => {
+        if (txn.status === 'pending') {
+          let status = await arweave.transactions.getStatus(txn.txnId);
+          return status.status === 200 ? { ...txn,
+            status: 'confirmed'
+          } : txn;
+        }
+
+        return txn;
+      })) : undefined;
+      console.log(pages);
+      connected = true;
+      return {
+        address: wallet.address,
+        balance: balance,
+        pages: pages,
+        pdfs: pdfs,
+        transfers: transfers,
+        nickname: wallet.nickname,
+        connected: connected
+      };
+    }));
+  } catch (error) {}
+
   let result = store.dispatch({
     type: 'UPDATE_WALLETS',
     payload: {
-      wallets: updatedWallets,
+      wallets: updatedWallets ? updatedWallets : state.wallets,
       activeWallet: state.activeWallet,
-      lastUpdated: Date.now()
+      lastUpdated: Date.now(),
+      connected: connected
     }
   });
   console.log(updatedWallets);
@@ -4110,5 +4163,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

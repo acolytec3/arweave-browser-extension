@@ -67,7 +67,7 @@ const Settings = () => {
           <Divider bg="white" />
           <FormControl isInvalid={!validGateway}>
           <FormLabel htmlFor='host' color="white">Host</FormLabel>
-          <Input isInvalid={validGateway} errorBorderColor="blue.300" onBlur={() => validateAddress(gateway)} value={gateway} onChange={(evt:any) => setGateway(evt.target.value)}></Input>
+          <Input isInvalid={!validGateway} onBlur={() => validateAddress(gateway)} value={gateway} onChange={(evt:any) => setGateway(evt.target.value)}></Input>
           <FormErrorMessage>Gateway address is invalid</FormErrorMessage>
           <FormHelperText>
             Use an alternative host when connecting to Arweave. E.g. https://arweave.net:443 or http://159.65.213.43:1984
@@ -78,12 +78,12 @@ const Settings = () => {
           <Stack isInline align="center" bg="#ea9c00"><FaExclamationTriangle size="12" color="white" /><Text color="white">EXPERIMENTAL FEATURE</Text></Stack>
           <Stack isInline alignContent="center" justifyContent="space-between">
             <FormLabel htmlFor='silo-toggle' color="white">Silo</FormLabel>
-            <Switch id="silo-toggle" size="md" color="green" value={silo} isChecked={silo} onChange={() => setSilo(!silo)}/>
+            <Switch isDisabled id="silo-toggle" size="md" color="green" value={silo} isChecked={silo} onChange={() => setSilo(!silo)}/>
           </Stack>
           <Text fontSize="small" color="#999">Enable clearnet Silo protocol using web+silo:// links.</Text>
           <Stack isInline alignContent="center" justifyContent="space-between">
             <FormLabel htmlFor='loki-toggle' color="white">Silo+Loki</FormLabel>
-            <Switch id="loki-toggle" size="md" color="green" value={loki} isChecked={loki} onChange={() => setLoki(!loki)}/>
+            <Switch isDisabled id="loki-toggle" size="md" color="green" value={loki} isChecked={loki} onChange={() => setLoki(!loki)}/>
           </Stack>
           <Text fontSize="small" color="#999">Use Loki when accessing Silo data.</Text>
           <Input isDisabled={!loki || !silo} value={lokiGateway} onChange={(evt:any) => setLokiGateway(evt.target.value)}></Input>

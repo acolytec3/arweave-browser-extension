@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { HashRouter as Router, Switch, Route, Link as ReactLink, useHistory } from 'react-router-dom';
 import {
-  ThemeProvider, Flex, ButtonGroup, Button, Link, Drawer,
-  DrawerOverlay,useDisclosure
+  Flex, ButtonGroup, Button, Link, Drawer, Text,
+  DrawerOverlay,useDisclosure, PseudoBox, Stack
  } from "@chakra-ui/core";
-import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaCog } from 'react-icons/fa'
+import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaCog, FaCircle } from 'react-icons/fa'
 import Wallets from './wallets'
 import Pages from './pages'
 import Pdfs from './pdfs'
 import Transfers from './transfers'
 import Settings from './settings'
-
+import { useSelector } from 'react-redux'
+import { initialStateType } from '../background'
 
 
 const ArweaveLogo = () => {
@@ -22,6 +23,7 @@ const BrowserPage = (route: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
   const [drawer, setDrawer] = useState('')
+  const state = useSelector((rootState: initialStateType) => rootState)
 
   const handleClose = () => {
     history.replace('closed')
@@ -48,7 +50,7 @@ const BrowserPage = (route: any) => {
         <Flex flexDirection="row" justifyContent="center" alignItems="center">
           <ArweaveLogo />
         </Flex>
-        <ButtonGroup pr={5} >
+        <ButtonGroup pr={1} >
           {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
           <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
           {/* @ts-ignore*/}
@@ -74,6 +76,11 @@ const BrowserPage = (route: any) => {
             {() => handleOpen('wallets')}
           </Route>
         </Switch>
+        <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer">
+          <Stack isInline px="5px" py="10px">
+          <Text>{state.connected ? "Connected" : "Disconnected"}</Text>
+          <FaCircle color={state.connected ? "#86dc22" : "red"} />
+            </Stack></PseudoBox>
       </Flex>
       <Drawer
         placement="right"

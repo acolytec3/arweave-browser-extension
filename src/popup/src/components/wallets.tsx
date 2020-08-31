@@ -43,12 +43,12 @@ const Wallets = () => {
 
   const Wallet = (wallet: any) => {
     return (
-      <PseudoBox borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
+      <PseudoBox key={wallet.nickname + 'pseudo1'} borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
           <Text color="#f9f9f9" fontSize="md" my={2} key={wallet.nickname}>{wallet.nickname}</Text>
           <Text color="#9da1ab" overflow="hidden" key={wallet.address}>{wallet.address}</Text>
           <Text color="#6d727d" key={wallet.balance}>{parseFloat(wallet.balance).toFixed(5).toLocaleString()} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
           <Stack isInline>
-            <PseudoBox color="white" as="button" onClick={() => {
+            <PseudoBox key={wallet.nickname + 'pseudo2'} color="white" as="button" onClick={() => {
                 dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
               }} alignContent="start">
               <FaCheck />
