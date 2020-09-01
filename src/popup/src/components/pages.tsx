@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -119,6 +119,18 @@ const Pages = () => {
               <Text>Block Explorers</Text>
               <Link isExternal href={'https://viewblock.io/arweave/tx/' + pageModal.page.txnId}>View on ViewBlock</Link>
             </Stack>
+            {state.settings.debug && <Stack>
+              <Stack>
+                <Text>Debug Transaction</Text>
+                <Code>
+                  <Textarea value={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                </Code>
+                <Text>Debug Response</Text>
+                <Code>
+                  <Textarea value={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                </Code>
+              </Stack>
+            </Stack>}
           </ModalBody>
           <ModalFooter>
             <Button width="99%" bg="#333" color="white"

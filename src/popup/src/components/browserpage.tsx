@@ -33,7 +33,7 @@ const BrowserPage = (route: any) => {
   const [drawer, setDrawer] = useState('')
   const state = useSelector((rootState: initialStateType) => rootState)
   const [modal, openModal] = useState(false)
-  console.log(state)
+
   const handleClose = () => {
     history.replace('closed')
     onClose()
