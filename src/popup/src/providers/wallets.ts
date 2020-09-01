@@ -1,4 +1,4 @@
-import Arweave from 'arweave/web'
+import Arweave from 'arweave'
 import axios from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'

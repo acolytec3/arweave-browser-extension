@@ -3707,8 +3707,8 @@ _serviceWorker__WEBPACK_IMPORTED_MODULE_4__["unregister"]();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! arweave/web */ "../../node_modules/arweave/web/index.js");
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(arweave_web__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! arweave */ "../../node_modules/arweave/web/index.js");
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(arweave__WEBPACK_IMPORTED_MODULE_0__);
 
 
 class ArweaveCrypto {
@@ -3820,7 +3820,7 @@ class ArweaveCrypto {
 
 
   async encrypt(dataBuffer, passphraseBuffer) {
-    let salt = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer('Memory hole.');
+    let salt = arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer('Memory hole.');
     let iterations = 100000;
     let hash = 'SHA-256';
     let iv = new Uint8Array(16);
@@ -3841,7 +3841,7 @@ class ArweaveCrypto {
       name: 'AES-CBC',
       iv: iv
     }, key, dataBuffer);
-    return arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.concatBuffers([iv, encryptedData]);
+    return arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.concatBuffers([iv, encryptedData]);
   }
   /**
    * @param {ArrayBuffer} encryptedBuffer - ArrayBuffer of data to decrypt
@@ -3852,7 +3852,7 @@ class ArweaveCrypto {
 
 
   async decrypt(encryptedBuffer, passphraseBuffer) {
-    let salt = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer('Memory hole.');
+    let salt = arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer('Memory hole.');
     let iter = 100000;
     let hash = 'SHA-256';
     let iv = encryptedBuffer.slice(0, 16);
@@ -3918,8 +3918,8 @@ const openTab = async page => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "../../node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! arweave/web */ "../../node_modules/arweave/web/index.js");
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(arweave_web__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! arweave */ "../../node_modules/arweave/web/index.js");
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(arweave__WEBPACK_IMPORTED_MODULE_1__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4013,7 +4013,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: document.title,
       html: html,
-      size: arweave_web__WEBPACK_IMPORTED_MODULE_1___default.a.utils.b64UrlEncode(arweave_web__WEBPACK_IMPORTED_MODULE_1___default.a.utils.bufferTob64(arweave_web__WEBPACK_IMPORTED_MODULE_1___default.a.utils.stringToBuffer(html))).length
+      size: arweave__WEBPACK_IMPORTED_MODULE_1___default.a.utils.b64UrlEncode(arweave__WEBPACK_IMPORTED_MODULE_1___default.a.utils.bufferTob64(arweave__WEBPACK_IMPORTED_MODULE_1___default.a.utils.stringToBuffer(html))).length
     };
   },
 
@@ -4040,8 +4040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "archivePdf", function() { return archivePdf; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendTransfer", function() { return sendTransfer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateWallets", function() { return updateWallets; });
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! arweave/web */ "../../node_modules/arweave/web/index.js");
-/* harmony import */ var arweave_web__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(arweave_web__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! arweave */ "../../node_modules/arweave/web/index.js");
+/* harmony import */ var arweave__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(arweave__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "../../node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var webext_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! webext-redux */ "../../node_modules/webext-redux/lib/index.js");
@@ -4060,7 +4060,7 @@ const getArweaveInstance = async () => {
   let protocol = state.settings.gateway.split('://')[0];
   let port = state.settings.gateway.split(':')[2];
   let host = state.settings.gateway.split('//')[1].split(':')[0];
-  return arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.init({
+  return arweave__WEBPACK_IMPORTED_MODULE_0___default.a.init({
     host: host,
     port: port,
     protocol: protocol
@@ -4080,7 +4080,7 @@ const addWallet = async (key, nickname, password) => {
   let state = await store.getState();
   let arweave = await getArweaveInstance();
   let address = await arweave.wallets.jwkToAddress(key);
-  let encryptedKey = arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.bufferTob64Url(await arweaveCrypto.encrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password))));
+  let encryptedKey = arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.bufferTob64Url(await arweaveCrypto.encrypt(arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password))));
   let balance = await arweave.wallets.getBalance(address);
   let result = await store.dispatch({
     type: 'ADD_WALLET',
@@ -4104,7 +4104,7 @@ const archivePage = async (page, password) => {
   let state = store.getState();
   let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let rawKey = await arweaveCrypto.decrypt(arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   console.log(key);
   let transaction = await arweave.createTransaction({
@@ -4136,7 +4136,7 @@ const archivePdf = async (pdf, password) => {
   let state = store.getState();
   let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let rawKey = await arweaveCrypto.decrypt(arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   let transaction = await arweave.createTransaction({
     data: pdf.source
@@ -4166,7 +4166,7 @@ const sendTransfer = async (transfer, password) => {
   let state = store.getState();
   let arweave = await getArweaveInstance();
   let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
-  let rawKey = await arweaveCrypto.decrypt(arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave_web__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+  let rawKey = await arweaveCrypto.decrypt(arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
   let transaction = await arweave.createTransaction({
     target: transfer.to,

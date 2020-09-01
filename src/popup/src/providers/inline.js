@@ -1,5 +1,5 @@
 import axios from 'axios';
-import arweave from 'arweave/web';
+import arweave from 'arweave';
 
 export default {
 

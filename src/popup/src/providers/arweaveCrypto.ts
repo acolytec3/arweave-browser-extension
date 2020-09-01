@@ -1,4 +1,4 @@
-import Arweave from "arweave/web";
+import Arweave from "arweave";
 
 class ArweaveCrypto{
 
