@@ -44,7 +44,11 @@ export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
   lastUpdated: number,
-  connected: boolean,
+  network: {
+    connected: boolean,
+    height: number,
+    response: any
+  }
   settings: settings,
 }
 

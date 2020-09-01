@@ -75,6 +75,7 @@ const Pdfs = () => {
 
     return (
       <Modal isOpen={pdfModal.open} onClose={() => setPdfModal({ open: false, pdf: {} as pdf })}>
+        <ModalOverlay />
         <ModalContent>
           <ModalHeader>
             Archived Page

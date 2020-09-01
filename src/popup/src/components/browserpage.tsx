@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { HashRouter as Router, Switch, Route, Link as ReactLink, useHistory } from 'react-router-dom';
 import {
   Flex, ButtonGroup, Button, Link, Drawer, Text,
-  DrawerOverlay,useDisclosure, PseudoBox, Stack
- } from "@chakra-ui/core";
+  DrawerOverlay, useDisclosure, PseudoBox, Stack,
+  Code, Textarea,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Modal
+} from "@chakra-ui/core";
 import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaCog, FaCircle } from 'react-icons/fa'
 import Wallets from './wallets'
 import Pages from './pages'
@@ -24,72 +32,112 @@ const BrowserPage = (route: any) => {
   const history = useHistory();
   const [drawer, setDrawer] = useState('')
   const state = useSelector((rootState: initialStateType) => rootState)
-
+  const [modal, openModal] = useState(false)
+  console.log(state)
   const handleClose = () => {
     history.replace('closed')
     onClose()
   }
 
+  const NetworkModal = () => {
+    return (<Modal isOpen={modal} onClose={() => openModal(false)} >
+              <ModalOverlay />
+      <ModalContent>
+
+        <ModalHeader>Network Info
+        <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <Stack borderTop="1px" color="black" isInline>
+            <Stack>
+              <Text color="#888">Last Updated</Text>
+              <Text color="#333">{state.lastUpdated}</Text>
+            </Stack>
+            <Stack>
+              <Text color="#888">Height</Text>
+              <Text color="#333">{state.network.height}</Text>
+            </Stack>
+          </Stack>
+          <Stack>
+            <Text>Node</Text>
+            <Text>{state.settings.gateway}</Text>
+          </Stack>
+          <Stack>
+            <Text>Response</Text>
+            <Code>
+              <Textarea>{JSON.stringify(state.network.response,null,'\t')}</Textarea>
+            </Code>
+          </Stack>
+        </ModalBody>
+      </ModalContent>
+    </Modal>)
+
+  }
+
   const handleOpen = (route: string) => {
     //Prevent issue where React thinks it needs to open the drawer when you close it
-    if(history.location.pathname === "/mainpage/wallets/open") {
+    if (history.location.pathname === "/mainpage/wallets/open") {
       onOpen()
       history.replace('closed')
     }
 
     switch (route) {
       case 'wallets': setDrawer('wallets'); onOpen(); break;
-      case 'settings': setDrawer('settings'); 
-          onOpen(); 
-          history.replace('settings')
-          break;
+      case 'settings': setDrawer('settings');
+        onOpen();
+        history.replace('settings')
+        break;
     }
   }
+
   return (<Router basename="/mainpage">
-      <Flex w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
-        <Flex flexDirection="row" justifyContent="center" alignItems="center">
-          <ArweaveLogo />
-        </Flex>
-        <ButtonGroup pr={1} >
-          {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
-          <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
-          {/* @ts-ignore*/}
-          <Link as={ReactLink} to="/pages"><Button leftIcon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg">Pages</Button></Link>
-          {/*@ts-ignore*/}
-          <Link as={ReactLink} to="/transfers"><Button leftIcon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg">Transfers</Button></Link>
-          <Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('wallets')}>Wallets</Button>
-          <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
-        </ButtonGroup>
-      </Flex >
-      <Flex bg="#f6f6f7" w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
-        <Switch>
-          <Route path="/pages">
-            <Pages />
-          </Route>
-          <Route path="/pdfs">
-            <Pdfs />
-          </Route>
-          <Route path="/transfers">
-            <Transfers />
-          </Route>
-          <Route path="/wallets/open">
-            {() => handleOpen('wallets')}
-          </Route>
-        </Switch>
-        <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer">
-          <Stack isInline align="center" px="5px" py="10px">
-          <Text>{state.connected ? "Connected" : "Disconnected"}</Text>
-          <FaCircle color={state.connected ? "#86dc22" : "red"} />
-            </Stack></PseudoBox>
+    <Flex w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+      <Flex flexDirection="row" justifyContent="center" alignItems="center">
+        <ArweaveLogo />
       </Flex>
-      <Drawer
-        placement="right"
-        onClose={handleClose}
-        isOpen={isOpen}>
-        <DrawerOverlay />
-        {drawer === 'wallets' ? <Wallets /> : <Settings />}
-      </Drawer>
-   </Router>
+      <ButtonGroup pr={1} >
+        {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
+        <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
+        {/* @ts-ignore*/}
+        <Link as={ReactLink} to="/pages"><Button leftIcon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg">Pages</Button></Link>
+        {/*@ts-ignore*/}
+        <Link as={ReactLink} to="/transfers"><Button leftIcon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg">Transfers</Button></Link>
+        <Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('wallets')}>Wallets</Button>
+        <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
+      </ButtonGroup>
+    </Flex >
+    <Flex bg="#f6f6f7" w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
+      <Switch>
+        <Route path="/pages">
+          <Pages />
+        </Route>
+        <Route path="/pdfs">
+          <Pdfs />
+        </Route>
+        <Route path="/transfers">
+          <Transfers />
+        </Route>
+        <Route path="/wallets/open">
+          {() => handleOpen('wallets')}
+        </Route>
+      </Switch>
+      <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer"
+        onClick={() => openModal(true)}>
+        <Stack isInline align="center" px="5px" py="10px">
+          <Text>{state.network.connected ? "Connected" : "Disconnected"}</Text>
+          <FaCircle color={state.network.connected ? "#86dc22" : "red"} />
+        </Stack>
+      </PseudoBox>
+      <NetworkModal />
+    </Flex>
+    <Drawer
+      placement="right"
+      onClose={handleClose}
+      isOpen={isOpen}>
+      <DrawerOverlay />
+      {drawer === 'wallets' ? <Wallets /> : <Settings />}
+    </Drawer>
+  </Router>
   )
 }
 

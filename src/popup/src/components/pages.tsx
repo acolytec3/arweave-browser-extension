@@ -55,7 +55,7 @@ const Pages = () => {
       'status': 'pending',
       'txnId': '',
       'timestamp': '',
-      'size':'',
+      'size': '',
       'html': pageSource.html
     }
     archivePage(pageDeets, password)
@@ -73,14 +73,15 @@ const Pages = () => {
   }
 
   const PageModal = () => {
-    
+
     return (
       <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
+        <ModalOverlay />
         <ModalContent>
           <ModalHeader>
             Archived Page
             <ModalCloseButton />
-        </ModalHeader>
+          </ModalHeader>
           <ModalBody >
             <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
             <Text>{pageModal.page.txnId}</Text>
@@ -112,7 +113,7 @@ const Pages = () => {
             </Stack>
             <Stack>
               <Text>Raw Transaction</Text>
-              <Link isExternal href={(state.settings? state.settings.gateway : 'https://arweave.net') + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
+              <Link isExternal href={(state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
               <Text>Block Explorers</Text>
@@ -120,8 +121,8 @@ const Pages = () => {
             </Stack>
           </ModalBody>
           <ModalFooter>
-          <Button width="99%" bg="#333" color="white"
-          onClick={() => window.open((state.settings? state.settings.gateway : 'https://arweave.net') + '/' + pageModal.page.txnId, '_blank')}>View Page</Button>
+            <Button width="99%" bg="#333" color="white"
+              onClick={() => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pageModal.page.txnId, '_blank')}>View Page</Button>
           </ModalFooter></ModalContent>
       </Modal>)
   }
