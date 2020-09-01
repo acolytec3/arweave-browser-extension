@@ -167,14 +167,14 @@ export const updateWallets = async () => {
   if (Date.now() - state.lastUpdated < 360000) return
   let updatedWallets = null
   let connected = false
-  let netInfo = {} as NetworkInfoInterface
+  let netInfo = {} as any
 
   try {
     let arweave = await getArweaveInstance()
     updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
       let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
-      netInfo = await arweave.network.getInfo()
-            
+      netInfo = await arweave.api.get(state.settings.gateway)
+      connected = netInfo.status === 200      
       let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
         if (txn.status === 'pending') {
           let status = await arweave.transactions.getStatus(txn.txnId)
@@ -197,7 +197,6 @@ export const updateWallets = async () => {
         return txn
       })) : undefined
       console.log(pages)
-      connected = true
       return { address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname }
     }))
   }

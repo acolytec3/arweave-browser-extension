@@ -832,7 +832,6 @@ const Pages = () => {
       cursor: "pointer",
       key: page.txnId + '1',
       onClick: () => {
-        console.log(pageModal);
         setPageOpen({
           open: true,
           page: page
@@ -2475,7 +2474,6 @@ const Settings = () => {
 
   const validateAddress = address => {
     let parts = address.split(':');
-    console.log(parts);
 
     if (parts.length !== 3) {
       setValidGateway(false);
@@ -2494,7 +2492,6 @@ const Settings = () => {
       return;
     }
 
-    console.log('looks good!');
     setValidGateway(true);
   };
 
@@ -2502,7 +2499,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 55,
+      lineNumber: 53,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerHeader"], {
@@ -2512,7 +2509,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56,
+      lineNumber: 54,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -2522,21 +2519,21 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
+      lineNumber: 55,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 58,
+      lineNumber: 56,
       columnNumber: 11
     }
   }, "Settings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaCog"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 59,
+      lineNumber: 57,
       columnNumber: 11
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerBody"], {
@@ -2544,7 +2541,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 60,
+      lineNumber: 58,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
@@ -2552,7 +2549,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61,
+      lineNumber: 59,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -2562,7 +2559,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62,
+      lineNumber: 60,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -2571,7 +2568,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63,
+      lineNumber: 61,
       columnNumber: 13
     }
   }, "Debug"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
@@ -2586,7 +2583,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 62,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -2595,7 +2592,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 66,
+      lineNumber: 64,
       columnNumber: 11
     }
   }, "Show debug information on transaction receipts."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
@@ -2603,7 +2600,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 67,
+      lineNumber: 65,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormControl"], {
@@ -2611,7 +2608,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68,
+      lineNumber: 66,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -2620,8 +2617,8 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 69,
-      columnNumber: 11
+      lineNumber: 67,
+      columnNumber: 13
     }
   }, "Host"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
     isInvalid: !validGateway,
@@ -2631,29 +2628,29 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 70,
-      columnNumber: 11
+      lineNumber: 68,
+      columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormErrorMessage"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71,
-      columnNumber: 11
+      lineNumber: 69,
+      columnNumber: 13
     }
   }, "Gateway address is invalid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormHelperText"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72,
-      columnNumber: 11
+      lineNumber: 70,
+      columnNumber: 13
     }
   }, "Use an alternative host when connecting to Arweave. E.g. https://arweave.net:443 or http://159.65.213.43:1984")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
     bg: "white",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 77,
+      lineNumber: 75,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -2663,7 +2660,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
+      lineNumber: 76,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaExclamationTriangle"], {
@@ -2672,7 +2669,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
+      lineNumber: 76,
       columnNumber: 55
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -2680,7 +2677,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78,
+      lineNumber: 76,
       columnNumber: 104
     }
   }, "EXPERIMENTAL FEATURE")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -2690,7 +2687,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79,
+      lineNumber: 77,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -2699,7 +2696,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 80,
+      lineNumber: 78,
       columnNumber: 13
     }
   }, "Silo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
@@ -2713,7 +2710,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 81,
+      lineNumber: 79,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -2722,7 +2719,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 83,
+      lineNumber: 81,
       columnNumber: 11
     }
   }, "Enable clearnet Silo protocol using web+silo:// links."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -2732,7 +2729,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84,
+      lineNumber: 82,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
@@ -2741,7 +2738,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 85,
+      lineNumber: 83,
       columnNumber: 13
     }
   }, "Silo+Loki"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
@@ -2755,7 +2752,7 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86,
+      lineNumber: 84,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -2764,13 +2761,29 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 88,
+      lineNumber: 86,
       columnNumber: 11
     }
   }, "Use Loki when accessing Silo data."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
     isDisabled: !loki || !silo,
     value: lokiGateway,
     onChange: evt => setLokiGateway(evt.target.value),
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 87,
+      columnNumber: 11
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+    fontSize: "small",
+    color: "#999",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 88,
+      columnNumber: 11
+    }
+  }, "Set the Silo + Loki gateway host to use."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -2786,28 +2799,12 @@ const Settings = () => {
       lineNumber: 90,
       columnNumber: 11
     }
-  }, "Set the Silo + Loki gateway host to use."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Divider"], {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 91,
-      columnNumber: 11
-    }
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-    fontSize: "small",
-    color: "#999",
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 92,
-      columnNumber: 11
-    }
   }, "We do not collect any user data in this web extension, this is outlined in our "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     href: "https://docs.arweave.org/info/wallets/privacy-policy",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92,
+      lineNumber: 90,
       columnNumber: 133
     }
   }, "privacy policy"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerFooter"], {
@@ -2816,8 +2813,8 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94,
-      columnNumber: 9
+      lineNumber: 92,
+      columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     isDisabled: !validGateway,
@@ -2825,8 +2822,8 @@ const Settings = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 95,
-      columnNumber: 11
+      lineNumber: 93,
+      columnNumber: 9
     }
   }, "Save Changes")));
 };
@@ -4206,7 +4203,8 @@ const updateWallets = async () => {
       var _wallet$pages, _wallet$pdfs, _wallet$transfers;
 
       let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
-      netInfo = await arweave.network.getInfo();
+      netInfo = await arweave.api.get(state.settings.gateway);
+      connected = netInfo.status === 200;
       let pages = wallet.pages ? await Promise.all((_wallet$pages = wallet.pages) === null || _wallet$pages === void 0 ? void 0 : _wallet$pages.map(async txn => {
         if (txn.status === 'pending') {
           let status = await arweave.transactions.getStatus(txn.txnId);
@@ -4237,7 +4235,6 @@ const updateWallets = async () => {
         return txn;
       })) : undefined;
       console.log(pages);
-      connected = true;
       return {
         address: wallet.address,
         balance: balance,

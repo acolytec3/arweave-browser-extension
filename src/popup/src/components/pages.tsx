@@ -62,7 +62,7 @@ const Pages = () => {
   }
 
   const PageRow = (page: page) => {
-    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} onClick={() => { console.log(pageModal); setPageOpen({ open: true, page: page }) }}>
+    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} onClick={() => { setPageOpen({ open: true, page: page }) }}>
       <Text overflow="hidden" key={page.title}>{page.title}</Text>
       <Text overflow="hidden" key={page.url} >{page.url}</Text>
       <Text key={page.fee}>{parseFloat(page.fee).toFixed(6).toLocaleString()} AR</Text>

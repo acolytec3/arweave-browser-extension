@@ -170,7 +170,7 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'update') {
     console.log('Updating wallets in background')
-    //updateWallets()
+    updateWallets()
   }
 })
 
