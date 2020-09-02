@@ -107,8 +107,11 @@ export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> =
   try {
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance()
+    console.log(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet))
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+    console.log(encryptedKey)
     let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+    console.log(rawKey)
     let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
     let transaction = await arweave.createTransaction({ data: pdf.source }, key);
     console.log(transaction)
@@ -226,7 +229,7 @@ export const updateWallets = async () => {
         return txn
       })) : undefined
       console.log(pages)
-      return { address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname }
+      return { address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname, key: wallet.key }
     }))
   }
   catch (error) {

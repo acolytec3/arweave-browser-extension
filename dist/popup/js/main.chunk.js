@@ -4277,8 +4277,11 @@ const archivePdf = async (pdf, password) => {
   try {
     let state = store.getState();
     let arweave = await getArweaveInstance();
+    console.log(state.wallets.filter(wallet => wallet.address === state.activeWallet));
     let encryptedKey = state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].key;
+    console.log(encryptedKey);
     let rawKey = await arweaveCrypto.decrypt(arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(encryptedKey), arweave__WEBPACK_IMPORTED_MODULE_0___default.a.utils.b64UrlToBuffer(unicodeToAscii(password)));
+    console.log(rawKey);
     let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))));
     let transaction = await arweave.createTransaction({
       data: pdf.source
@@ -4406,7 +4409,8 @@ const updateWallets = async () => {
           pages: pages,
           pdfs: pdfs,
           transfers: transfers,
-          nickname: wallet.nickname
+          nickname: wallet.nickname,
+          key: wallet.key
         };
       }));
     } catch (error) {
