@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Link,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Link, Code, Textarea, useToast,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/core";
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import { getFee, archivePdf } from '../providers/wallets'
 import { useSelector } from 'react-redux'
@@ -27,6 +27,9 @@ const Pdfs = () => {
   const [size, setSize] = useState('0')
   const [password, setPassword] = useState('')
   const [pdfModal, setPdfModal] = useState({ open: false, pdf: {} as pdf })
+  const [debugResponse, setRes] = useState({} as AxiosResponse)
+  const [debugLoading, setLoading] = useState(false)
+  const toast = useToast();
 
   useEffect(() => {
     console.log(window.location.hash.substr(16,))
@@ -58,17 +61,38 @@ const Pdfs = () => {
 
   }, [])
 
-  const pdfSaver = () => {
+  const pdfSaver = async () => {
     let pdfDeets = {
       'url': window.location.hash.substr(16,).split('#')[0],
       'fee': fee,
       'status': 'pending',
       'txnId': '',
       'timestamp': '',
-      'source': source
+      'source': source,
+      'debug':{},
+      'size':parseInt(size)
     }
     console.log(source)
-    archivePdf(pdfDeets, password)
+    let res = await archivePdf(pdfDeets, password)
+    res ? toast({
+      title: 'PDF archived',
+      status: 'success',
+      duration: 3000,
+      position: 'bottom-left'
+    }) :toast({
+      title: 'Error archiving PDF',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left'
+    })
+  }
+
+  const getDebugInfo = async (pdf: pdf) => {
+    console.log(pdf)
+    setLoading(true)
+    let txn = await axios.get(`${state.settings.gateway}/tx/${pdf.txnId}`)
+    setRes(txn);
+    setLoading(false)
   }
 
   const PdfModal = () => {
@@ -91,7 +115,7 @@ const Pdfs = () => {
             <Stack isInline>
               <Stack>
                 <Text>PDF Size</Text>
-                <Text>0 KB</Text>
+                <Text>{parseInt(size)/1000} KB</Text>
               </Stack>
               <Stack>
                 <Text>Fee</Text>
@@ -116,6 +140,22 @@ const Pdfs = () => {
               <Text>Block Explorers</Text>
               <Link isExternal href={'https://viewblock.io/arweave/tx/' + pdfModal.pdf.txnId}>View on ViewBlock</Link>
             </Stack>
+            {state.settings.debug && <Stack>
+              <Stack>
+                <Text>Debug Transaction</Text>
+                <Code>
+                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                  <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pdfModal.pdf.debug, null, '\t')} />
+                </Code>
+                <Text>Debug Response</Text>             
+                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                  {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
+                    overflow="auto"
+                    maxHeight="30px"
+                    defaultValue={JSON.stringify(debugResponse, null, '\t')} />               
+                     </Code>}
+              </Stack>
+            </Stack>}
           </ModalBody>
           <ModalFooter>
             <Button width="99%" bg="#333" color="white"
@@ -126,7 +166,9 @@ const Pdfs = () => {
 
   const PdfRow = (pdf: pdf) => {
     return (
-      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => { console.log(pdfModal); setPdfModal({ open: true, pdf: pdf }) }}>
+      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => { 
+        getDebugInfo(pdf);
+        setPdfModal({ open: true, pdf: pdf }) }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
         <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>

@@ -20,7 +20,8 @@ export type page = {
   'timestamp': string,
   'txnId': string,
   'status': string,
-  'debug': any
+  'debug': any,
+  'size': number,
 }
 
 export type pdf = {
@@ -30,6 +31,8 @@ export type pdf = {
   'txnId': string,
   'status': string,
   'source': ArrayBuffer
+  'debug': any,
+  'size': number
 }
 
 export type settings = {

@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
+import { FaLess } from 'react-icons/fa'
 
 
 
@@ -35,6 +36,7 @@ export const addWallet = async (key: any, nickname: string, password: string): P
   let state = await store.getState() as initialStateType;
   let arweave = await getArweaveInstance()
   let address = await arweave.wallets.jwkToAddress(key)
+  console.log(key)
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
   let result = await store.dispatch({
@@ -57,76 +59,91 @@ export const getFee = async (size: number): Promise<string> => {
   return arweave.ar.winstonToAr(res.data)
 }
 
-export const archivePage = async (page: any, password: string) => {
-  await store.ready()
-  let state = store.getState() as initialStateType
-  let arweave = await getArweaveInstance()
-  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
-
-  let transaction = await arweave.createTransaction({ data: page.html }, key);
-  console.log(transaction)
-  transaction.addTag('Content-Type', 'text/html')
-  transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
-  await arweave.transactions.sign(transaction, key);
+export const archivePage = async (page: any, password: string): Promise<boolean> => {
+  try {
 
 
-  const response = await arweave.transactions.post(transaction);
-  console.log(response);
+    await store.ready()
+    let state = store.getState() as initialStateType
+    let arweave = await getArweaveInstance()
+    let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+    let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+    let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
 
-  let pageDetails: page = {
-    'title': page.title,
-    'url': page.url,
-    'fee': page.fee,
-    'txnId': transaction.id,
-    'status': 'pending',
-    'timestamp': Date.now().toString(),
-    'debug': {
-      'txn': transaction,
-      'response': {} as AxiosResponse
+    let transaction = await arweave.createTransaction({ data: page.html }, key);
+    console.log(transaction)
+    transaction.addTag('Content-Type', 'text/html')
+    transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
+    await arweave.transactions.sign(transaction, key);
+
+
+    const response = await arweave.transactions.post(transaction);
+    console.log(response);
+
+    let pageDetails: page = {
+      'title': page.title,
+      'url': page.url,
+      'fee': page.fee,
+      'txnId': transaction.id,
+      'status': 'pending',
+      'timestamp': Date.now().toString(),
+      'debug': transaction,
+      'size': page.size
     }
+    await store.ready()
+    let result = await store.dispatch({
+      type: 'ARCHIVE_PAGE',
+      payload: pageDetails
+    })
   }
-  await store.ready()
-  let result = await store.dispatch({
-    type: 'ARCHIVE_PAGE',
-    payload: pageDetails
-  })
+  catch (err) {
+    console.log(`Error in archiving page - ${err}`)
+    return false
+  }
+  return true
 }
 
-export const archivePdf = async (pdf: pdf, password: string) => {
-  await store.ready()
-  let state = store.getState() as initialStateType
-  let arweave = await getArweaveInstance()
-  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
-  let transaction = await arweave.createTransaction({ data: pdf.source }, key);
-  console.log(transaction)
-  console.log(pdf)
-  transaction.addTag('Content-Type', 'application/pdf')
-  transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
-  await arweave.transactions.sign(transaction, key);
+export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> => {
+  try {
+    let state = store.getState() as initialStateType
+    let arweave = await getArweaveInstance()
+    let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+    let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+    let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
+    let transaction = await arweave.createTransaction({ data: pdf.source }, key);
+    console.log(transaction)
+    console.log(pdf)
+    transaction.addTag('Content-Type', 'application/pdf')
+    transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
+    await arweave.transactions.sign(transaction, key);
 
-  const response = await arweave.transactions.post(transaction);
-  console.log(response);
+    const response = await arweave.transactions.post(transaction);
+    console.log(response);
 
-  let pdfDetails: any = {
-    'url': pdf.url,
-    'fee': pdf.fee,
-    'txnId': transaction.id,
-    'status': 'pending',
-    'timestamp': Date.now().toString(),
-    'debug': response
+    let pdfDetails: any = {
+      'url': pdf.url,
+      'fee': pdf.fee,
+      'txnId': transaction.id,
+      'status': 'pending',
+      'timestamp': Date.now().toString(),
+      'debug': transaction,
+      'size': pdf.size
+    }
+
+    let result = await store.dispatch({
+      type: 'ARCHIVE_PDF',
+      payload: pdfDetails
+    })
   }
-
-  let result = await store.dispatch({
-    type: 'ARCHIVE_PDF',
-    payload: pdfDetails
-  })
+  catch (err) {
+    console.log(`Error in archiving pdf - ${err}`)
+    return false
+  }
+  return true
 }
 
-export const sendTransfer = async (transfer: any, password: string) => {
+export const sendTransfer = async (transfer: any, password: string): Promise<boolean> => {
+  try {
   await store.ready()
   let state = store.getState() as initialStateType
   let arweave = await getArweaveInstance()
@@ -153,20 +170,30 @@ export const sendTransfer = async (transfer: any, password: string) => {
     'txnId': transaction.id,
     'status': 'pending',
     'timestamp': Date.now().toString(),
-    'debug': response
+    'debug': transaction
   }
 
   let result = await store.dispatch({
     type: 'INITIATE_TRANSFER',
     payload: transferDetails
-  })
-
+  })}
+  catch (err) {
+    console.log(`Error sending tranfer - ${err}`)
+    return false
+  }
+  return true
 }
 
 export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
-  if (Date.now() - state.lastUpdated < 360000) return
+  console.log(`Now - ${Date.now()} minus ${state.lastUpdated} = ${Date.now() - state.lastUpdated} - update? ${(Date.now() - state.lastUpdated > 360000)}`)
+  if (Date.now() - state.lastUpdated < 360000) {
+    console.log('Not updating wallets')
+    return
+  }
+  else {
+    console.log('Updating wallets!')
   let updatedWallets = null
   let connected = false
   let netInfo = {} as any
@@ -176,7 +203,7 @@ export const updateWallets = async () => {
     updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
       let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
       netInfo = await arweave.api.get(state.settings.gateway)
-      connected = netInfo.status === 200      
+      connected = netInfo.status === 200
       let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
         if (txn.status === 'pending') {
           let status = await arweave.transactions.getStatus(txn.txnId)
@@ -203,11 +230,11 @@ export const updateWallets = async () => {
     }))
   }
   catch (error) {
-
+    console.log(`Error updating wallets - ${error}`)
   }
   let result = store.dispatch({
     type: 'UPDATE_WALLETS',
-    payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined}, settings: state.settings }
-  })
+    payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined }, settings: state.settings }
+  })}
 }
 

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -10,7 +10,7 @@ import {
   ModalCloseButton,
   Link
 } from "@chakra-ui/core";
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import inline from '../providers/inline'
 import { getFee, archivePage } from '../providers/wallets'
@@ -36,7 +36,7 @@ const PagePreview = (): any => {
   getFee(pageSource.size).then((res) => fee = res)
 
   return (<Flex direction="column" width="100%"><Text>Preview of {window.location.hash.substr(17,).split('#')[0]}</Text>
-    <iframe height="100%" width="80%" srcDoc={source ? source : undefined} ></iframe></Flex>)
+    <iframe sandbox height="100%" width="80%" srcDoc={source ? source : undefined} ></iframe></Flex>)
 }
 
 const Pages = () => {
@@ -46,8 +46,11 @@ const Pages = () => {
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const history = useHistory();
   const [password, setPassword] = useState('')
+  const [debugResponse, setRes] = useState({} as AxiosResponse)
+  const [debugLoading, setLoading] = useState(false)
+  const toast = useToast();
 
-  const pageSaver = () => {
+  const pageSaver = async () => {
     let pageDeets = {
       'title': pageSource.title,
       'url': window.location.hash.substr(17,).split('#')[0],
@@ -55,14 +58,37 @@ const Pages = () => {
       'status': 'pending',
       'txnId': '',
       'timestamp': '',
-      'size': '',
+      'size': pageSource.size,
       'html': pageSource.html
     }
-    archivePage(pageDeets, password)
+    let res = await archivePage(pageDeets, password)
+    res ? toast({
+      title: 'Page archived',
+      status: 'success',
+      duration: 3000,
+      position: 'bottom-left'
+    }) :toast({
+      title: 'Error archiving page',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left'
+    })
+  }
+
+  const getDebugInfo = async (page: page) => {
+    console.log(page)
+    setLoading(true)
+    let txn = await axios.get(`${state.settings.gateway}/tx/${page.txnId}`)
+    setRes(txn);
+    setLoading(false)
   }
 
   const PageRow = (page: page) => {
-    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} onClick={() => { setPageOpen({ open: true, page: page }) }}>
+    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'}
+      onClick={() => {
+        getDebugInfo(page);
+        setPageOpen({ open: true, page: page })
+      }}>
       <Text overflow="hidden" key={page.title}>{page.title}</Text>
       <Text overflow="hidden" key={page.url} >{page.url}</Text>
       <Text key={page.fee}>{parseFloat(page.fee).toFixed(6).toLocaleString()} AR</Text>
@@ -73,7 +99,6 @@ const Pages = () => {
   }
 
   const PageModal = () => {
-
     return (
       <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
         <ModalOverlay />
@@ -94,7 +119,7 @@ const Pages = () => {
             <Stack isInline>
               <Stack>
                 <Text>Page Size</Text>
-                <Text>0 KB</Text>
+                <Text>{pageModal.page.size/1000} KB</Text>
               </Stack>
               <Stack>
                 <Text>Fee</Text>
@@ -124,13 +149,15 @@ const Pages = () => {
                 <Text>Debug Transaction</Text>
                 <Code>
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  <Textarea readOnly={true} defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                  <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
                 </Code>
-                <Text>Debug Response</Text>
-                <Code>
+                <Text>Debug Response</Text>             
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  <Textarea readOnly={true} defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
-                </Code>
+                  {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
+                    overflow="auto"
+                    maxHeight="30px"
+                    defaultValue={JSON.stringify(debugResponse, null, '\t')} />               
+                     </Code>}
               </Stack>
             </Stack>}
           </ModalBody>
