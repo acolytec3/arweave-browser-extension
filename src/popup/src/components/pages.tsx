@@ -123,11 +123,13 @@ const Pages = () => {
               <Stack>
                 <Text>Debug Transaction</Text>
                 <Code>
-                  <Textarea value={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                  <Textarea readOnly={true} defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
                 </Code>
                 <Text>Debug Response</Text>
                 <Code>
-                  <Textarea value={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                  <Textarea readOnly={true} defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
                 </Code>
               </Stack>
             </Stack>}

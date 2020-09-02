@@ -1,9 +1,8 @@
 import Arweave from 'arweave'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
-import { NetworkInfoInterface } from 'arweave/web/network'
 
 
 
@@ -65,7 +64,7 @@ export const archivePage = async (page: any, password: string) => {
   let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
   let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
   let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
-  console.log(key)
+
   let transaction = await arweave.createTransaction({ data: page.html }, key);
   console.log(transaction)
   transaction.addTag('Content-Type', 'text/html')
@@ -83,7 +82,10 @@ export const archivePage = async (page: any, password: string) => {
     'txnId': transaction.id,
     'status': 'pending',
     'timestamp': Date.now().toString(),
-    'debug': response
+    'debug': {
+      'txn': transaction,
+      'response': {} as AxiosResponse
+    }
   }
   await store.ready()
   let result = await store.dispatch({

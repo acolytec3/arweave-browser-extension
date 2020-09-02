@@ -65,7 +65,7 @@ const BrowserPage = (route: any) => {
           <Stack>
             <Text>Response</Text>
             <Code>
-              <Textarea>{JSON.stringify(state.network.response,null,'\t')}</Textarea>
+              <Textarea defaultValue={JSON.stringify(state.network.response,null,'\t')} />
             </Code>
           </Stack>
         </ModalBody>
