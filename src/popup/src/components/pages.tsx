@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast, Switch as ChakraSwitch, FormLabel,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -28,7 +28,17 @@ var fee: string = '0'
 
 const PagePreview = (): any => {
   const [source, setSource] = useState(null as any)
+  const [incognito, setIncognito] = useState(false)
 
+  let options = {}
+  if (incognito) {
+    options = {
+      withCredentials: false,
+     headers: {
+        'Cache-Control': 'no-cache',
+        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
+      }
+  }}
   axios.get(window.location.hash.substr(17,).split('#')[0])
     .then((res) => inline.html(res.data, window.location.hash.substr(17,).split('#')[0]))
     .then((res) => { pageSource = res; setSource(res.html) })
@@ -36,7 +46,15 @@ const PagePreview = (): any => {
   getFee(pageSource.size).then((res) => fee = res)
 
   return (<Flex direction="column" width="100%"><Text>Preview of {window.location.hash.substr(17,).split('#')[0]}</Text>
-    <iframe sandbox height="100%" width="80%" srcDoc={source ? source : undefined} ></iframe></Flex>)
+    <Stack isInline alignContent="center" justifyContent="space-between">
+      <FormLabel htmlFor='incognito' color="white">Incognito mode</FormLabel>
+      <ChakraSwitch id="incognito" size="md" color="green" value={incognito} isChecked={incognito} 
+      onChange={() => { 
+        setIncognito(!incognito) 
+        }} />
+    </Stack>
+    {/* @ts-ignore */}
+    <iframe sandbox="" height="100%" width="80%" srcDoc={source ? source : undefined} ></iframe></Flex>)
 }
 
 const Pages = () => {
@@ -67,7 +85,7 @@ const Pages = () => {
       status: 'success',
       duration: 3000,
       position: 'bottom-left'
-    }) :toast({
+    }) : toast({
       title: 'Error archiving page',
       status: 'error',
       duration: 3000,
@@ -119,7 +137,7 @@ const Pages = () => {
             <Stack isInline>
               <Stack>
                 <Text>Page Size</Text>
-                <Text>{pageModal.page.size/1000} KB</Text>
+                <Text>{pageModal.page.size / 1000} KB</Text>
               </Stack>
               <Stack>
                 <Text>Fee</Text>
@@ -151,13 +169,13 @@ const Pages = () => {
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
                   <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
                 </Code>
-                <Text>Debug Response</Text>             
-                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
-                    overflow="auto"
-                    maxHeight="30px"
-                    defaultValue={JSON.stringify(debugResponse, null, '\t')} />               
-                     </Code>}
+                <Text>Debug Response</Text>
+                {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
+                  overflow="auto"
+                  maxHeight="30px"
+                  defaultValue={JSON.stringify(debugResponse, null, '\t')} />
+                </Code>}
               </Stack>
             </Stack>}
           </ModalBody>

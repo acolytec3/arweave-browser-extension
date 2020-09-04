@@ -12,7 +12,7 @@
   "browser_action": {
     "default_popup": "popup/index.html",
     "default_title": "Arweave Web Wallet",
-    "default_title": "./src/popup/assets/icon.png"
+    "default_logo": "./src/popup/assets/icon.png"
   },
   "icons": {
     "128": "./assets/icon.png"
@@ -36,5 +36,5 @@
     ],
     "persistent": false
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-...='; object-src 'self'"
+  "content_security_policy": "script-src 'self' http://localhost:35729; object-src 'self'"
 }
