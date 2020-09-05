@@ -178,3 +178,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 })
 
 chrome.alarms.create('update',{periodInMinutes:720}) //Set alarm to update Wallet balances/transaction status twice a day
+
+chrome.runtime.onMessage.addListener(message => {
+  console.log(message)
+})

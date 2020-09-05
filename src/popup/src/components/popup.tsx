@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf } from 'react-icons/fa'
 import { ThemeProvider, Box, Text, Flex, Button, PseudoBox } from "@chakra-ui/core";
 import { openTab } from '../providers/browser'
@@ -16,6 +16,9 @@ const Popup = () => {
   const [url, setUrl] = useState({} as pageType)
   const [wallet, setWallet] = useState(state.activeWallet ? state.wallets.filter((wallet) => wallet.address === state.activeWallet)[0] : { address: '', nickname: '', balance: '' })
 
+  useEffect(() => {
+    updateWallets()
+  },[])
 
   const urlChecker = (url: string) => {
     if (url !== '') {
@@ -30,12 +33,6 @@ const Popup = () => {
 
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
-  
-  /*if (Date.now() - state.lastUpdated > 120000)
-    {
-      console.log('Updating wallets')
-      updateWallets();
-    } */
 
   return (
     <ThemeProvider>
