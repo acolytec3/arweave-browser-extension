@@ -191,7 +191,7 @@ export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
   console.log(`Now - ${Date.now()} minus ${state.lastUpdated} = ${Date.now() - state.lastUpdated} - update? ${(Date.now() - state.lastUpdated > 360000)}`)
-  if (Date.now() - state.lastUpdated < 360000) {
+  if (Date.now() - state.lastUpdated < 120000) {
     console.log('Not updating wallets')
     return
   }

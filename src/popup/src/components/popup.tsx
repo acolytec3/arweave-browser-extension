@@ -16,6 +16,7 @@ const Popup = () => {
   const [url, setUrl] = useState({} as pageType)
   const [wallet, setWallet] = useState(state.activeWallet ? state.wallets.filter((wallet) => wallet.address === state.activeWallet)[0] : { address: '', nickname: '', balance: '' })
 
+
   const urlChecker = (url: string) => {
     if (url !== '') {
       if (url.substring(url.length - 3,) === 'pdf') {
@@ -30,7 +31,11 @@ const Popup = () => {
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
   
-  //updateWallets();
+  /*if (Date.now() - state.lastUpdated > 120000)
+    {
+      console.log('Updating wallets')
+      updateWallets();
+    } */
 
   return (
     <ThemeProvider>
