@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
-import { FaLess } from 'react-icons/fa'
+
 
 
 
@@ -11,7 +11,7 @@ import { FaLess } from 'react-icons/fa'
 const store = new Store()
 const arweaveCrypto = new ArweaveCrypto();
 
-const getArweaveInstance = async (): Promise<Arweave> => {
+export const getArweaveInstance = async (): Promise<Arweave> => {
   await store.ready()
   let state = await store.getState() as initialStateType;
   let protocol = state.settings.gateway.split('://')[0]
@@ -23,14 +23,27 @@ const getArweaveInstance = async (): Promise<Arweave> => {
     protocol: protocol,
   })
 }
-function unicodeToAscii(string: string) {
+
+const unicodeToAscii = (string: string): string => {
   return btoa(unescape(encodeURIComponent(string)));
 }
 
-function asciiToUnicode(string: string) {
+
+const asciiToUnicode = (string: string): string => {
   return decodeURIComponent(escape(atob(string)));
 }
 
+export const decryptKey = async (password: string, address: string): Promise<string> => {
+
+  await store.ready()
+  let state = await store.getState() as initialStateType;
+  let passBuffer = Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))
+  let encryptedKeyBuffer = Arweave.utils.b64UrlToBuffer(state.wallets.filter((wallet) => wallet.address === address)[0].key)
+  let decryptedKeyBuffer = await arweaveCrypto.decrypt(encryptedKeyBuffer, passBuffer)
+  let decryptedKey = asciiToUnicode(Arweave.utils.bufferTob64Url(new Uint8Array(decryptedKeyBuffer)))
+  console.log(decryptedKey)
+  return decryptedKey
+}
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
   await store.ready()
   let state = await store.getState() as initialStateType;

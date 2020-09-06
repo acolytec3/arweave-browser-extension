@@ -7,11 +7,14 @@ ModalHeader,
 ModalCloseButton,
 ModalBody,
 ModalFooter} from "@chakra-ui/core";
-import { addWallet } from '../providers/wallets'
+import { addWallet, decryptKey } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
 import { FaWallet, FaCheck, FaTrash, FaPen, FaKey } from 'react-icons/fa'
+import ArweaveCrypto from '../providers/arweaveCrypto'
+
+const arweaveCrypto = new ArweaveCrypto();
 
 const Wallets = () => {
 
@@ -99,11 +102,23 @@ const Wallets = () => {
     )
   }
 
+  const decryptWallet = async (password: string) => {
+    let decryptedKey = await decryptKey(password, modalAddress)
+    const blob = new Blob([decryptedKey],{type:'application/json'});
+    const href = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `arweave-keyfile-${modalAddress}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   const ExportModal = () => {
+    const [password, setPassword] = useState('')
     return (<Modal isOpen={modal} onClose={() => setModal(false)} >
               <ModalOverlay />
       <ModalContent>
-
         <ModalHeader>Export Wallet File
         <ModalCloseButton />
         </ModalHeader>
@@ -114,12 +129,18 @@ const Wallets = () => {
               <Text color="#333">{modalAddress}</Text>
             </Stack>
             <Stack>
-              <Input placeholder="Confirm your wallet password" type="password" borderBottom="1px" border="#999" color="#333"/>
+              <Input placeholder="Confirm your wallet password" type="password" borderBottom="1px" border="#999" color="#333"
+              value={password} onChange={(evt: any) => setPassword(evt.target.value)} />
             </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter alignContent="center">
-          <Button alignSelf="center" width="100%" bg="#282d33" color="white">Download Wallet Keyfile</Button>
+          <Button alignSelf="center" width="100%" bg="#282d33" color="white" onClick={() => {
+            decryptWallet(password)
+            setPassword('')
+            setModal(false)
+          }}
+            >Download Wallet Keyfile</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>)
