@@ -111,16 +111,16 @@ const Wallets = () => {
   }
 
   const generateWallet = async () => {
-    let key = await generateKey()
-    const blob = new Blob([key], { type: 'application/json' });
+    let wallet = await generateKey()
+    const blob = new Blob([wallet.key], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
-    link.download = `arweave-keyfile-${modalAddress}.json`;
+    link.download = `arweave-keyfile-${wallet.address}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    updateWallet(key)
+    updateWallet(wallet.key)
     setProcessing(true);
   }
 
@@ -180,11 +180,12 @@ const Wallets = () => {
   }
 
   const WalletProcessor = () => {
+    //TODO: Add wallet address display
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     return (
       <Box w="200px">
-        <Text>Enter a wallet nickname</Text>
+        <Text color="white">Enter a wallet nickname</Text>
         <Input
           bg="#282d33"
           borderBottom="1px"
@@ -199,7 +200,7 @@ const Wallets = () => {
           color="#f9f9f9"
           fontSize="md"
           my={2} placeholder="Set an encryption phrase" value={password} onChange={(evt: any) => setPassword(evt.target.value)} type="password" />
-        <Text>This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
+        <Text color="white">This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
         If you forget your passphrase you'll need to reimport this file again</Text>
         <Button onClick={() => loadWallet(nickname, password)}>Load Wallet</Button>
       </Box>
