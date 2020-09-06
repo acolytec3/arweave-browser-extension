@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Flex, Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack,
+  Flex, Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack, useToast,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalFooter
 } from "@chakra-ui/core";
-import { addWallet, decryptKey, generateKey } from '../providers/wallets'
+import { addWallet, decryptKey, generateKey, getAddress } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
@@ -24,8 +24,10 @@ const Wallets = () => {
   const [loadingWallet, setLoadingWallet] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAddress, setModalAddress] = useState('')
+  const [loadingWalletAddress, setLoadingWalletAddress] = useState('')
+  const toast = useToast();
 
-  const onDrop = (acceptedFiles: any) => {
+  const onDrop = async (acceptedFiles: any) => {
     setProcessing(true);
     setLoadingWallet(false);
     const reader = new FileReader()
@@ -33,11 +35,49 @@ const Wallets = () => {
     reader.onerror = () => console.log('file reading has failed')
     reader.onload = async function (event) {
       if (acceptedFiles[0].type === "application/json") {
-        updateWallet(JSON.parse(event!.target!.result as string))
+        try {
+          let walletObject = JSON.parse(event!.target!.result as string)
+          setLoadingWalletAddress(await getAddress(walletObject))
+          updateWallet(walletObject)
+        }
+        catch (err) {
+          console.log('Invalid json in wallet file')
+          setProcessing(false)
+          toast({
+            title: 'Error loading wallet',
+            status: 'error',
+            duration: 3000,
+            position: 'bottom-left',
+            description: 'Invalid JSON in wallet file'
+          })
+        }
       }
-      //TODO: Add error handling where invalid wallet
+      else {
+        console.log('Invalid file type')
+        setProcessing(false)
+        toast({
+          title: 'Error loading wallet',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Invalid file type'
+        })
+      }
     }
-    reader.readAsText(acceptedFiles[0])
+    try {
+      reader.readAsText(acceptedFiles[0])
+    }
+    catch (err) {
+      console.log('Invalid file type')
+      setProcessing(false)
+      toast({
+        title: 'Error loading wallet',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: 'Invalid file type'
+      })
+    }
   }
 
   const WalletTable = () => {
@@ -121,6 +161,7 @@ const Wallets = () => {
     link.click();
     document.body.removeChild(link);
     updateWallet(wallet.key)
+    setLoadingWalletAddress(wallet.address)
     setProcessing(true);
   }
 
@@ -170,7 +211,7 @@ const Wallets = () => {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <Box flexDirection="row" padding={3}><Text fontSize={14} textAlign="center">Drop a wallet file or click to load wallet</Text></Box>
+                <Box flexDirection="row" padding={3}><Text fontSize={14} textAlign="center" color="white">Drop a wallet file or click to load wallet</Text></Box>
               </div>
             </section>
           )}
@@ -185,6 +226,10 @@ const Wallets = () => {
     const [password, setPassword] = useState('')
     return (
       <Box w="200px">
+        <Stack>
+          <Text color="white">Address</Text>
+          <Text color="white">{loadingWalletAddress}</Text>
+        </Stack>
         <Text color="white">Enter a wallet nickname</Text>
         <Input
           bg="#282d33"

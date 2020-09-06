@@ -52,6 +52,14 @@ export const generateKey = async () : Promise<any> => {
   return {address: address, key: key}
 }
 
+export const getAddress = async (key: any) : Promise<string> => {
+  let arweave = await getArweaveInstance()
+  console.log(key)
+  //@ts-ignore
+  let address = await arweave.wallets.jwkToAddress(key)
+  return address
+}
+
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
   await store.ready()
   let state = await store.getState() as initialStateType;
