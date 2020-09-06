@@ -34,14 +34,12 @@ const asciiToUnicode = (string: string): string => {
 }
 
 export const decryptKey = async (password: string, address: string): Promise<string> => {
-
   await store.ready()
   let state = await store.getState() as initialStateType;
   let passBuffer = Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))
   let encryptedKeyBuffer = Arweave.utils.b64UrlToBuffer(state.wallets.filter((wallet) => wallet.address === address)[0].key)
   let decryptedKeyBuffer = await arweaveCrypto.decrypt(encryptedKeyBuffer, passBuffer)
   let decryptedKey = asciiToUnicode(Arweave.utils.bufferTob64Url(new Uint8Array(decryptedKeyBuffer)))
-  console.log(decryptedKey)
   return decryptedKey
 }
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {

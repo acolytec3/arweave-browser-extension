@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Flex, Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack, 
-Modal,
-ModalOverlay,
-ModalContent,
-ModalHeader,
-ModalCloseButton,
-ModalBody,
-ModalFooter} from "@chakra-ui/core";
+import {
+  Flex, Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter
+} from "@chakra-ui/core";
 import { addWallet, decryptKey } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
@@ -21,14 +23,14 @@ const Wallets = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const dispatch = useDispatch()
   const [wallet, updateWallet] = useState()
-  const [processing, setProcessing] = useState(false)
-  const [nickname, setNickname] = useState('')
-  const [password, setPassword] = useState('')
+  const [processingWallet, setProcessing] = useState(false)
+  const [loadingWallet, setLoadingWallet] = useState(false)
   const [modal, setModal] = useState(false)
   const [modalAddress, setModalAddress] = useState('')
 
   const onDrop = (acceptedFiles: any) => {
     setProcessing(true);
+    setLoadingWallet(false);
     const reader = new FileReader()
     reader.onabort = () => console.log('file reading was aborted')
     reader.onerror = () => console.log('file reading has failed')
@@ -40,9 +42,6 @@ const Wallets = () => {
     }
     reader.readAsText(acceptedFiles[0])
   }
-
-  const setWalletName = (evt: any) => setNickname(evt.target.value)
-  const updatePassword = (evt: any) => setPassword(evt.target.value)
 
   const WalletTable = () => {
     return (<Flex direction="column" >{state.wallets.length > 0 && state.wallets.map((wallet: any) => {
@@ -94,7 +93,7 @@ const Wallets = () => {
           <PseudoBox color="white" as="button" onClick={() => {
             setModalAddress(wallet.address)
             setModal(true)
-           }} alignContent="center">
+          }} alignContent="center">
             <FaKey />
             <Text>Export Key</Text></PseudoBox>
         </Stack>
@@ -104,7 +103,7 @@ const Wallets = () => {
 
   const decryptWallet = async (password: string) => {
     let decryptedKey = await decryptKey(password, modalAddress)
-    const blob = new Blob([decryptedKey],{type:'application/json'});
+    const blob = new Blob([decryptedKey], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
@@ -117,7 +116,7 @@ const Wallets = () => {
   const ExportModal = () => {
     const [password, setPassword] = useState('')
     return (<Modal isOpen={modal} onClose={() => setModal(false)} >
-              <ModalOverlay />
+      <ModalOverlay />
       <ModalContent>
         <ModalHeader>Export Wallet File
         <ModalCloseButton />
@@ -130,7 +129,7 @@ const Wallets = () => {
             </Stack>
             <Stack>
               <Input placeholder="Confirm your wallet password" type="password" borderBottom="1px" border="#999" color="#333"
-              value={password} onChange={(evt: any) => setPassword(evt.target.value)} />
+                value={password} onChange={(evt: any) => setPassword(evt.target.value)} />
             </Stack>
           </Stack>
         </ModalBody>
@@ -140,20 +139,19 @@ const Wallets = () => {
             setPassword('')
             setModal(false)
           }}
-            >Download Wallet Keyfile</Button>
+          >Download Wallet Keyfile</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>)
   }
 
-  const loadWallet = async () => {
+  const loadWallet = async (nickname: string, password: string) => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
     let res = await addWallet(wallet, nickname, password);
     setProcessing(false)
   }
 
   const WalletLoader = () => {
-
     return (
       <Box w="200px" borderStyle='dashed' borderWidth="2px">
         <Dropzone onDrop={onDrop} accept="application/json">
@@ -170,6 +168,33 @@ const Wallets = () => {
     )
   }
 
+  const WalletProcessor = () => {
+    const [nickname, setNickname] = useState('')
+    const [password, setPassword] = useState('')
+    return (
+      <Box w="200px">
+        <Text>Enter a wallet nickname</Text>
+        <Input
+          bg="#282d33"
+          borderBottom="1px"
+          border="white"
+          color="#f9f9f9"
+          fontSize="md"
+          my={2} placeholder="Wallet name" value={nickname} onChange={(evt: any) => setNickname(evt.target.value)} />
+        <Input
+          bg="#282d33"
+          borderBottom="1px"
+          border="white"
+          color="#f9f9f9"
+          fontSize="md"
+          my={2} placeholder="Set an encryption phrase" value={password} onChange={(evt: any) => setPassword(evt.target.value)} type="password" />
+        <Text>This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
+        If you forget your passphrase you'll need to reimport this file again</Text>
+        <Button onClick={() => loadWallet(nickname, password)}>Load Wallet</Button>
+      </Box>
+    )
+  }
+
   return (
     <DrawerContent>
       <ExportModal />
@@ -179,30 +204,14 @@ const Wallets = () => {
           <FaWallet /></Stack></DrawerHeader>
       <DrawerBody bg="#282d33">
         <Flex direction="column">
-          {state.activeWallet && !processing && <WalletTable />}
-          {(!processing) && <WalletLoader />}
-          {(processing) &&
-            <Box w="200px">
-              <Text>Enter a wallet nickname</Text>
-              <Input
-                bg="#282d33"
-                borderBottom="1px"
-                border="white"
-                color="#f9f9f9"
-                fontSize="md"
-                my={2} placeholder="Wallet name" value={nickname} onChange={setWalletName} />
-              <Input
-                bg="#282d33"
-                borderBottom="1px"
-                border="white"
-                color="#f9f9f9"
-                fontSize="md"
-                my={2} placeholder="Set an encryption phrase" value={password} onChange={updatePassword} type="password" />
-              <Text>This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
-
-If you forget your passphrase you'll need to reimport this file again</Text>
-              <Button onClick={loadWallet}>Load Wallet</Button>
-            </Box>}
+          {state.activeWallet && !loadingWallet && !processingWallet &&
+            <Flex direction="column"><WalletTable />
+              <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
+              <Button isDisabled>Create New Wallet</Button>
+              <Button isDisabled>Export Transactions</Button></Flex>}
+          {(loadingWallet) && <WalletLoader />}
+          {(processingWallet) &&
+            <WalletProcessor />}
         </Flex></DrawerBody>
     </DrawerContent>
   )
