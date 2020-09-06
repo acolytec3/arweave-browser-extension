@@ -87,7 +87,14 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       return newState;
 
     case 'UPDATE_WALLETS':
-      return action.payload;
+      {
+        let updatedState = {
+          ...state,
+          ...action.payload
+        }
+        localStorage.setItem('wallets', JSON.stringify(updatedState))
+        return updatedState;
+    };
       
     case 'SET_ACTIVE':
       let newState2 = {
@@ -107,6 +114,20 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState3))
       return newState3;
+
+    case 'UPDATE_NICKNAME':
+      let newWallet = state.wallets.filter(wallet => wallet.address === action.payload.address)[0]
+      newWallet.nickname = action.payload.nickname
+      let otherWallets = state.wallets.filter(wallet => wallet.address !== action.payload.address)
+      let index = state.wallets.findIndex(wallet => wallet.address === action.payload.address)
+      otherWallets.splice(index,0,newWallet)
+      console.log(otherWallets)
+      let postNicknameUpdatedState = {
+        ...state,
+        wallets: otherWallets
+      }
+      localStorage.setItem('wallets', JSON.stringify(postNicknameUpdatedState))
+      return postNicknameUpdatedState;
 
     case 'ARCHIVE_PAGE':
       let active = state.wallets.filter(wallet => wallet.address === state.activeWallet)
@@ -178,7 +199,3 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 })
 
 chrome.alarms.create('update',{periodInMinutes:720}) //Set alarm to update Wallet balances/transaction status twice a day
-
-chrome.runtime.onMessage.addListener(message => {
-  console.log(message)
-})

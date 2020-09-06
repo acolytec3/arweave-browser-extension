@@ -4,7 +4,7 @@ import { addWallet } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
-import { FaWallet, FaCheck, FaTrash } from 'react-icons/fa'
+import { FaWallet, FaCheck, FaTrash, FaPen } from 'react-icons/fa'
 
 const Wallets = () => {
 
@@ -14,8 +14,6 @@ const Wallets = () => {
   const [processing, setProcessing] = useState(false)
   const [nickname, setNickname] = useState('')
   const [password, setPassword] = useState('')
-  
-
 
   const onDrop = (acceptedFiles: any) => {
     setProcessing(true);
@@ -42,9 +40,28 @@ const Wallets = () => {
   }
 
   const Wallet = (wallet: any) => {
+    const [nick,setNick] = useState(wallet.nickname)
+    const [showEdit, setEdit] = useState(false)
+
     return (
       <PseudoBox key={wallet.nickname + 'pseudo1'} borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
-          <Text color="#f9f9f9" fontSize="md" my={2} key={wallet.nickname}>{wallet.nickname}</Text>
+        {/*@ts-ignore*/}
+          {!showEdit ? <Text color="#f9f9f9" fontSize="md" my={2} key={wallet.nickname}>{wallet.nickname}</Text>
+          : <Input padding={0} 
+              bg="#282d33" 
+              borderBottom="1px" 
+              border="white" 
+              color="#f9f9f9" 
+              fontSize="md" 
+              my={2} 
+              key={wallet.nickname+'2'} 
+              value={nick} 
+              onChange={(evt:any) => setNick(evt.target.value)} 
+              onBlur={() => { 
+                setEdit(false)
+                dispatch({ type: 'UPDATE_NICKNAME', payload: { address: wallet.address, nickname: nick }})
+              }}/>
+              }
           <Text color="#9da1ab" overflow="hidden" key={wallet.address}>{wallet.address}</Text>
           <Text color="#6d727d" key={wallet.balance}>{parseFloat(wallet.balance).toFixed(5).toLocaleString()} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
           <Stack isInline>
@@ -58,6 +75,9 @@ const Wallets = () => {
               }} alignContent="center">
               <FaTrash />
               <Text>Remove</Text></PseudoBox>
+              <PseudoBox color="white" as="button" onClick={() => setEdit(true)} alignContent="center">
+              <FaPen />
+              <Text>Rename</Text></PseudoBox>
           </Stack>
       </PseudoBox>
     )
