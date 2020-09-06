@@ -42,6 +42,16 @@ export const decryptKey = async (password: string, address: string): Promise<str
   let decryptedKey = asciiToUnicode(Arweave.utils.bufferTob64Url(new Uint8Array(decryptedKeyBuffer)))
   return decryptedKey
 }
+
+export const generateKey = async () : Promise<any> => {
+  let key = await arweaveCrypto.jwk()
+  console.log(key)
+  let arweave = await getArweaveInstance()
+  //@ts-ignore
+  let address = await arweave.wallets.jwkToAddress(key)
+  return {address: address, key: key}
+}
+
 export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
   await store.ready()
   let state = await store.getState() as initialStateType;

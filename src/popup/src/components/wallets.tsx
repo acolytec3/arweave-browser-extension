@@ -9,14 +9,11 @@ import {
   ModalBody,
   ModalFooter
 } from "@chakra-ui/core";
-import { addWallet, decryptKey } from '../providers/wallets'
+import { addWallet, decryptKey, generateKey } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
 import { FaWallet, FaCheck, FaTrash, FaPen, FaKey } from 'react-icons/fa'
-import ArweaveCrypto from '../providers/arweaveCrypto'
-
-const arweaveCrypto = new ArweaveCrypto();
 
 const Wallets = () => {
 
@@ -38,7 +35,7 @@ const Wallets = () => {
       if (acceptedFiles[0].type === "application/json") {
         updateWallet(JSON.parse(event!.target!.result as string))
       }
-      //Add error handling where invalid wallet
+      //TODO: Add error handling where invalid wallet
     }
     reader.readAsText(acceptedFiles[0])
   }
@@ -113,6 +110,26 @@ const Wallets = () => {
     document.body.removeChild(link);
   }
 
+  const generateWallet = async () => {
+    let key = await generateKey()
+    const blob = new Blob([key], { type: 'application/json' });
+    const href = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `arweave-keyfile-${modalAddress}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    updateWallet(key)
+    setProcessing(true);
+  }
+
+  const loadWallet = async (nickname: string, password: string) => {
+    //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
+    let res = await addWallet(wallet, nickname, password);
+    setProcessing(false)
+  }
+
   const ExportModal = () => {
     const [password, setPassword] = useState('')
     return (<Modal isOpen={modal} onClose={() => setModal(false)} >
@@ -143,12 +160,6 @@ const Wallets = () => {
         </ModalFooter>
       </ModalContent>
     </Modal>)
-  }
-
-  const loadWallet = async (nickname: string, password: string) => {
-    //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
-    let res = await addWallet(wallet, nickname, password);
-    setProcessing(false)
   }
 
   const WalletLoader = () => {
@@ -195,6 +206,7 @@ const Wallets = () => {
     )
   }
 
+
   return (
     <DrawerContent>
       <ExportModal />
@@ -207,7 +219,7 @@ const Wallets = () => {
           {state.activeWallet && !loadingWallet && !processingWallet &&
             <Flex direction="column"><WalletTable />
               <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
-              <Button isDisabled>Create New Wallet</Button>
+              <Button onClick={generateWallet}>Create New Wallet</Button>
               <Button isDisabled>Export Transactions</Button></Flex>}
           {(loadingWallet) && <WalletLoader />}
           {(processingWallet) &&
