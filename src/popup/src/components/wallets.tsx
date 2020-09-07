@@ -168,9 +168,20 @@ const Wallets = () => {
 
   const loadWallet = async (nickname: string, password: string) => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
-    let res = await addWallet(wallet, nickname, password);
+ /*   let res = await addWallet(wallet, nickname, password);*/
+    addWallet(wallet, nickname, password)
+    .then((res) => {
+      console.log(res)
+    toast({
+      title: 'Success loading wallet',
+      status: 'success',
+      duration: 3000,
+      position: 'bottom-left',
+      description: `Address - ${loadingWalletAddress}`
+    })
+    console.log(state.wallets)
     setProcessing(false)
-  }
+  })}
 
   const ExportModal = () => {
     const [password, setPassword] = useState('')
@@ -222,7 +233,6 @@ const Wallets = () => {
   }
 
   const WalletProcessor = () => {
-    //TODO: Add wallet address display
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     return (

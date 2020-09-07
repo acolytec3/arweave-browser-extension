@@ -84,6 +84,7 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
         activeWallet: action.payload.address
       }
       localStorage.setItem('wallets', JSON.stringify(newState))
+      console.log(newState)
       return newState;
 
     case 'UPDATE_WALLETS':

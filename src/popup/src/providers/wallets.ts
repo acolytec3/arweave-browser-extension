@@ -62,7 +62,7 @@ export const addWallet = async (key: any, nickname: string, password: string): P
   let state = await store.getState() as initialStateType;
   let arweave = await getArweaveInstance()
   let address = await arweave.wallets.jwkToAddress(key)
-  console.log(key)
+
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
   let result = await store.dispatch({
@@ -74,6 +74,7 @@ export const addWallet = async (key: any, nickname: string, password: string): P
       balance: arweave.ar.winstonToAr(balance)
     }
   })
+
   return result
 }
 
@@ -100,7 +101,6 @@ export const archivePage = async (page: any, password: string): Promise<boolean>
     transaction.addTag('Content-Type', 'text/html')
     transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
     await arweave.transactions.sign(transaction, key);
-
 
     const response = await arweave.transactions.post(transaction);
     console.log(response);
