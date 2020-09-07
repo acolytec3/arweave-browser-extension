@@ -72,7 +72,7 @@ const Pdfs = () => {
       'debug':{},
       'size':parseInt(size)
     }
-    console.log(source)
+
     let res = await archivePdf(pdfDeets, password)
     res ? toast({
       title: 'PDF archived',
@@ -88,7 +88,7 @@ const Pdfs = () => {
   }
 
   const getDebugInfo = async (pdf: pdf) => {
-    console.log(pdf)
+
     setLoading(true)
     let txn = await axios.get(`${state.settings.gateway}/tx/${pdf.txnId}`)
     setRes(txn);
@@ -178,9 +178,8 @@ const Pdfs = () => {
     )
   }
   const PdfTable = () => {
-    console.log(state)
+
     let pdfs = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pdfs
-    console.log(pdfs)
     return <Fragment><Flex direction="column">
       <SimpleGrid columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>

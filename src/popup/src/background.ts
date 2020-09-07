@@ -88,10 +88,7 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
 
     case 'UPDATE_WALLETS':
       {
-        let updatedState = {
-          ...state,
-          ...action.payload
-        }
+        let updatedState = action.payload
         localStorage.setItem('wallets', JSON.stringify(updatedState))
         return updatedState;
     };

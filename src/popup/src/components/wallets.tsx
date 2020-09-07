@@ -264,10 +264,12 @@ const Wallets = () => {
       <DrawerBody bg="#282d33">
         <Flex direction="column">
           {state.activeWallet && !loadingWallet && !processingWallet &&
-            <Flex direction="column"><WalletTable />
+            <WalletTable />}
+          {!loadingWallet && !processingWallet &&
+          <Stack direction="column" position="fixed" bottom="10px">
               <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
               <Button onClick={generateWallet}>Create New Wallet</Button>
-              <Button isDisabled>Export Transactions</Button></Flex>}
+          <Button isDisabled>Export Transactions</Button></Stack>}
           {(loadingWallet) && <WalletLoader />}
           {(processingWallet) &&
             <WalletProcessor />}

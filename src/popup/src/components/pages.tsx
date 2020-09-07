@@ -1,15 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
 import {
   Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast, Switch as ChakraSwitch, FormLabel,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Link
-} from "@chakra-ui/core";
+  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import inline from '../providers/inline'
@@ -26,7 +19,7 @@ interface inline {
 var pageSource: inline = { title: '', size: 0, html: undefined }
 var fee: string = '0'
 
-const PagePreview = (): any => {
+const PagePreview = () => {
   const [source, setSource] = useState(null as any)
   const [incognito, setIncognito] = useState(false)
 
@@ -39,12 +32,14 @@ const PagePreview = (): any => {
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
       }
   }}
-  axios.get(window.location.hash.substr(17,).split('#')[0])
+
+  useEffect(() => {
+    axios.get(window.location.hash.substr(17,).split('#')[0])
     .then((res) => inline.html(res.data, window.location.hash.substr(17,).split('#')[0]))
     .then((res) => { pageSource = res; setSource(res.html) })
+  },[incognito])
 
   getFee(pageSource.size).then((res) => fee = res)
-
   return (<Flex direction="column" width="100%"><Text>Preview of {window.location.hash.substr(17,).split('#')[0]}</Text>
     <Stack isInline alignContent="center" justifyContent="space-between">
       <FormLabel htmlFor='incognito' color="white">Incognito mode</FormLabel>

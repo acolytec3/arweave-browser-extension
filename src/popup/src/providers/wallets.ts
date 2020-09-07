@@ -5,9 +5,6 @@ import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
 
 
-
-
-
 const store = new Store()
 const arweaveCrypto = new ArweaveCrypto();
 
