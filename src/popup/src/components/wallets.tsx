@@ -14,6 +14,7 @@ import Dropzone from 'react-dropzone'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType } from '../background'
 import { FaWallet, FaCheck, FaTrash, FaPen, FaKey } from 'react-icons/fa'
+import csv from '../providers/csv'
 
 const Wallets = () => {
 
@@ -166,22 +167,37 @@ const Wallets = () => {
     setProcessing(true);
   }
 
+
+  const generateCSV = async () => {
+    let wallet = state.wallets.filter((wallet) => wallet.address === state.activeWallet)[0]
+    let file = await csv.csv(wallet);
+    const blob = new Blob([file], { type: 'text/csv' });
+    const href = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = `${wallet.address}-transactions.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   const loadWallet = async (nickname: string, password: string) => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
- /*   let res = await addWallet(wallet, nickname, password);*/
+    /*   let res = await addWallet(wallet, nickname, password);*/
     addWallet(wallet, nickname, password)
-    .then((res) => {
-      console.log(res)
-    toast({
-      title: 'Success loading wallet',
-      status: 'success',
-      duration: 3000,
-      position: 'bottom-left',
-      description: `Address - ${loadingWalletAddress}`
-    })
-    console.log(state.wallets)
-    setProcessing(false)
-  })}
+      .then((res) => {
+        console.log(res)
+        toast({
+          title: 'Success loading wallet',
+          status: 'success',
+          duration: 3000,
+          position: 'bottom-left',
+          description: `Address - ${loadingWalletAddress}`
+        })
+        console.log(state.wallets)
+        setProcessing(false)
+      })
+  }
 
   const ExportModal = () => {
     const [password, setPassword] = useState('')
@@ -276,10 +292,10 @@ const Wallets = () => {
           {state.activeWallet && !loadingWallet && !processingWallet &&
             <WalletTable />}
           {!loadingWallet && !processingWallet &&
-          <Stack direction="column" position="fixed" bottom="10px">
+            <Stack direction="column" position="fixed" bottom="10px">
               <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
               <Button onClick={generateWallet}>Create New Wallet</Button>
-          <Button isDisabled>Export Transactions</Button></Stack>}
+              <Button onClick={generateCSV}>Export Transactions</Button></Stack>}
           {(loadingWallet) && <WalletLoader />}
           {(processingWallet) &&
             <WalletProcessor />}

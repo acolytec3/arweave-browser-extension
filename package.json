@@ -53,6 +53,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "arweave": "^1.9.1",
+    "moment": "^2.27.0",
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",

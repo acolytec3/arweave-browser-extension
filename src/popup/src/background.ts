@@ -7,8 +7,8 @@ export type wallet = {
   'address': string,
   'nickname': string,
   'pages'?: page[],
-  'pdfs'?: any[],
-  'transfers'?: any[],
+  'pdfs'?: pdf[],
+  'transfers'?: transfer[],
   'balance': string,
   'key': any
 }
@@ -33,6 +33,16 @@ export type pdf = {
   'source': ArrayBuffer
   'debug': any,
   'size': number
+}
+
+export type transfer = {
+  'to': string,
+  'fee': string,
+  'status': string,
+  'txnId': string,
+  'timestamp': string,
+  'amount': string,
+  'message': string
 }
 
 export type settings = {
@@ -152,6 +162,7 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState5))
       return newState5;
+
     case 'INITIATE_TRANSFER':
       let active3 = state.wallets.filter(wallet => wallet.address === state.activeWallet)
       let other3 = state.wallets.filter(wallet => wallet.address !== state.activeWallet)
