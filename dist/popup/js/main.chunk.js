@@ -3723,6 +3723,7 @@ const Wallets = () => {
 
   const generateWallet = async () => {
     let wallet = await Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_2__["generateKey"])();
+    console.log(wallet.key);
     const blob = new Blob([wallet.key], {
       type: 'application/json'
     });
@@ -3752,42 +3753,42 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 176,
+        lineNumber: 177,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalOverlay"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 177,
+        lineNumber: 178,
         columnNumber: 7
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalContent"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 178,
+        lineNumber: 179,
         columnNumber: 7
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalHeader"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 179,
+        lineNumber: 180,
         columnNumber: 9
       }
     }, "Export Wallet File", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalCloseButton"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 180,
+        lineNumber: 181,
         columnNumber: 9
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalBody"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 182,
+        lineNumber: 183,
         columnNumber: 9
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -3796,14 +3797,14 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 183,
+        lineNumber: 184,
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 184,
+        lineNumber: 185,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3811,7 +3812,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 185,
+        lineNumber: 186,
         columnNumber: 15
       }
     }, "Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3819,14 +3820,14 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 186,
+        lineNumber: 187,
         columnNumber: 15
       }
     }, modalAddress)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 188,
+        lineNumber: 189,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -3840,7 +3841,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 189,
+        lineNumber: 190,
         columnNumber: 15
       }
     })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalFooter"], {
@@ -3848,7 +3849,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 194,
+        lineNumber: 195,
         columnNumber: 9
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -3864,7 +3865,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 195,
+        lineNumber: 196,
         columnNumber: 11
       }
     }, "Download Wallet Keyfile"))));
@@ -3878,7 +3879,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 208,
+        lineNumber: 209,
         columnNumber: 7
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_dropzone__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3887,7 +3888,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 209,
+        lineNumber: 210,
         columnNumber: 9
       }
     }, ({
@@ -3897,21 +3898,21 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 211,
+        lineNumber: 212,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", Object.assign({}, getRootProps(), {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 212,
+        lineNumber: 213,
         columnNumber: 15
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", Object.assign({}, getInputProps(), {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 213,
+        lineNumber: 214,
         columnNumber: 17
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Box"], {
@@ -3920,7 +3921,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214,
+        lineNumber: 215,
         columnNumber: 17
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3930,7 +3931,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 214,
+        lineNumber: 215,
         columnNumber: 54
       }
     }, "Drop a wallet file or click to load wallet"))))));
@@ -3945,14 +3946,14 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 228,
+        lineNumber: 229,
         columnNumber: 7
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 229,
+        lineNumber: 230,
         columnNumber: 9
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3960,7 +3961,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 230,
+        lineNumber: 231,
         columnNumber: 11
       }
     }, "Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3968,7 +3969,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 231,
+        lineNumber: 232,
         columnNumber: 11
       }
     }, loadingWalletAddress)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -3976,7 +3977,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 233,
+        lineNumber: 234,
         columnNumber: 9
       }
     }, "Enter a wallet nickname"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -3992,7 +3993,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 234,
+        lineNumber: 235,
         columnNumber: 9
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Input"], {
@@ -4009,7 +4010,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 241,
+        lineNumber: 242,
         columnNumber: 9
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -4017,7 +4018,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 248,
+        lineNumber: 249,
         columnNumber: 9
       }
     }, "This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page. If you forget your passphrase you'll need to reimport this file again"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -4025,7 +4026,7 @@ const Wallets = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 250,
+        lineNumber: 251,
         columnNumber: 9
       }
     }, "Load Wallet"));
@@ -4035,14 +4036,14 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 257,
+      lineNumber: 258,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ExportModal, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 258,
+      lineNumber: 259,
       columnNumber: 7
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerHeader"], {
@@ -4052,7 +4053,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 259,
+      lineNumber: 260,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -4062,21 +4063,21 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 260,
+      lineNumber: 261,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 261,
+      lineNumber: 262,
       columnNumber: 11
     }
   }, "Wallets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaWallet"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 262,
+      lineNumber: 263,
       columnNumber: 11
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["DrawerBody"], {
@@ -4084,7 +4085,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 263,
+      lineNumber: 264,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
@@ -4092,7 +4093,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 264,
+      lineNumber: 265,
       columnNumber: 9
     }
   }, state.activeWallet && !loadingWallet && !processingWallet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
@@ -4100,14 +4101,14 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 266,
+      lineNumber: 267,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletTable, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 266,
+      lineNumber: 267,
       columnNumber: 38
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -4115,7 +4116,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 267,
+      lineNumber: 268,
       columnNumber: 15
     }
   }, "Load Wallet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -4123,7 +4124,7 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 268,
+      lineNumber: 269,
       columnNumber: 15
     }
   }, "Create New Wallet"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Button"], {
@@ -4131,21 +4132,21 @@ const Wallets = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 269,
+      lineNumber: 270,
       columnNumber: 15
     }
   }, "Export Transactions")), loadingWallet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletLoader, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 270,
+      lineNumber: 271,
       columnNumber: 31
     }
   }), processingWallet && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WalletProcessor, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 272,
+      lineNumber: 273,
       columnNumber: 13
     }
   }))));
@@ -4673,8 +4674,9 @@ const addWallet = async (key, nickname, password) => {
   return result;
 };
 const getFee = async size => {
-  //TODO: Change out URL for node from settings
-  let res = await axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(`https://arweave.net/price/${size}`);
+  await store.ready();
+  let state = store.getState();
+  let res = await axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(`${state.settings.gateway}/price/${size}`);
   let arweave = await getArweaveInstance();
   return arweave.ar.winstonToAr(res.data);
 };

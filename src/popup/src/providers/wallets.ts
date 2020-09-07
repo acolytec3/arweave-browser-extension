@@ -1,5 +1,5 @@
 import Arweave from 'arweave'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { Store } from 'webext-redux'
 import { initialStateType, wallet, page, pdf } from '../background'
 import ArweaveCrypto from './arweaveCrypto'
@@ -82,16 +82,15 @@ export const addWallet = async (key: any, nickname: string, password: string): P
 
 
 export const getFee = async (size: number): Promise<string> => {
-  //TODO: Change out URL for node from settings
-  let res = await axios.get(`https://arweave.net/price/${size}`)
+  await store.ready()
+  let state = store.getState() as initialStateType
+  let res = await axios.get(`${state.settings.gateway}/price/${size}`)
   let arweave = await getArweaveInstance()
   return arweave.ar.winstonToAr(res.data)
 }
 
 export const archivePage = async (page: any, password: string): Promise<boolean> => {
   try {
-
-
     await store.ready()
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance()
