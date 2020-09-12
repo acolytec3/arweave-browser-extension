@@ -2650,13 +2650,15 @@ const Popup = () => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @chakra-ui/core */ "./node_modules/@chakra-ui/core/dist/es/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "../../node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _providers_inline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../providers/inline */ "./src/providers/inline.js");
-/* harmony import */ var _providers_wallets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../providers/wallets */ "./src/providers/wallets.ts");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "../../node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @chakra-ui/core */ "./node_modules/@chakra-ui/core/dist/es/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "../../node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _providers_inline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../providers/inline */ "./src/providers/inline.js");
+/* harmony import */ var _providers_wallets__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../providers/wallets */ "./src/providers/wallets.ts");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-redux */ "../../node_modules/react-redux/es/index.js");
 var _jsxFileName = "/home/jim/development/ar2/src/popup/src/components/preview.tsx";
+
 
 
 
@@ -2671,9 +2673,40 @@ var pageSource = {
 var fee = '0';
 
 const PagePreview = () => {
-  const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["useSelector"])(rootState => rootState);
+  const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_6__["useSelector"])(rootState => rootState);
   const [source, setSource] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
   const [incognito, setIncognito] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [isOpen, setOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const [password, setPassword] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [balance, setBalance] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance);
+  const toast = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useToast"])();
+  const history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
+
+  const pageSaver = async () => {
+    let pageDeets = {
+      'title': pageSource.title,
+      'url': window.location.hash.substr(17).split('#')[0],
+      'fee': fee,
+      'status': 'pending',
+      'txnId': '',
+      'timestamp': '',
+      'size': pageSource.size,
+      'html': pageSource.html
+    };
+    let res = await Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["archivePage"])(pageDeets, password);
+    res ? toast({
+      title: 'Page archived',
+      status: 'success',
+      duration: 3000,
+      position: 'bottom-left'
+    }) : toast({
+      title: 'Error archiving page',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left'
+    });
+  };
+
   let options = {};
 
   if (incognito) {
@@ -2688,47 +2721,47 @@ const PagePreview = () => {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     if (!incognito) {
-      _providers_inline__WEBPACK_IMPORTED_MODULE_3__["default"].html(state.pageSource.html, state.pageSource.url).then(res => {
+      _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(state.pageSource.html, state.pageSource.url).then(res => {
         setSource(res);
         console.log(source);
       });
     } else {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(state.pageSource.url, options).then(res => _providers_inline__WEBPACK_IMPORTED_MODULE_3__["default"].html(res.data, state.pageSource.url)).then(res => {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(state.pageSource.url, options).then(res => _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(res.data, state.pageSource.url)).then(res => {
         setSource(res);
         console.log(source);
       });
     }
   }, [incognito]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (source.size) Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_4__["getFee"])(source.size).then(res => fee = res);
+    if (source.size) Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(source.size).then(res => fee = res);
   }, [state]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "column",
     width: "100%",
     height: "100%",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56,
+      lineNumber: 87,
       columnNumber: 13
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Flex"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "row",
     justifyContent: "space-between",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
+      lineNumber: 88,
       columnNumber: 9
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57,
+      lineNumber: 88,
       columnNumber: 62
     }
-  }, "Preview of ", source.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
+  }, "Preview of ", source.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
     isInline: true,
     alignContent: "center",
     alignSelf: "end",
@@ -2736,19 +2769,19 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 58,
+      lineNumber: 89,
       columnNumber: 9
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["FormLabel"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["FormLabel"], {
     htmlFor: "incognito",
     color: "black",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 59,
+      lineNumber: 90,
       columnNumber: 9
     }
-  }, "Incognito mode"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
+  }, "Incognito mode"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Switch"], {
     id: "incognito",
     size: "md",
     color: "green",
@@ -2760,7 +2793,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 60,
+      lineNumber: 91,
       columnNumber: 9
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
@@ -2770,10 +2803,134 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 66,
+      lineNumber: 97,
       columnNumber: 9
     }
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    width: "200px",
+    onClick: () => setOpen(true),
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 98,
+      columnNumber: 19
+    }
+  }, "Archive Page"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+    isOpen: isOpen,
+    onClose: () => setOpen(false),
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 99,
+      columnNumber: 19
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 100,
+      columnNumber: 21
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 101,
+      columnNumber: 21
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 102,
+      columnNumber: 23
+    }
+  }, "Confirm Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 103,
+      columnNumber: 23
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 104,
+      columnNumber: 23
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 105,
+      columnNumber: 25
+    }
+  }, "From: ", state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 106,
+      columnNumber: 25
+    }
+  }, "Page Title: ", pageSource.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 107,
+      columnNumber: 25
+    }
+  }, "Page URL: ", window.location.hash.substr(17).split('#')[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 108,
+      columnNumber: 25
+    }
+  }, "Page Size: ", pageSource.size), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 109,
+      columnNumber: 25
+    }
+  }, "Fee: ", fee), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 110,
+      columnNumber: 25
+    }
+  }, "Balance after transaction: ", parseFloat(typeof balance === 'string' ? balance : '0') - parseFloat(fee)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Input"], {
+    placeholder: "Enter your encryption passphrase",
+    value: password,
+    onChange: evt => setPassword(evt.target.value),
+    type: "password",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 111,
+      columnNumber: 25
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalFooter"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 113,
+      columnNumber: 23
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    onClick: function () {
+      pageSaver();
+      history.push('/pages');
+    },
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 114,
+      columnNumber: 25
+    }
+  }, "Archive Page")))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PagePreview);
@@ -5282,5 +5439,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map
