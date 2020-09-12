@@ -1,93 +1,19 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
+import React, { Fragment, useState } from 'react';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast, Switch as ChakraSwitch, FormLabel,
+  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea,
   ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
-import inline from '../providers/inline'
-import { getFee, archivePage } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, page } from '../background'
 
-interface inline {
-  title: string,
-  size: number,
-  html: any
-}
-
-var pageSource: inline = { title: '', size: 0, html: undefined }
-var fee: string = '0'
-
-const PagePreview = () => {
-  const [source, setSource] = useState(null as any)
-  const [incognito, setIncognito] = useState(false)
-
-  let options = {}
-  if (incognito) {
-    options = {
-      withCredentials: false,
-     headers: {
-        'Cache-Control': 'no-cache',
-        'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
-      }
-  }}
-
-  useEffect(() => {
-    axios.get(window.location.hash.substr(17,).split('#')[0])
-    .then((res) => inline.html(res.data, window.location.hash.substr(17,).split('#')[0]))
-    .then((res) => { pageSource = res; setSource(res.html) })
-    chrome.runtime.sendMessage({action:'content.capture.page'},(async (response) => console.log(response)))
-  },[incognito])
-
-  getFee(pageSource.size).then((res) => fee = res)
-  return (<Flex direction="column" width="100%"><Text>Preview of {window.location.hash.substr(17,).split('#')[0]}</Text>
-    <Stack isInline alignContent="center" justifyContent="space-between">
-      <FormLabel htmlFor='incognito' color="white">Incognito mode</FormLabel>
-      <ChakraSwitch id="incognito" size="md" color="green" value={incognito} isChecked={incognito} 
-      onChange={() => { 
-        setIncognito(!incognito) 
-        }} />
-    </Stack>
-    {/* @ts-ignore */}
-    <iframe sandbox="" height="100%" width="80%" srcDoc={source ? source : undefined} ></iframe></Flex>)
-}
 
 const Pages = () => {
-  const [isOpen, setOpen] = useState(false)
   const [pageModal, setPageOpen] = useState({ open: false, page: {} as page || null })
   const state = useSelector((rootState: initialStateType) => rootState)
-  const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
-  const history = useHistory();
-  const [password, setPassword] = useState('')
   const [debugResponse, setRes] = useState({} as AxiosResponse)
   const [debugLoading, setLoading] = useState(false)
-  const toast = useToast();
-
-  const pageSaver = async () => {
-    let pageDeets = {
-      'title': pageSource.title,
-      'url': window.location.hash.substr(17,).split('#')[0],
-      'fee': fee,
-      'status': 'pending',
-      'txnId': '',
-      'timestamp': '',
-      'size': pageSource.size,
-      'html': pageSource.html
-    }
-    let res = await archivePage(pageDeets, password)
-    res ? toast({
-      title: 'Page archived',
-      status: 'success',
-      duration: 3000,
-      position: 'bottom-left'
-    }) : toast({
-      title: 'Error archiving page',
-      status: 'error',
-      duration: 3000,
-      position: 'bottom-left'
-    })
-  }
 
   const getDebugInfo = async (page: page) => {
     console.log(page)
@@ -203,34 +129,6 @@ const Pages = () => {
       <Route path="/pages" exact={true}>
         <PageTable />
         <PageModal />
-      </Route>
-      <Route path="/pages/" exact={false}>
-        <Flex width="100%" direction="column">
-          <PagePreview />
-          <Button width="200px" onClick={() => setOpen(true)}>Archive Page</Button>
-          <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Confirm Transaction</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Text>From: {state.activeWallet}</Text>
-                <Text>Page Title: {pageSource.title}</Text>
-                <Text>Page URL: {window.location.hash.substr(17,).split('#')[0]}</Text>
-                <Text>Page Size: {pageSource.size}</Text>
-                <Text>Fee: {fee}</Text>
-                <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-                <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
-              </ModalBody>
-              <ModalFooter>
-                <Button onClick={function () {
-                  pageSaver();
-                  history.push('/pages')
-                }}>Archive Page</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </Flex>
       </Route>
     </Switch>
   </HashRouter>

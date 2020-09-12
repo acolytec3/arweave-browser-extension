@@ -11,7 +11,6 @@ type pageType = {
   url: string
 }
 
-const bkg = chrome.extension.getBackgroundPage()!.console
 const Popup = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [url, setUrl] = useState({} as pageType)
@@ -22,7 +21,6 @@ const Popup = () => {
   },[])
 
   useEffect(() => {
-    bkg.log('From popup: Sending a message to')
     chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs => {
     chrome.tabs.sendMessage(tabs[0].id!,{action:'archive.page'}, (res => console.log(res)))
   }))
@@ -41,7 +39,6 @@ const Popup = () => {
 
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
-
 
   return (
     <ThemeProvider>
