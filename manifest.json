@@ -5,9 +5,14 @@
   "version": "1.0.0",
   "description": "A web wallet for the permaweb",
   "permissions": [
-    "tabs",
+		"storage",
+		"tabs",
+		"webRequest",
+		"webRequestBlocking",
+		"contextMenus",
+		"downloads",
+    "<all_urls>",
     "activeTab",
-    "storage",
     "alarms"
   ],
   "browser_action": {
@@ -23,9 +28,6 @@
       "js": [
         "contentscript.js"
       ],
-      "css": [
-        "contentscript.css"
-      ],
       "matches": [
         "<all_urls>"
       ]
@@ -35,7 +37,7 @@
     "scripts": [
       "background.js"
     ],
-    "persistent": false
+    "persistent": true
   },
   "content_security_policy": "script-src 'self' http://localhost:35729; object-src 'self'"
 }

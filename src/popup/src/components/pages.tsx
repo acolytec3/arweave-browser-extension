@@ -37,6 +37,7 @@ const PagePreview = () => {
     axios.get(window.location.hash.substr(17,).split('#')[0])
     .then((res) => inline.html(res.data, window.location.hash.substr(17,).split('#')[0]))
     .then((res) => { pageSource = res; setSource(res.html) })
+    chrome.runtime.sendMessage({action:'content.capture.page'},(async (response) => console.log(response)))
   },[incognito])
 
   getFee(pageSource.size).then((res) => fee = res)

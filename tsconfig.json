@@ -20,7 +20,7 @@
   },
   "include": [
     "src/background",
-    "src/contentscript",
+    "src/popup/src/contentscripttentscript.ts",
     "src/popup/src/background.ts"
   ]
 }

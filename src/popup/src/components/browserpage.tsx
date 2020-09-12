@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HashRouter as Router, Switch, Route, Link as ReactLink, useHistory } from 'react-router-dom';
 import {
-  Flex, ButtonGroup, Button, Link, Drawer, Text,
+  Flex, ButtonGroup, Button, Link, Drawer, Text, Box,
   DrawerOverlay, useDisclosure, PseudoBox, Stack,
   Code, Textarea,
   ModalOverlay,
@@ -16,6 +16,7 @@ import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaCog, FaCircle } f
 import Wallets from './wallets'
 import Pages from './pages'
 import Pdfs from './pdfs'
+import Preview from './preview'
 import Transfers from './transfers'
 import Settings from './settings'
 import { useSelector } from 'react-redux'
@@ -91,7 +92,7 @@ const BrowserPage = (route: any) => {
   }
 
   return (<Router basename="/mainpage">
-    <Flex w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+    <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <ArweaveLogo />
       </Flex>
@@ -106,7 +107,7 @@ const BrowserPage = (route: any) => {
         <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
       </ButtonGroup>
     </Flex >
-    <Flex bg="#f6f6f7" w="100%" px={8} pt={4} justifyContent="space between" alignItems="center">
+    <Box position="absolute" bg="#f6f6f7" w="100%" h="90%" px={8} pt={4} justifyContent="space between" alignItems="center">
       <Switch>
         <Route path="/pages">
           <Pages />
@@ -120,6 +121,9 @@ const BrowserPage = (route: any) => {
         <Route path="/wallets/open">
           {() => handleOpen('wallets')}
         </Route>
+        <Route path="/preview">
+          <Preview />
+        </Route>
       </Switch>
       <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer"
         onClick={() => openModal(true)}>
@@ -129,7 +133,7 @@ const BrowserPage = (route: any) => {
         </Stack>
       </PseudoBox>
       <NetworkModal />
-    </Flex>
+    </Box>
     <Drawer
       placement="right"
       onClose={handleClose}

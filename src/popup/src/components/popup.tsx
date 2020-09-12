@@ -11,6 +11,7 @@ type pageType = {
   url: string
 }
 
+const bkg = chrome.extension.getBackgroundPage()!.console
 const Popup = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [url, setUrl] = useState({} as pageType)
@@ -18,6 +19,13 @@ const Popup = () => {
 
   useEffect(() => {
     updateWallets()
+  },[])
+
+  useEffect(() => {
+    bkg.log('From popup: Sending a message to')
+    chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs => {
+    chrome.tabs.sendMessage(tabs[0].id!,{action:'archive.page'}, (res => console.log(res)))
+  }))
   },[])
 
   const urlChecker = (url: string) => {
@@ -34,6 +42,7 @@ const Popup = () => {
   chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs =>
     tabs[0].url ? urlChecker(tabs[0].url) : undefined))
 
+
   return (
     <ThemeProvider>
       <div className="App">
@@ -46,7 +55,8 @@ const Popup = () => {
             <Text fontSize="4xl">{parseFloat(wallet.balance).toFixed(3).toLocaleString()} AR</Text>
             <Text>{wallet.address} </Text>
             <Text>{wallet.nickname}</Text>
-            {(url.type !== undefined) ? <Button onClick={() => openTab(url.type === 'page' ? 'pages/' + url.url : 'pdfs/' + url.url)}>Archive this {url.type}</Button>
+            {(url.type !== undefined) ? <Button onClick={() => openTab(url.type === 'page' ? 'preview/' : 'pdfs/' + url.url)}
+            >Archive this {url.type}</Button>
               :
               <Text background="gray" color="white" fontSize="xl">Content type not currently supported</Text>}
 

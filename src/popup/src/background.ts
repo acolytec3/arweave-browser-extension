@@ -63,6 +63,7 @@ export type initialStateType = {
     response: any
   }
   settings: settings,
+  pageSource?: any
 }
 
 const initialState = {
@@ -182,6 +183,14 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState7))
       return newState7
+
+    case 'SET_PAGE_SOURCE':
+      let postPageSourceUpdateState = {
+        ...state,
+        pageSource: action.payload
+      }
+        return postPageSourceUpdateState
+      
     default: return state;
   }
 }
