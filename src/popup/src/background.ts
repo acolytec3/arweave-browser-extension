@@ -53,6 +53,12 @@ export type settings = {
   'lokiGateway': string
 }
 
+export type pageSource = {
+  title: string,
+  html: string,
+  url: string
+}
+
 export type initialStateType = {
   wallets: wallet[],
   activeWallet: string,
@@ -63,8 +69,10 @@ export type initialStateType = {
     response: any
   }
   settings: settings,
-  pageSource?: any
+  pageSource?: pageSource
 }
+
+
 
 const initialState = {
   wallets: [],
@@ -187,7 +195,7 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
     case 'SET_PAGE_SOURCE':
       let postPageSourceUpdateState = {
         ...state,
-        pageSource: action.payload
+        pageSource: action.payload as pageSource
       }
         return postPageSourceUpdateState
       

@@ -15,7 +15,6 @@ interface inline {
   html: any
 }
 
-var pageSource: inline = { title: '', size: 0, html: undefined }
 var fee: string = '0'
 
 const PagePreview = () => {
@@ -30,14 +29,14 @@ const PagePreview = () => {
     
     const pageSaver = async () => {
       let pageDeets = {
-        'title': pageSource.title,
-        'url': window.location.hash.substr(17,).split('#')[0],
+        'title': source.title,
+        'url': state.pageSource!.url,
         'fee': fee,
         'status': 'pending',
         'txnId': '',
         'timestamp': '',
-        'size': pageSource.size,
-        'html': pageSource.html
+        'size': source.size,
+        'html': source.html
       }
       let res = await archivePage(pageDeets, password)
       res ? toast({
@@ -65,23 +64,22 @@ const PagePreview = () => {
 
     useEffect(() => {
         if (!incognito) {
-            inline.html(state.pageSource.html, state.pageSource.url).then((res) => {
+            inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
+                getFee(res.size).then((res) => fee = res)
                 setSource(res)
                 console.log(source)})
         }
         else {
-            axios.get(state.pageSource.url, options)
-            .then((res) => inline.html(res.data, state.pageSource.url))
+            axios.get(state.pageSource!.url, options)
+            .then((res) => inline.html(res.data, state.pageSource!.url))
             .then((res) => { 
+                getFee(res.size).then((res) => fee = res)
                 setSource(res);
                 console.log(source)
             })
         } 
     },[incognito])
 
-    useEffect(() => {
-        if (source.size) getFee(source.size).then((res) => fee = res)
-    },[state])
 
     
     return (<Flex direction="column" width="100%" height="100%">
@@ -103,9 +101,9 @@ const PagePreview = () => {
                       <ModalCloseButton />
                       <ModalBody>
                         <Text>From: {state.activeWallet}</Text>
-                        <Text>Page Title: {pageSource.title}</Text>
-                        <Text>Page URL: {window.location.hash.substr(17,).split('#')[0]}</Text>
-                        <Text>Page Size: {pageSource.size}</Text>
+                        <Text>Page Title: {state.pageSource!.title}</Text>
+                        <Text>Page URL: {state.pageSource!.url}</Text>
+                        <Text>Page Size: {source.size}</Text>
                         <Text>Fee: {fee}</Text>
                         <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
                         <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
