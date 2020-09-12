@@ -36,7 +36,7 @@ const BrowserPage = (route: any) => {
   const [modal, openModal] = useState(false)
 
   const handleClose = () => {
-    history.replace('closed')
+   // history.replace('closed')
     onClose()
   }
 
@@ -76,17 +76,16 @@ const BrowserPage = (route: any) => {
   }
 
   const handleOpen = (route: string) => {
-    //Prevent issue where React thinks it needs to open the drawer when you close it
     if (history.location.pathname === "/mainpage/wallets/open") {
       onOpen()
-      history.replace('closed')
+      history.replace('transfers') //Redirect main page to transfers if wallets is selected from popup
     }
+
 
     switch (route) {
       case 'wallets': setDrawer('wallets'); onOpen(); break;
       case 'settings': setDrawer('settings');
         onOpen();
-        history.replace('settings')
         break;
     }
   }
