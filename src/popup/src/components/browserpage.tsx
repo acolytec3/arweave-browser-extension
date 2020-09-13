@@ -81,13 +81,13 @@ const BrowserPage = (route: any) => {
       history.replace('transfers') //Redirect main page to transfers if wallets is selected from popup
     }
 
-
     switch (route) {
       case 'wallets': setDrawer('wallets'); onOpen(); break;
       case 'settings': setDrawer('settings');
         onOpen();
         break;
     }
+    return null
   }
 
   return (<Router basename="/mainpage">

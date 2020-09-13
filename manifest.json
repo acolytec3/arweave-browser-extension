@@ -39,5 +39,5 @@
     ],
     "persistent": true
   },
-  "content_security_policy": "script-src 'self' http://localhost:35729; object-src 'self'"
+  "content_security_policy": "script-src 'self' http://localhost:8097; object-src 'self' connect-src 'self' ws://localhost:8000;" 
 }

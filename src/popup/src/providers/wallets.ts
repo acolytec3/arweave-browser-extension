@@ -57,14 +57,14 @@ export const getAddress = async (key: any) : Promise<string> => {
   return address
 }
 
-export const addWallet = async (key: any, nickname: string, password: string): Promise<any> => {
-  await store.ready()
-  let state = await store.getState() as initialStateType;
+export const addWallet = async (key: any, nickname: string, password: string): Promise<boolean> => {
   let arweave = await getArweaveInstance()
   let address = await arweave.wallets.jwkToAddress(key)
-
+  if (store.getState().wallets.filter((wallet:wallet) => wallet.address === address).length !== 0) return false
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
+
+  await store.ready()
   let result = await store.dispatch({
     type: 'ADD_WALLET',
     payload: {
@@ -74,8 +74,7 @@ export const addWallet = async (key: any, nickname: string, password: string): P
       balance: arweave.ar.winstonToAr(balance)
     }
   })
-
-  return result
+  return true
 }
 
 

@@ -2,7 +2,6 @@ import { createStore } from 'redux'
 import { wrapStore } from 'webext-redux'
 import { updateWallets } from './providers/wallets'
 
-
 export type wallet = {
   'address': string,
   'nickname': string,
@@ -92,19 +91,23 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
   console.log(state)
   console.log(action)
   switch (action.type) {
-    case 'ADD_WALLET':
-      let wallets = state.wallets
-      if (wallets.filter(wallet => wallet.address === action.payload.address).length === 0) {
-        wallets.push({ 'address': action.payload.address, 'balance': action.payload.balance, 'nickname': action.payload.nickname, key: action.payload.key })
+    case 'ADD_WALLET':{
+      let newerWallets:wallet[] = []
+      if (state.wallets.filter(wallet => wallet.address === action.payload.address).length === 0) {
+        let newWallet:wallet = {address: action.payload.address, balance:action.payload.balance, nickname:action.payload.nickname, key:action.payload.key}
+        newerWallets = [...state.wallets, newWallet]
       }
+      else newerWallets = [...state.wallets]
       let newState = {
         ...state,
-        wallets: wallets,
+        wallets: newerWallets,
         activeWallet: action.payload.address
       }
-      localStorage.setItem('wallets', JSON.stringify(newState))
+      console.log('new state')
       console.log(newState)
-      return newState;
+      localStorage.setItem('wallets', JSON.stringify(newState))
+      return newState
+    }
 
     case 'UPDATE_WALLETS':
       {
@@ -209,13 +212,6 @@ console.log(retrievedStateData)
 const store = createStore<InitialStateType, null, null, null>(reducer, retrievedStateData ? JSON.parse(retrievedStateData) : initialState!)
 wrapStore(store);
 
-
-chrome.runtime.onStartup.addListener(() => {
-  console.log('starting up!')
-  let walletData = localStorage.getItem('wallets');
-  var wallets = walletData ? JSON.parse(walletData) : undefined
-  console.log(wallets)
-})
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'update') {

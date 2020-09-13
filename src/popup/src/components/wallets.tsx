@@ -27,7 +27,7 @@ const Wallets = () => {
   const [modalAddress, setModalAddress] = useState('')
   const [loadingWalletAddress, setLoadingWalletAddress] = useState('')
   const toast = useToast();
-
+  
   const onDrop = async (acceptedFiles: any) => {
     setProcessing(true);
     setLoadingWallet(false);
@@ -82,7 +82,8 @@ const Wallets = () => {
   }
 
   const WalletTable = () => {
-    return (<Flex direction="column" >{state.wallets.length > 0 && state.wallets.map((wallet: any) => {
+    let wallets = state.wallets
+    return (<Flex direction="column" >{wallets.length > 0 && wallets.map((wallet: any) => {
       return (
         Wallet(wallet))
     })}</Flex>)
@@ -153,7 +154,6 @@ const Wallets = () => {
 
   const generateWallet = async () => {
     let wallet = await generateKey()
-    console.log(wallet.key)
     const blob = new Blob([wallet.key], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -183,20 +183,23 @@ const Wallets = () => {
 
   const loadWallet = async (nickname: string, password: string) => {
     //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
-    /*   let res = await addWallet(wallet, nickname, password);*/
-    addWallet(wallet, nickname, password)
-      .then((res) => {
-        console.log(res)
+       let res = await addWallet(wallet, nickname, password);
+       if (res === true) {
         toast({
           title: 'Success loading wallet',
           status: 'success',
           duration: 3000,
           position: 'bottom-left',
           description: `Address - ${loadingWalletAddress}`
-        })
-        console.log(state.wallets)
+        })}
+        else {toast({
+          title: 'Error loading wallet',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: `Address - ${loadingWalletAddress} already loaded`
+        })}
         setProcessing(false)
-      })
   }
 
   const ExportModal = () => {

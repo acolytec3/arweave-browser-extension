@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
   Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea,
@@ -23,6 +23,22 @@ const Pages = () => {
     setLoading(false)
   }
 
+  const PageTable = () => {
+    let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
+
+    return <Flex direction="column">
+      {pages && pages.length > 0 && <SimpleGrid columns={4}>
+        <Text fontWeight="bold" key="title">Title</Text>
+        <Text fontWeight="bold" key="url">URL</Text>
+        <Text fontWeight="bold" key="fee">Fee</Text>
+        <Text fontWeight="bold" key="timestamp">Time</Text>
+      </SimpleGrid>}
+      {pages && pages.length > 0 && pages.map((page: page) => {
+        return PageRow(page)
+      })}
+    </Flex>
+  }
+  
   const PageRow = (page: page) => {
     return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'}
       onClick={() => {
@@ -108,21 +124,7 @@ const Pages = () => {
       </Modal>)
   }
 
-  const PageTable = () => {
-    let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
 
-    return <Fragment><Flex direction="column">
-      {pages && pages.length > 0 && <SimpleGrid columns={4}>
-        <Text fontWeight="bold" key="title">Title</Text>
-        <Text fontWeight="bold" key="url">URL</Text>
-        <Text fontWeight="bold" key="fee">Fee</Text>
-        <Text fontWeight="bold" key="timestamp">Time</Text>
-      </SimpleGrid>}
-      {pages && pages.length > 0 && pages.map((page: page) => {
-        return PageRow(page)
-      })}
-    </Flex></Fragment>
-  }
 
   return (<HashRouter basename="/mainpage">
     <Switch>
