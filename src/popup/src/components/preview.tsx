@@ -19,7 +19,7 @@ var fee: string = '0'
 
 const PagePreview = () => {
     const state = useSelector((rootState: initialStateType) => rootState)
-    const [source, setSource] = useState({} as inline)
+    const [source, setSource] = useState({title:'', size:0,html:''} as inline)
     const [incognito, setIncognito] = useState(false)
     const [isOpen, setOpen] = useState(false)
     const [password, setPassword] = useState('')
@@ -56,10 +56,10 @@ const PagePreview = () => {
     if (incognito) {
         options = {
         withCredentials: false,
-        headers: {
-            'Cache-Control': 'no-cache',
-            'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
-        }
+      //  headers: {
+      //      'Cache-Control': 'no-cache',
+      //      'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
+      //  }
     }}
 
     useEffect(() => {
@@ -89,6 +89,10 @@ const PagePreview = () => {
         <ChakraSwitch id="incognito" size="md" color="green" value={incognito} isChecked={incognito} 
         onChange={() => { 
             setIncognito(!incognito) 
+            if (incognito) {
+              attachIncognitoFilter();
+            }
+            else removeIncognitoFilter();
             }} />
         </Stack></Flex>
         {/* @ts-ignore */}
@@ -119,3 +123,47 @@ const PagePreview = () => {
     }
 
 export default PagePreview
+
+const attachIncognitoFilter = () => {
+  chrome
+      .webRequest
+      .onBeforeSendHeaders
+      .addListener(
+          incognitoRequestFilter,
+          {urls: ['<all_urls>']},
+          ['blocking','requestHeaders', 'extraHeaders']
+      );
+}
+
+const removeIncognitoFilter = () => {
+  chrome
+      .webRequest
+      .onBeforeSendHeaders
+      .removeListener(
+          incognitoRequestFilter
+      );
+}
+
+const incognitoRequestFilter = (request : any) => {
+  // Apply this filter to our requests only
+  if (request.initiator != 'chrome-extension://' + chrome.runtime.id) {
+      return;
+  }
+  if (request.url.match('^https?') == null) {
+      return {cancel: true};
+  }
+  let headers = request.requestHeaders.filter((header:any) => {
+      return header.name == 'User-Agent'
+  });
+  headers.push({
+      name: 'Accept',
+      value: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
+  });
+  headers.push({
+      name: 'Cache-Control',
+      value: 'no-cache'
+  });
+  return {
+      requestHeaders: headers
+  };
+}
