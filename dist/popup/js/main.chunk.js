@@ -2458,12 +2458,12 @@ const PagePreview = () => {
     size: 0,
     html: ''
   });
-  const [incognito, setIncognito] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [isOpen, setOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [password, setPassword] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [balance, setBalance] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance);
   const toast = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useToast"])();
   const history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
+  let incognito = false;
 
   const pageSaver = async () => {
     let pageDeets = {
@@ -2490,33 +2490,48 @@ const PagePreview = () => {
     });
   };
 
-  let options = {};
+  const getIncognitoRequest = () => {
+    console.log('getting incognito request');
+    axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(state.pageSource.url, {
+      withCredentials: false
+    }).then(res => _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(res.data, state.pageSource.url)).then(res => {
+      Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(res.size).then(res => fee = res);
+      setSource(res);
+      console.log(source);
+    }).catch(() => toast({
+      title: 'Network error',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left',
+      description: 'Error fetching page, check your network connection and try again'
+    }));
+  };
 
-  if (incognito) {
-    options = {
-      withCredentials: false //  headers: {
-      //      'Cache-Control': 'no-cache',
-      //      'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
-      //  }
-
-    };
-  }
+  const getRegularRequest = () => {
+    _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(state.pageSource.html, state.pageSource.url).then(res => {
+      Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(res.size).then(res => fee = res);
+      setSource(res);
+    }).catch(() => toast({
+      title: 'Processing error',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left',
+      description: 'Error fetching page, please try again'
+    }));
+  };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    if (!incognito) {
-      _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(state.pageSource.html, state.pageSource.url).then(res => {
-        Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(res.size).then(res => fee = res);
-        setSource(res);
-        console.log(source);
-      });
-    } else {
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(state.pageSource.url, options).then(res => _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(res.data, state.pageSource.url)).then(res => {
-        Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(res.size).then(res => fee = res);
-        setSource(res);
-        console.log(source);
-      });
-    }
-  }, [incognito]);
+    _providers_inline__WEBPACK_IMPORTED_MODULE_4__["default"].html(state.pageSource.html, state.pageSource.url).then(res => {
+      Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_5__["getFee"])(res.size).then(res => fee = res);
+      setSource(res);
+    }).catch(() => toast({
+      title: 'Processing error',
+      status: 'error',
+      duration: 3000,
+      position: 'bottom-left',
+      description: 'Error fetching page, please try again'
+    }));
+  }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "column",
     width: "100%",
@@ -2524,8 +2539,8 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 85,
-      columnNumber: 13
+      lineNumber: 107,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "row",
@@ -2533,15 +2548,15 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86,
-      columnNumber: 9
+      lineNumber: 108,
+      columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 86,
-      columnNumber: 62
+      lineNumber: 108,
+      columnNumber: 58
     }
   }, "Preview of ", source.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
     isInline: true,
@@ -2551,8 +2566,8 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 87,
-      columnNumber: 9
+      lineNumber: 109,
+      columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["FormLabel"], {
     htmlFor: "incognito",
@@ -2560,7 +2575,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 88,
+      lineNumber: 110,
       columnNumber: 9
     }
   }, "Incognito mode"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Switch"], {
@@ -2568,18 +2583,21 @@ const PagePreview = () => {
     size: "md",
     color: "green",
     value: incognito,
-    isChecked: incognito,
     onChange: () => {
-      setIncognito(!incognito);
+      incognito = !incognito;
 
       if (incognito) {
         attachIncognitoFilter();
-      } else removeIncognitoFilter();
+        getIncognitoRequest();
+      } else {
+        removeIncognitoFilter();
+        getRegularRequest();
+      }
     },
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 89,
+      lineNumber: 111,
       columnNumber: 9
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
@@ -2589,8 +2607,8 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99,
-      columnNumber: 9
+      lineNumber: 124,
+      columnNumber: 5
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     width: "200px",
@@ -2598,8 +2616,8 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100,
-      columnNumber: 19
+      lineNumber: 125,
+      columnNumber: 5
     }
   }, "Archive Page"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
     isOpen: isOpen,
@@ -2607,85 +2625,85 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 101,
-      columnNumber: 19
+      lineNumber: 126,
+      columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102,
-      columnNumber: 21
+      lineNumber: 127,
+      columnNumber: 7
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103,
-      columnNumber: 21
+      lineNumber: 128,
+      columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104,
-      columnNumber: 23
+      lineNumber: 129,
+      columnNumber: 9
     }
   }, "Confirm Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 105,
-      columnNumber: 23
+      lineNumber: 130,
+      columnNumber: 9
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 106,
-      columnNumber: 23
+      lineNumber: 131,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 107,
-      columnNumber: 25
+      lineNumber: 132,
+      columnNumber: 11
     }
   }, "From: ", state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 108,
-      columnNumber: 25
+      lineNumber: 133,
+      columnNumber: 11
     }
   }, "Page Title: ", state.pageSource.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109,
-      columnNumber: 25
+      lineNumber: 134,
+      columnNumber: 11
     }
   }, "Page URL: ", state.pageSource.url), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110,
-      columnNumber: 25
+      lineNumber: 135,
+      columnNumber: 11
     }
   }, "Page Size: ", source.size), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111,
-      columnNumber: 25
+      lineNumber: 136,
+      columnNumber: 11
     }
   }, "Fee: ", fee), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 112,
-      columnNumber: 25
+      lineNumber: 137,
+      columnNumber: 11
     }
   }, "Balance after transaction: ", parseFloat(typeof balance === 'string' ? balance : '0') - parseFloat(fee)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Input"], {
     placeholder: "Enter your encryption passphrase",
@@ -2695,15 +2713,15 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113,
-      columnNumber: 25
+      lineNumber: 138,
+      columnNumber: 11
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalFooter"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 115,
-      columnNumber: 23
+      lineNumber: 140,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     onClick: function () {
@@ -2713,8 +2731,8 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 116,
-      columnNumber: 25
+      lineNumber: 141,
+      columnNumber: 11
     }
   }, "Archive Page")))));
 };
@@ -5290,5 +5308,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map
