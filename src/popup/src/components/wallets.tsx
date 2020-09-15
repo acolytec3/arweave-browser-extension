@@ -27,7 +27,7 @@ const Wallets = () => {
   const [modalAddress, setModalAddress] = useState('')
   const [loadingWalletAddress, setLoadingWalletAddress] = useState('')
   const toast = useToast();
-  
+
   const onDrop = async (acceptedFiles: any) => {
     setProcessing(true);
     setLoadingWallet(false);
@@ -154,6 +154,10 @@ const Wallets = () => {
 
   const generateWallet = async () => {
     let wallet = await generateKey()
+    console.log('here be wallet')
+    console.log(wallet)
+    console.log('here be key')
+    console.log(wallet.key)
     const blob = new Blob([wallet.key], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -182,23 +186,26 @@ const Wallets = () => {
   }
 
   const loadWallet = async (nickname: string, password: string) => {
-       let res = await addWallet(wallet, nickname, password);
-       if (res === true) {
-        toast({
-          title: 'Success loading wallet',
-          status: 'success',
-          duration: 3000,
-          position: 'bottom-left',
-          description: `Address - ${loadingWalletAddress}`
-        })}
-        else {toast({
-          title: 'Error loading wallet',
-          status: 'error',
-          duration: 3000,
-          position: 'bottom-left',
-          description: `Address - ${loadingWalletAddress} already loaded`
-        })}
-        setProcessing(false)
+    let res = await addWallet(wallet, nickname, password);
+    if (res === true) {
+      toast({
+        title: 'Success loading wallet',
+        status: 'success',
+        duration: 3000,
+        position: 'bottom-left',
+        description: `Address - ${loadingWalletAddress}`
+      })
+    }
+    else {
+      toast({
+        title: 'Error loading wallet',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: `Address - ${loadingWalletAddress} already loaded`
+      })
+    }
+    setProcessing(false)
   }
 
   const ExportModal = () => {
@@ -276,7 +283,13 @@ const Wallets = () => {
           my={2} placeholder="Set an encryption phrase" value={password} onChange={(evt: any) => setPassword(evt.target.value)} type="password" />
         <Text color="white">This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
         If you forget your passphrase you'll need to reimport this file again</Text>
-        <Button onClick={() => loadWallet(nickname, password)}>Load Wallet</Button>
+        <Stack direction="column" position="fixed" bottom="10px">
+          <Button onClick={() => loadWallet(nickname, password)}>Continue</Button>
+          <Button onClick={() => {
+                setLoadingWallet(false);
+                setProcessing(false);
+              }}>Go Back</Button>
+        </Stack>
       </Box>
     )
   }
