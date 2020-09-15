@@ -182,7 +182,6 @@ const Wallets = () => {
   }
 
   const loadWallet = async (nickname: string, password: string) => {
-    //TODO: Figure out why State isn't updating after background ADD_WALLET dispatch
        let res = await addWallet(wallet, nickname, password);
        if (res === true) {
         toast({
