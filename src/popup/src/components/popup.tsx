@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf } from 'react-icons/fa'
-import { ThemeProvider, Box, Text, Flex, Button, PseudoBox } from "@chakra-ui/core";
+import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaClone } from 'react-icons/fa'
+import { ThemeProvider, Box, Text, Flex, Button, PseudoBox, useClipboard, Stack } from "@chakra-ui/core";
 import { openTab } from '../providers/browser'
 import { useSelector } from 'react-redux'
 import { initialStateType } from '../background'
@@ -15,6 +15,9 @@ const Popup = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [url, setUrl] = useState({} as pageType)
   const [wallet, setWallet] = useState(state.activeWallet ? state.wallets.filter((wallet) => wallet.address === state.activeWallet)[0] : { address: '', nickname: '', balance: '' })
+  const { onCopy, hasCopied } = useClipboard(wallet.address);
+  const [hover, setHover] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     updateWallets()
@@ -50,7 +53,17 @@ const Popup = () => {
           :
           <Box w="400px" alignContent="space-between">
             <Text fontSize="4xl">{parseFloat(wallet.balance).toFixed(3).toLocaleString()} AR</Text>
-            <Text>{wallet.address} </Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} 
+            onClick={() => {
+              onCopy!();
+              setCopied(true);
+              setTimeout(() => setCopied(false),2000)
+            }
+            }>
+              {!hover && <Text>{wallet.address}</Text>}
+              {hover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Click to copy</Text></Stack>}
+              {hover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text>{wallet.nickname}</Text>
             {(url.type !== undefined) ? <Button onClick={() => openTab(url.type === 'page' ? 'preview/' : 'pdfs/' + url.url)}
             >Archive this {url.type}</Button>

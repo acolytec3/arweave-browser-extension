@@ -154,7 +154,7 @@ const Wallets = () => {
 
   const generateWallet = async () => {
     let wallet = await generateKey()
-    const blob = new Blob([JSON.stringify(wallet.key)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(wallet.key, null, 2)], { type: 'application/json' });
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
