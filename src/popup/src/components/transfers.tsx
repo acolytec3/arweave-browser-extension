@@ -28,7 +28,6 @@ const Transfers = () => {
   }
 
   const TransferModal = () => {
-    console.log(`Debug status is ${state.settings.debug}`)
     return (
       <Modal isOpen={transferModal.open} onClose={() => setTransferModal({ open: false, transfer: {} as transfer })}>
         <ModalOverlay />

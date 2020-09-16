@@ -88,8 +88,7 @@ const initialState = {
 }
 
 const reducer = (state: initialStateType, action: any): initialStateType => {
-  console.log(state)
-  console.log(action)
+
   switch (action.type) {
     case 'ADD_WALLET':{
       let newerWallets:wallet[] = []
@@ -103,8 +102,6 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
         wallets: newerWallets,
         activeWallet: action.payload.address
       }
-      console.log('new state')
-      console.log(newState)
       localStorage.setItem('wallets', JSON.stringify(newState))
       return newState
     }
@@ -141,7 +138,6 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       let otherWallets = state.wallets.filter(wallet => wallet.address !== action.payload.address)
       let index = state.wallets.findIndex(wallet => wallet.address === action.payload.address)
       otherWallets.splice(index,0,newWallet)
-      console.log(otherWallets)
       let postNicknameUpdatedState = {
         ...state,
         wallets: otherWallets

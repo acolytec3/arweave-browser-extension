@@ -16,7 +16,6 @@ import { Store } from 'webext-redux'
                 url: document.location.href,
                 html: document.documentElement.outerHTML,
             }})
-            console.log(result)
         } 
     
 

@@ -55,7 +55,6 @@ const PagePreview = () => {
   }
 
   const getIncognitoRequest = () => {
-    console.log('getting incognito request')
     axios.get(state.pageSource!.url, {
       withCredentials: false
     })
@@ -70,7 +69,6 @@ const PagePreview = () => {
           description: 'Error getting fee, check your network connection and try again'
         }))
         setSource(res);
-        console.log(source)
       })
       .catch(() => toast({
         title: 'Network error',

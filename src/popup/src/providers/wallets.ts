@@ -40,18 +40,16 @@ export const decryptKey = async (password: string, address: string): Promise<str
   return decryptedKey
 }
 
-export const generateKey = async () : Promise<any> => {
+export const generateKey = async (): Promise<any> => {
   let key = await arweaveCrypto.jwk()
-  console.log(key)
   let arweave = await getArweaveInstance()
   //@ts-ignore
   let address = await arweave.wallets.jwkToAddress(key)
-  return {address: address, key: key}
+  return { address: address, key: key }
 }
 
-export const getAddress = async (key: any) : Promise<string> => {
+export const getAddress = async (key: any): Promise<string> => {
   let arweave = await getArweaveInstance()
-  console.log(key)
   //@ts-ignore
   let address = await arweave.wallets.jwkToAddress(key)
   return address
@@ -60,7 +58,7 @@ export const getAddress = async (key: any) : Promise<string> => {
 export const addWallet = async (key: any, nickname: string, password: string): Promise<boolean> => {
   let arweave = await getArweaveInstance()
   let address = await arweave.wallets.jwkToAddress(key)
-  if (store.getState().wallets.filter((wallet:wallet) => wallet.address === address).length !== 0) return false
+  if (store.getState().wallets.filter((wallet: wallet) => wallet.address === address).length !== 0) return false
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
   let balance = await arweave.wallets.getBalance(address)
 
@@ -131,15 +129,10 @@ export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> =
   try {
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance()
-    console.log(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet))
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-    console.log(encryptedKey)
     let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-    console.log(rawKey)
     let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
     let transaction = await arweave.createTransaction({ data: pdf.source }, key);
-    console.log(transaction)
-    console.log(pdf)
     transaction.addTag('Content-Type', 'application/pdf')
     transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
     await arweave.transactions.sign(transaction, key);
@@ -171,39 +164,40 @@ export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> =
 
 export const sendTransfer = async (transfer: any, password: string): Promise<boolean> => {
   try {
-  await store.ready()
-  let state = store.getState() as initialStateType
-  let arweave = await getArweaveInstance()
-  let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
-  let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-  let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
-  let transaction = await arweave.createTransaction({
-    target: transfer.to,
-    data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,
-    quantity: arweave.ar.arToWinston(transfer.amount)
-  }, key);
+    await store.ready()
+    let state = store.getState() as initialStateType
+    let arweave = await getArweaveInstance()
+    let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
+    let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
+    let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
+    let transaction = await arweave.createTransaction({
+      target: transfer.to,
+      data: transfer.message !== '' ? Buffer.from(transfer.message) : undefined,
+      quantity: arweave.ar.arToWinston(transfer.amount)
+    }, key);
 
-  transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
-  await arweave.transactions.sign(transaction, key);
+    transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
+    await arweave.transactions.sign(transaction, key);
 
-  const response = await arweave.transactions.post(transaction);
-  console.log(response);
+    const response = await arweave.transactions.post(transaction);
+    console.log(response);
 
-  let transferDetails: any = {
-    'to': transfer.to,
-    'amount': transfer.amount,
-    'message': transfer.message,
-    'fee': transfer.fee,
-    'txnId': transaction.id,
-    'status': 'pending',
-    'timestamp': Date.now().toString(),
-    'debug': transaction
+    let transferDetails: any = {
+      'to': transfer.to,
+      'amount': transfer.amount,
+      'message': transfer.message,
+      'fee': transfer.fee,
+      'txnId': transaction.id,
+      'status': 'pending',
+      'timestamp': Date.now().toString(),
+      'debug': transaction
+    }
+
+    let result = await store.dispatch({
+      type: 'INITIATE_TRANSFER',
+      payload: transferDetails
+    })
   }
-
-  let result = await store.dispatch({
-    type: 'INITIATE_TRANSFER',
-    payload: transferDetails
-  })}
   catch (err) {
     console.log(`Error sending tranfer - ${err}`)
     return false
@@ -214,54 +208,54 @@ export const sendTransfer = async (transfer: any, password: string): Promise<boo
 export const updateWallets = async () => {
   await store.ready()
   let state = store.getState() as initialStateType
-  console.log(`Now - ${Date.now()} minus ${state.lastUpdated} = ${Date.now() - state.lastUpdated} - update? ${(Date.now() - state.lastUpdated > 360000)}`)
+
   if (Date.now() - state.lastUpdated < 120000) {
-    console.log('Not updating wallets')
     return
   }
   else {
-    console.log('Updating wallets!')
-  let updatedWallets = null
-  let connected = false
-  let netInfo = {} as any
 
-  try {
-    let arweave = await getArweaveInstance()
-    updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
-      let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
-      netInfo = await arweave.api.get(state.settings.gateway)
-      connected = netInfo.status === 200
-      let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
-        if (txn.status === 'pending') {
-          let status = await arweave.transactions.getStatus(txn.txnId)
-          console.log('Got status and its ' + status.status)
-          return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
-        } else return txn
-      })) : undefined
-      let pdfs = wallet.pdfs ? await Promise.all(wallet.pdfs?.map(async (txn) => {
-        if (txn.status === 'pending') {
-          let status = await arweave.transactions.getStatus(txn.txnId)
-          return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
-        }
-        return txn
-      })) : undefined
-      let transfers = wallet.transfers ? await Promise.all(wallet.transfers?.map(async (txn) => {
-        if (txn.status === 'pending') {
-          let status = await arweave.transactions.getStatus(txn.txnId)
-          return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
-        }
-        return txn
-      })) : undefined
-      console.log(pages)
-      return { address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname, key: wallet.key }
-    }))
+    let updatedWallets = null
+    let connected = false
+    let netInfo = {} as any
+
+    try {
+      let arweave = await getArweaveInstance()
+      updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
+        let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
+        netInfo = await arweave.api.get(state.settings.gateway)
+        connected = netInfo.status === 200
+        let pages = wallet.pages ? await Promise.all(wallet.pages?.map(async (txn) => {
+          if (txn.status === 'pending') {
+            let status = await arweave.transactions.getStatus(txn.txnId)
+            console.log('Got status and its ' + status.status)
+            return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
+          } else return txn
+        })) : undefined
+        let pdfs = wallet.pdfs ? await Promise.all(wallet.pdfs?.map(async (txn) => {
+          if (txn.status === 'pending') {
+            let status = await arweave.transactions.getStatus(txn.txnId)
+            return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
+          }
+          return txn
+        })) : undefined
+        let transfers = wallet.transfers ? await Promise.all(wallet.transfers?.map(async (txn) => {
+          if (txn.status === 'pending') {
+            let status = await arweave.transactions.getStatus(txn.txnId)
+            return status.status === 200 ? { ...txn, status: 'confirmed' } : txn
+          }
+          return txn
+        })) : undefined
+        console.log(pages)
+        return { address: wallet.address, balance: balance, pages: pages, pdfs: pdfs, transfers: transfers, nickname: wallet.nickname, key: wallet.key }
+      }))
+    }
+    catch (error) {
+      console.log(`Error updating wallets - ${error}`)
+    }
+    let result = store.dispatch({
+      type: 'UPDATE_WALLETS',
+      payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined }, settings: state.settings }
+    })
   }
-  catch (error) {
-    console.log(`Error updating wallets - ${error}`)
-  }
-  let result = store.dispatch({
-    type: 'UPDATE_WALLETS',
-    payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined }, settings: state.settings }
-  })}
 }
 

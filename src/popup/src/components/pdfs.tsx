@@ -32,7 +32,6 @@ const Pdfs = () => {
   const toast = useToast();
 
   useEffect(() => {
-    console.log(window.location.hash.substr(16,))
     axios({
       url: window.location.hash.substr(16,).split('#')[0],
       method: 'get',
@@ -47,7 +46,13 @@ const Pdfs = () => {
 
         const reader = new FileReader()
         reader.onabort = () => console.log('file reading was aborted')
-        reader.onerror = () => console.log('file reading has failed')
+        reader.onerror = () => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Unable to read wallet file'
+        })
         reader.onload = ((file) => {
           setSource(file!.target!.result)
         })

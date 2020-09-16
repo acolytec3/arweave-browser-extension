@@ -16,7 +16,6 @@ const Pages = () => {
   const [debugLoading, setLoading] = useState(false)
 
   const getDebugInfo = async (page: page) => {
-    console.log(page)
     setLoading(true)
     let txn = await axios.get(`${state.settings.gateway}/tx/${page.txnId}`)
     setRes(txn);

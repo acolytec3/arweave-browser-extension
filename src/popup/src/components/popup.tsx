@@ -25,7 +25,7 @@ const Popup = () => {
 
   useEffect(() => {
     chrome.tabs.query({ 'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT }, (tabs => {
-    chrome.tabs.sendMessage(tabs[0].id!,{action:'archive.page'}, (res => console.log(res)))
+    chrome.tabs.sendMessage(tabs[0].id!,{action:'archive.page'})
   }))
   },[])
 
