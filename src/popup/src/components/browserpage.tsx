@@ -35,6 +35,12 @@ const BrowserPage = (route: any) => {
   const [modal, openModal] = useState(false)
   const [arModal, setArModal] = useState(false)
 
+  const headerLabel: {[key: string]: string}  = {
+    'transfers': 'Transfers',
+    'pdfs': 'PDFs',
+    'pages': 'Archived Pages'
+  }
+  
   const handleClose = () => {
     onClose()
   }
@@ -106,7 +112,7 @@ const BrowserPage = (route: any) => {
     </Flex >
     <PseudoBox bg="#4a4a4a"px={2}>
         <Flex direction="row" alignItems="center" justifyContent="space-around">
-          <Text justifySelf="start" color="white" fontSize={24}>{history.location.pathname.split('/')[2]}</Text>
+          <Text justifySelf="start" color="white" fontSize={24}>{headerLabel[history.location.pathname.split('/')[2].toString()]}</Text>
           <Stack marginLeft="auto">
             <Text color="white">{state.activeWallet}</Text>
             <Text color="white">{parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6)} AR </Text>
