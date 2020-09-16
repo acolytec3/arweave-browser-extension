@@ -25,7 +25,6 @@ const unicodeToAscii = (string: string): string => {
   return btoa(unescape(encodeURIComponent(string)));
 }
 
-
 const asciiToUnicode = (string: string): string => {
   return decodeURIComponent(escape(atob(string)));
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea,
+  Text, Flex, Button, Modal, SimpleGrid, Spinner, Stack, Code, Textarea,
   ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
