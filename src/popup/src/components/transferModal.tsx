@@ -8,13 +8,11 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
+    useToast
 } from "@chakra-ui/core";
 import { getFee, sendTransfer } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet } from '../background'
-
-
-
 
 const TransferModal = () => {
     const [isOpen, setOpen] = useState(true)
@@ -26,10 +24,18 @@ const TransferModal = () => {
     const [message, setMessage] = useState('')
     const [password, setPassword] = useState('')
     const history = useHistory();
-
+    const toast = useToast()
+    
     const updateFee = () => {
         let messageSize = (message === '' ? 0 : new Blob([message]).size)
-        getFee(messageSize).then((cost) => { console.log('Fee is now ' + cost); setFee(cost) })
+        getFee(messageSize).then(cost => setFee(cost))
+        .catch(() => toast({
+            title: 'Error',
+            status: 'error',
+            duration: 3000,
+            position: 'bottom-left',
+            description: 'Error getting fee, check your network connection and try again'
+          }))
     }
 
     const initiateTransfer = async () => {

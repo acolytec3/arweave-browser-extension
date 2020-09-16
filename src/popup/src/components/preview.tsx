@@ -62,6 +62,13 @@ const PagePreview = () => {
       .then((res) => inline.html(res.data, state.pageSource!.url))
       .then((res) => {
         getFee(res.size).then((res) => fee = res)
+        .catch(() => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Error getting fee, check your network connection and try again'
+        }))
         setSource(res);
         console.log(source)
       })
@@ -77,6 +84,13 @@ const PagePreview = () => {
   const getRegularRequest = () => {
     inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
       getFee(res.size).then((res) => fee = res)
+      .catch(() => toast({
+        title: 'Error',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: 'Error getting fee, check your network connection and try again'
+      }))
       setSource(res)
     })
       .catch(() => toast({
@@ -91,6 +105,13 @@ const PagePreview = () => {
   useEffect(() => {
     inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
       getFee(res.size).then((res) => fee = res)
+      .catch(() => toast({
+        title: 'Error',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: 'Error getting fee, check your network connection and try again'
+      }))
       setSource(res)
     })
       .catch(() => toast({

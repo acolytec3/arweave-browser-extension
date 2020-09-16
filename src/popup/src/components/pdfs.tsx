@@ -56,6 +56,13 @@ const Pdfs = () => {
           setFee(res);
           setOpen(true)
         })
+        .catch(() => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Error getting fee, check your network connection and try again'
+        }))
         reader.readAsArrayBuffer(response.data)
       })
 
