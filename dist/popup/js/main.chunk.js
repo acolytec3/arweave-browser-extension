@@ -1245,7 +1245,7 @@ const Pages = () => {
       }
     }, "Raw Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
       isExternal: true,
-      href: (state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pageModal.page.txnId,
+      href: state.settings.gateway + '/tx/' + pageModal.page.txnId,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1359,7 +1359,7 @@ const Pages = () => {
       width: "99%",
       bg: "#333",
       color: "white",
-      onClick: () => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pageModal.page.txnId, '_blank'),
+      onClick: () => window.open(state.settings.gateway + '/' + pageModal.page.txnId, '_blank'),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1737,7 +1737,7 @@ const Pdfs = () => {
       }
     }, "Raw Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
       isExternal: true,
-      href: (state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pdfModal.pdf.txnId,
+      href: state.settings.gateway + '/tx/' + pdfModal.pdf.txnId,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1851,7 +1851,7 @@ const Pdfs = () => {
       width: "99%",
       bg: "#333",
       color: "white",
-      onClick: () => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pdfModal.pdf.txnId, '_blank'),
+      onClick: () => window.open(state.settings.gateway + '/' + pdfModal.pdf.txnId, '_blank'),
       __self: undefined,
       __source: {
         fileName: _jsxFileName,

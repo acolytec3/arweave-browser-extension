@@ -94,7 +94,7 @@ const Pages = () => {
             </Stack>
             <Stack>
               <Text>Raw Transaction</Text>
-              <Link isExternal href={(state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
+              <Link isExternal href={state.settings.gateway + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
               <Text>Block Explorers</Text>
@@ -119,7 +119,7 @@ const Pages = () => {
           </ModalBody>
           <ModalFooter>
             <Button width="99%" bg="#333" color="white"
-              onClick={() => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pageModal.page.txnId, '_blank')}>View Page</Button>
+              onClick={() => window.open(state.settings.gateway + '/' + pageModal.page.txnId, '_blank')}>View Page</Button>
           </ModalFooter></ModalContent>
       </Modal>)
   }

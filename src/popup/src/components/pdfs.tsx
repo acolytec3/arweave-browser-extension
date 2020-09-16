@@ -141,7 +141,7 @@ const Pdfs = () => {
             </Stack>
             <Stack>
               <Text>Raw Transaction</Text>
-              <Link isExternal href={(state.settings ? state.settings.gateway : 'https://arweave.net') + '/tx/' + pdfModal.pdf.txnId}>View raw transaction</Link>
+              <Link isExternal href={state.settings.gateway + '/tx/' + pdfModal.pdf.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
               <Text>Block Explorers</Text>
@@ -166,7 +166,7 @@ const Pdfs = () => {
           </ModalBody>
           <ModalFooter>
             <Button width="99%" bg="#333" color="white"
-              onClick={() => window.open((state.settings ? state.settings.gateway : 'https://arweave.net') + '/' + pdfModal.pdf.txnId, '_blank')}>View PDF</Button>
+              onClick={() => window.open(state.settings.gateway  + '/' + pdfModal.pdf.txnId, '_blank')}>View PDF</Button>
           </ModalFooter></ModalContent>
       </Modal>)
   }
