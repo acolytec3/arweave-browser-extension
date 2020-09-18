@@ -49,7 +49,8 @@ export type settings = {
   'debug': boolean,
   'loki': boolean,
   'silo': boolean,
-  'lokiGateway': string
+  'lokiGateway': string,
+  'incognito':boolean
 }
 
 export type pageSource = {
@@ -83,12 +84,14 @@ const initialState = {
     'debug': false,
     'loki': false,
     'silo': false,
-    'lokiGateway': 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo'
+    'lokiGateway': 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo',
+    'incognito':false
   }
 }
 
 const reducer = (state: initialStateType, action: any): initialStateType => {
-
+  console.log(state)
+  console.log(action)
   switch (action.type) {
     case 'ADD_WALLET':{
       let newerWallets:wallet[] = []

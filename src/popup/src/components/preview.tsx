@@ -1,13 +1,13 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { HashRouter, Switch, Route, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {  useHistory } from 'react-router-dom';
 import {
-  Text, Flex, Button, Modal, SimpleGrid, Input, Spinner, Stack, Code, Textarea, useToast, Switch as ChakraSwitch, FormLabel,
+  Text, Flex, Button, Modal, Input, Spinner, Stack, useToast, Switch, FormLabel,
   ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link
 } from "@chakra-ui/core";
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import inline from '../providers/inline'
 import { getFee, archivePage } from '../providers/wallets'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType, wallet } from '../background'
 
 interface inline {
@@ -20,14 +20,26 @@ var fee: string = '0'
 
 const PagePreview = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
+  const dispatch = useDispatch()
   const [source, setSource] = useState({ title: '', size: 0, html: '' } as inline)
-
   const [isOpen, setOpen] = useState(false)
   const [password, setPassword] = useState('')
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const toast = useToast();
   const history = useHistory();
-  let incognito = false
+  const [loading,setLoading] = useState(false)
+
+  const updateIncognito = async (incognito: boolean): Promise<boolean> => {
+    setLoading(true)
+    let payload = {...state.settings, incognito: incognito};
+    let res = await dispatch({ type: 'UPDATE_SETTINGS', payload: payload })
+
+    if (state.settings.incognito){
+      getIncognitoRequest()
+    }
+    else getRegularRequest()
+    return true
+  }
 
   const pageSaver = async () => {
     let pageDeets = {
@@ -53,13 +65,14 @@ const PagePreview = () => {
       position: 'bottom-left'
     })
   }
-
+  
   const getIncognitoRequest = () => {
+    attachIncognitoFilter();
     axios.get(state.pageSource!.url, {
       withCredentials: false
     })
       .then((res) => inline.html(res.data, state.pageSource!.url))
-      .then((res) => {
+      .then((res) => { 
         getFee(res.size).then((res) => fee = res)
         .catch(() => toast({
           title: 'Error',
@@ -77,6 +90,10 @@ const PagePreview = () => {
         position: 'bottom-left',
         description: 'Error fetching page, check your network connection and try again'
       }))
+      .finally(() => {
+        removeIncognitoFilter()
+        setLoading(false)
+      })
   }
 
   const getRegularRequest = () => {
@@ -98,6 +115,7 @@ const PagePreview = () => {
         position: 'bottom-left',
         description: 'Error fetching page, please try again'
       }))
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
@@ -126,18 +144,13 @@ const PagePreview = () => {
   return (<Flex direction="column" width="100%" height="100%">
     <Flex direction="row" justifyContent="space-between"><Text>Preview of {source.title}</Text>
       <Stack isInline alignContent="center" alignSelf="end" justifyContent="space-between">
-        <FormLabel htmlFor='incognito' color="black">Incognito mode</FormLabel>
-        <ChakraSwitch id="incognito" size="md" color="green" value={incognito}
-          onChange={() => {
-            incognito = !incognito
-            if (incognito) {
-              attachIncognitoFilter();
-              getIncognitoRequest();
-            }
-            else {
-              removeIncognitoFilter();
-              getRegularRequest();
-            }
+        <FormLabel htmlFor='incognito' color="black">Safe mode</FormLabel>
+        <Switch id="incognito" size="md" color="green" value={state.settings.incognito}
+          onChange={(evt:any) => { 
+            state.settings.incognito ? 
+               updateIncognito(false)
+               :
+             updateIncognito(true)
           }} />
       </Stack></Flex>
     <iframe sandbox="" height="90%" srcDoc={source ? source.html : undefined} ></iframe>
@@ -212,3 +225,4 @@ const incognitoRequestFilter = (request: any) => {
     requestHeaders: headers
   };
 }
+
