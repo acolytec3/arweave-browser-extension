@@ -95,6 +95,11 @@ const BrowserPage = (route: any) => {
   }
 
   return (<Router basename="/mainpage">
+    <Switch>
+    <Route exact path="/preview">
+      <Preview />
+    </Route>
+      <Route path="/">
     <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <ArweaveLogo />
@@ -155,6 +160,8 @@ const BrowserPage = (route: any) => {
       <DrawerOverlay />
       {drawer === 'wallets' ? <Wallets /> : <Settings />}
     </Drawer>
+    </Route>
+    </Switch>
   </Router>
   )
 }

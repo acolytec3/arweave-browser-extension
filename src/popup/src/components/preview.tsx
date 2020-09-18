@@ -9,7 +9,7 @@ import inline from '../providers/inline'
 import { getFee, archivePage } from '../providers/wallets'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType, wallet } from '../background'
-
+import { attachIncognitoFilter, removeIncognitoFilter, incognitoRequestFilter } from '../providers/browser'
 interface inline {
   title: string,
   size: number,
@@ -141,7 +141,8 @@ const PagePreview = () => {
 
 
 
-  return (<Flex direction="column" width="100%" height="100%">
+  return (
+  <Flex direction="column" width="100%" height="100%">
     <Flex direction="row" justifyContent="space-between"><Text>Preview of {source.title}</Text>
       <Stack isInline alignContent="center" alignSelf="end" justifyContent="space-between">
         <FormLabel htmlFor='incognito' color="black">Safe mode</FormLabel>
@@ -181,48 +182,5 @@ const PagePreview = () => {
 
 export default PagePreview
 
-const attachIncognitoFilter = () => {
-  chrome
-    .webRequest
-    .onBeforeSendHeaders
-    .addListener(
-      incognitoRequestFilter,
-      { urls: ['<all_urls>'] },
-      ['blocking', 'requestHeaders', 'extraHeaders']
-    );
-}
 
-const removeIncognitoFilter = () => {
-  chrome
-    .webRequest
-    .onBeforeSendHeaders
-    .removeListener(
-      incognitoRequestFilter
-    );
-}
-
-const incognitoRequestFilter = (request: any) => {
-  // Apply this filter to our requests only
-
-  if (request.initiator != 'chrome-extension://' + chrome.runtime.id) {
-    return;
-  }
-  if (request.url.match('^https?') == null) {
-    return { cancel: true };
-  }
-  let headers = request.requestHeaders.filter((header: any) => {
-    return header.name == 'User-Agent'
-  });
-  headers.push({
-    name: 'Accept',
-    value: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0'
-  });
-  headers.push({
-    name: 'Cache-Control',
-    value: 'no-cache'
-  });
-  return {
-    requestHeaders: headers
-  };
-}
 
