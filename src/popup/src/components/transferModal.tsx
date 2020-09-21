@@ -1,14 +1,14 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom'
 import {
-    Text, Button, Input,
+    Text, Button, Input, Stack,
     ModalOverlay,
     ModalContent,
     ModalHeader,
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useToast
+    useToast, InputRightElement, InputGroup, FormControl, FormErrorMessage, FormHelperText, FormLabel
 } from "@chakra-ui/core";
 import { getFee, sendTransfer } from '../providers/wallets'
 import { useSelector } from 'react-redux'
@@ -23,19 +23,25 @@ const TransferModal = () => {
     const [to, setToAddress] = useState('')
     const [message, setMessage] = useState('')
     const [password, setPassword] = useState('')
+    const [next, setNext] = useState(false)
+    const [validAmount, setValid] = useState(true)
     const history = useHistory();
     const toast = useToast()
-    
+
+    useEffect(() => {
+        getFee(0).then(res => setFee(res))
+    }, [])
+
     const updateFee = () => {
         let messageSize = (message === '' ? 0 : new Blob([message]).size)
         getFee(messageSize).then(cost => setFee(cost))
-        .catch(() => toast({
-            title: 'Error',
-            status: 'error',
-            duration: 3000,
-            position: 'bottom-left',
-            description: 'Error getting fee, check your network connection and try again'
-          }))
+            .catch(() => toast({
+                title: 'Error',
+                status: 'error',
+                duration: 3000,
+                position: 'bottom-left',
+                description: 'Error getting fee, check your network connection and try again'
+            }))
     }
 
     const initiateTransfer = async () => {
@@ -50,27 +56,103 @@ const TransferModal = () => {
         }
         sendTransfer(transfterDeets, password)
     }
+
+    const validateAmount = () => {
+        setValid((parseFloat(balance) - parseFloat(fee) - parseFloat(amount) >= 0))
+    }
+
+    const setMax = async () => {
+        let balance = parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance)
+        let fee = await getFee(0)
+        let amount = balance - parseFloat(fee)
+        setFee(fee)
+        setAmount((balance - parseFloat(fee)).toString())
+    }
+
     return (<Fragment>
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>Send AR</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Text>From: {state.activeWallet}</Text>
-                <Input placeholder="Send to Arweave wallet address" value={to} onChange={(e: any) => setToAddress(e.target.value)} />
-                <Input placeholder="Amount" value={amount} onChange={(e: any) => setAmount(e.target.value)} />
-                <Input placeholder="Message (optional)" value={message} onChange={(evt: any) => setMessage(evt.target.value)} onBlur={updateFee}></Input>
-                <Text>Fee: {fee}</Text>
-                <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-                <Text>Enter password to confirm transaction</Text>
-                <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
+                <Stack spacing={2}>
+                    <Stack>
+                        <Text>From:</Text>
+                        <Text fontSize={14}>{state.activeWallet}</Text>
+                    </Stack>
+                    {!next && <Fragment>
+                        <Stack spacing={2}>
+                            <FormControl isInvalid={to === state.activeWallet}>
+                                <FormLabel htmlFor='to' fontSize={12} color="grey">Send to Arweave wallet address</FormLabel>
+                                <Input placeholder="Send to Arweave wallet address"
+                                    value={to}
+                                    onChange={(e: any) => setToAddress(e.target.value)}
+                                    onBlur={updateFee}
+                                    isInvalid={to === state.activeWallet} />
+                                <FormErrorMessage>Recipient address cannot be the same as the sending address</FormErrorMessage>
+                            </FormControl>
+                            <Stack isInline>
+                            <FormControl isInvalid={!validAmount}>
+                                <InputGroup>
+                                    <Input
+                                        placeholder="Amount"
+                                        value={amount}
+                                        onChange={(e: any) => setAmount(e.target.value)}
+                                        onBlur={() => validateAmount()}
+                                        isInvalid={!validAmount}
+                                    />
+                                    <InputRightElement children='AR' />
+                                </InputGroup>
+                                <FormErrorMessage>Amount cannot be greater than wallet balance</FormErrorMessage>
+                            </FormControl>
+
+                                <Button border="none" onClick={setMax}>Entire Wallet</Button>
+                            </Stack>
+                            <Input placeholder="Message (optional)" value={message} onChange={(evt: any) => setMessage(evt.target.value)} onBlur={updateFee} />
+                            <Text>Fee</Text>
+                            <Text fontSize={14}>{fee} AR</Text>
+                            <Text>Total (including fee)</Text>
+                            <Text fontSize={14}>{(parseFloat(fee) + parseFloat(amount ? amount : '0')).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: (fee != '0') ? fee.split('.')[1].length : 1 })} AR</Text>
+                        </Stack>
+                    </Fragment>}
+                    {next && <Fragment>
+                        <Stack spacing={2}>
+                            <Stack>
+                                <Text>To:</Text>
+                                <Text fontSize={14}>{to}</Text>
+                            </Stack>
+                            <Stack isInline>
+                                <Stack>
+                                    <Text>Sending</Text>
+                                    <Text>{amount} AR</Text>
+                                </Stack>
+                                <Stack>
+                                    <Text>Fee</Text>
+                                    <Text>{fee} AR</Text>
+                                </Stack>
+                            </Stack>
+                            <Stack>
+                                <Text>Total</Text>
+                                <Text>{(parseFloat(fee) + parseFloat(amount ? amount : '0')).toLocaleString('en-US', { style: 'decimal', minimumFractionDigits: (fee != '0') ? fee.split('.')[1].length : 1 })} AR</Text>
+                            </Stack>
+                            <Stack>
+                                <Text>Balance after transaction</Text>
+                                <Text>{(parseFloat(balance) - parseFloat(fee) - parseFloat(amount)).toString()} AR</Text>
+                            </Stack>
+                            <Text>Enter password to confirm transaction</Text>
+                            <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
+                        </Stack>
+                    </Fragment>}
+                </Stack>
             </ModalBody>
             <ModalFooter>
-                <Button onClick={function () {
-                    initiateTransfer();
-                    setOpen(false)
-                    history.push('/transfers')
-                }}>Confirm and Send AR</Button>
+                {!next ? <Button isDisabled={!validAmount || (to === '')} onClick={() => setNext(true)}>Next</Button> :
+                    <Button onClick={function () {
+                        initiateTransfer();
+                        setOpen(false)
+                        setNext(false)
+                        history.push('/transfers')
+                    }}>Confirm and Send AR</Button>}
             </ModalFooter>
         </ModalContent>
     </Fragment>
