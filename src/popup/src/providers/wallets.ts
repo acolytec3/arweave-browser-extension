@@ -100,7 +100,7 @@ export const archivePage = async (page: any, password: string, store: any): Prom
 
     const response = await arweave.transactions.post(transaction);
     console.log(response);
-
+    chrome.runtime.sendMessage({ success: 'page' })
     let pageDetails: page = {
       'title': page.title,
       'url': page.url,
@@ -119,6 +119,7 @@ export const archivePage = async (page: any, password: string, store: any): Prom
   }
   catch (err) {
     console.log(`Error in archiving page - ${err}`)
+    chrome.runtime.sendMessage({ failure: 'page' })
     return false
   }
   return true
@@ -138,7 +139,7 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
 
     const response = await arweave.transactions.post(transaction);
     console.log(response);
-
+    chrome.runtime.sendMessage({ success: 'pdf' })
     let pdfDetails: any = {
       'url': pdf.url,
       'fee': pdf.fee,
@@ -156,6 +157,7 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
   }
   catch (err) {
     console.log(`Error in archiving pdf - ${err}`)
+    chrome.runtime.sendMessage({ failure: 'pdf' })
     return false
   }
   return true
@@ -179,6 +181,7 @@ export const sendTransfer = async (transfer: any, password: string, store: Store
 
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    chrome.runtime.sendMessage({ success: 'transfer' })
 
     let transferDetails: any = {
       'to': transfer.to,
@@ -198,6 +201,7 @@ export const sendTransfer = async (transfer: any, password: string, store: Store
   }
   catch (err) {
     console.log(`Error sending tranfer - ${err}`)
+    chrome.runtime.sendMessage({ failure: 'transfer' })
     return false
   }
   return true

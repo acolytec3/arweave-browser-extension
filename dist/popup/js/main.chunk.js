@@ -259,11 +259,35 @@ const BrowserPage = route => {
   const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_10__["useSelector"])(rootState => rootState);
   const [modal, openModal] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [arModal, setArModal] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const toast = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useToast"])();
   const headerLabel = {
     'transfers': 'Transfers',
     'pdfs': 'PDFs',
     'pages': 'Archived Pages'
   };
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    chrome.runtime.onMessage.addListener(message => {
+      if (message.hasOwnProperty('success')) {
+        toast({
+          title: `Transaction submitted successfully.  You should see it shortly`,
+          status: 'success',
+          duration: 5000,
+          position: 'bottom',
+          isClosable: true
+        });
+      }
+
+      if (message.hasOwnProperty('failure')) {
+        toast({
+          title: `Error submitting transaction.  Please check your connection and try again`,
+          status: 'error',
+          duration: 5000,
+          position: 'bottom',
+          isClosable: true
+        });
+      }
+    });
+  }, []);
 
   const handleClose = () => {
     onClose();
@@ -276,42 +300,42 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 49,
+        lineNumber: 73,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 50,
+        lineNumber: 74,
         columnNumber: 7
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 51,
+        lineNumber: 75,
         columnNumber: 7
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 52,
+        lineNumber: 76,
         columnNumber: 9
       }
     }, "Network Info", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 53,
+        lineNumber: 77,
         columnNumber: 9
       }
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 55,
+        lineNumber: 79,
         columnNumber: 9
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
@@ -321,14 +345,14 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 56,
+        lineNumber: 80,
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 57,
+        lineNumber: 81,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -336,7 +360,7 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 58,
+        lineNumber: 82,
         columnNumber: 15
       }
     }, "Last Updated"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -344,14 +368,14 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 59,
+        lineNumber: 83,
         columnNumber: 15
       }
     }, state.lastUpdated)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 61,
+        lineNumber: 85,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -359,7 +383,7 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 62,
+        lineNumber: 86,
         columnNumber: 15
       }
     }, "Height"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -367,49 +391,49 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 63,
+        lineNumber: 87,
         columnNumber: 15
       }
     }, state.network.height))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 66,
+        lineNumber: 90,
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 67,
+        lineNumber: 91,
         columnNumber: 13
       }
     }, "Node"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 68,
+        lineNumber: 92,
         columnNumber: 13
       }
     }, state.settings.gateway)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 70,
+        lineNumber: 94,
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 71,
+        lineNumber: 95,
         columnNumber: 13
       }
     }, "Response"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Code"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 72,
+        lineNumber: 96,
         columnNumber: 13
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Textarea"], {
@@ -417,7 +441,7 @@ const BrowserPage = route => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 73,
+        lineNumber: 97,
         columnNumber: 15
       }
     }))))));
@@ -449,14 +473,14 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 97,
+      lineNumber: 121,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 98,
+      lineNumber: 122,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -465,22 +489,22 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99,
-      columnNumber: 5
+      lineNumber: 123,
+      columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_preview__WEBPACK_IMPORTED_MODULE_7__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100,
-      columnNumber: 7
+      lineNumber: 124,
+      columnNumber: 9
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102,
+      lineNumber: 126,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -495,8 +519,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103,
-      columnNumber: 5
+      lineNumber: 127,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     flexDirection: "row",
@@ -505,23 +529,23 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104,
-      columnNumber: 7
+      lineNumber: 128,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ArweaveLogo, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 105,
-      columnNumber: 9
+      lineNumber: 129,
+      columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ButtonGroup"], {
     pr: 1,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 107,
-      columnNumber: 7
+      lineNumber: 131,
+      columnNumber: 11
     }
   }, "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     as: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"],
@@ -529,8 +553,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109,
-      columnNumber: 9
+      lineNumber: 133,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaFilePdf"],
@@ -541,8 +565,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109,
-      columnNumber: 41
+      lineNumber: 133,
+      columnNumber: 45
     }
   }, "PDFs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     as: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"],
@@ -550,8 +574,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111,
-      columnNumber: 9
+      lineNumber: 135,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaRegFileAlt"],
@@ -562,8 +586,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111,
-      columnNumber: 42
+      lineNumber: 135,
+      columnNumber: 46
     }
   }, "Pages")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     as: react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"],
@@ -571,8 +595,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113,
-      columnNumber: 9
+      lineNumber: 137,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaMoneyCheckAlt"],
@@ -583,8 +607,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113,
-      columnNumber: 46
+      lineNumber: 137,
+      columnNumber: 50
     }
   }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaWallet"],
@@ -596,8 +620,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 114,
-      columnNumber: 9
+      lineNumber: 138,
+      columnNumber: 13
     }
   }, "Wallets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     leftIcon: react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaCog"],
@@ -609,8 +633,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 115,
-      columnNumber: 9
+      lineNumber: 139,
+      columnNumber: 13
     }
   }, "Settings"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
     bg: "#4a4a4a",
@@ -618,8 +642,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 118,
-      columnNumber: 5
+      lineNumber: 142,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "row",
@@ -628,8 +652,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 119,
-      columnNumber: 9
+      lineNumber: 143,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     justifySelf: "start",
@@ -638,32 +662,32 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 120,
-      columnNumber: 11
+      lineNumber: 144,
+      columnNumber: 13
     }
   }, headerLabel[history.location.pathname.split('/')[2].toString()]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
     marginLeft: "auto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 121,
-      columnNumber: 11
+      lineNumber: 145,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     color: "white",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 122,
-      columnNumber: 13
+      lineNumber: 146,
+      columnNumber: 15
     }
   }, state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     color: "white",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123,
-      columnNumber: 13
+      lineNumber: 147,
+      columnNumber: 15
     }
   }, parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance).toFixed(6), " AR ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     marginLeft: 2,
@@ -673,8 +697,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 125,
-      columnNumber: 11
+      lineNumber: 149,
+      columnNumber: 13
     }
   }, "Send AR"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Box"], {
     position: "absolute",
@@ -688,83 +712,83 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 128,
-      columnNumber: 5
+      lineNumber: 152,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 129,
-      columnNumber: 7
+      lineNumber: 153,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/pages",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 130,
-      columnNumber: 9
+      lineNumber: 154,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 131,
-      columnNumber: 11
+      lineNumber: 155,
+      columnNumber: 15
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/pdfs",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 133,
-      columnNumber: 9
+      lineNumber: 157,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pdfs__WEBPACK_IMPORTED_MODULE_6__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 134,
-      columnNumber: 11
+      lineNumber: 158,
+      columnNumber: 15
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/transfers",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 136,
-      columnNumber: 9
+      lineNumber: 160,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transfers__WEBPACK_IMPORTED_MODULE_8__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 137,
-      columnNumber: 11
+      lineNumber: 161,
+      columnNumber: 15
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/wallets/open",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 139,
-      columnNumber: 9
+      lineNumber: 163,
+      columnNumber: 13
     }
   }, () => handleOpen('wallets')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     path: "/preview",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 142,
-      columnNumber: 9
+      lineNumber: 166,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_preview__WEBPACK_IMPORTED_MODULE_7__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 143,
-      columnNumber: 11
+      lineNumber: 167,
+      columnNumber: 15
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
     position: "fixed",
@@ -777,8 +801,8 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 146,
-      columnNumber: 7
+      lineNumber: 170,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
     isInline: true,
@@ -788,23 +812,23 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 148,
-      columnNumber: 9
+      lineNumber: 172,
+      columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 149,
-      columnNumber: 11
+      lineNumber: 173,
+      columnNumber: 15
     }
   }, state.network.connected ? "Connected" : "Disconnected"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_3__["FaCircle"], {
     color: state.network.connected ? "#86dc22" : "red",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 150,
-      columnNumber: 11
+      lineNumber: 174,
+      columnNumber: 15
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
     isOpen: arModal,
@@ -812,22 +836,22 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 153,
-      columnNumber: 7
+      lineNumber: 177,
+      columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transferModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 153,
-      columnNumber: 65
+      lineNumber: 177,
+      columnNumber: 69
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NetworkModal, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 154,
-      columnNumber: 7
+      lineNumber: 178,
+      columnNumber: 11
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Drawer"], {
     placement: "right",
@@ -836,29 +860,29 @@ const BrowserPage = route => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 156,
-      columnNumber: 5
+      lineNumber: 180,
+      columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["DrawerOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 160,
-      columnNumber: 7
+      lineNumber: 184,
+      columnNumber: 11
     }
   }), drawer === 'wallets' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_wallets__WEBPACK_IMPORTED_MODULE_4__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 161,
-      columnNumber: 31
+      lineNumber: 185,
+      columnNumber: 35
     }
   }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_settings__WEBPACK_IMPORTED_MODULE_9__["default"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 161,
-      columnNumber: 45
+      lineNumber: 185,
+      columnNumber: 49
     }
   })))));
 };
@@ -2648,7 +2672,7 @@ const PagePreview = () => {
       title: "Warning",
       description: "Remember to make sure there's no personal information present, as this data will be archived permanently and publicly.",
       status: "warning",
-      duration: null,
+      duration: 5000,
       isClosable: true,
       position: 'top'
     });
@@ -5929,6 +5953,9 @@ const archivePage = async (page, password, store) => {
     await arweave.transactions.sign(transaction, key);
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    chrome.runtime.sendMessage({
+      success: 'page'
+    });
     let pageDetails = {
       'title': page.title,
       'url': page.url,
@@ -5945,6 +5972,9 @@ const archivePage = async (page, password, store) => {
     });
   } catch (err) {
     console.log(`Error in archiving page - ${err}`);
+    chrome.runtime.sendMessage({
+      failure: 'page'
+    });
     return false;
   }
 
@@ -5965,6 +5995,9 @@ const archivePdf = async (pdf, password, store) => {
     await arweave.transactions.sign(transaction, key);
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    chrome.runtime.sendMessage({
+      success: 'pdf'
+    });
     let pdfDetails = {
       'url': pdf.url,
       'fee': pdf.fee,
@@ -5980,6 +6013,9 @@ const archivePdf = async (pdf, password, store) => {
     });
   } catch (err) {
     console.log(`Error in archiving pdf - ${err}`);
+    chrome.runtime.sendMessage({
+      failure: 'pdf'
+    });
     return false;
   }
 
@@ -6001,6 +6037,9 @@ const sendTransfer = async (transfer, password, store) => {
     await arweave.transactions.sign(transaction, key);
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    chrome.runtime.sendMessage({
+      success: 'transfer'
+    });
     let transferDetails = {
       'to': transfer.to,
       'amount': transfer.amount,
@@ -6017,6 +6056,9 @@ const sendTransfer = async (transfer, password, store) => {
     });
   } catch (err) {
     console.log(`Error sending tranfer - ${err}`);
+    chrome.runtime.sendMessage({
+      failure: 'transfer'
+    });
     return false;
   }
 

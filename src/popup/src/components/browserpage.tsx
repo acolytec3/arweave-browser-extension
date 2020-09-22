@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Switch, Route, Link as ReactLink, useHistory } from 'react-router-dom';
 import {
   Flex, ButtonGroup, Button, Link, Drawer, Text, Box,
-  DrawerOverlay, useDisclosure, PseudoBox, Stack,
+  DrawerOverlay, useDisclosure, PseudoBox, Stack, useToast,
   Code, Textarea,
   ModalOverlay,
   ModalContent,
@@ -34,13 +34,37 @@ const BrowserPage = (route: any) => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [modal, openModal] = useState(false)
   const [arModal, setArModal] = useState(false)
+  const toast = useToast();
 
-  const headerLabel: {[key: string]: string}  = {
+  const headerLabel: { [key: string]: string } = {
     'transfers': 'Transfers',
     'pdfs': 'PDFs',
     'pages': 'Archived Pages'
   }
-  
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.hasOwnProperty('success')) {
+        toast({
+          title: `Transaction submitted successfully.  You should see it shortly`,
+          status: 'success',
+          duration: 5000,
+          position: 'bottom',
+          isClosable: true
+        })
+      }
+      if (message.hasOwnProperty('failure')) {
+        toast({
+          title: `Error submitting transaction.  Please check your connection and try again`,
+          status: 'error',
+          duration: 5000,
+          position: 'bottom',
+          isClosable: true
+        })
+      }
+    });
+  }, [])
+
   const handleClose = () => {
     onClose()
   }
@@ -96,71 +120,71 @@ const BrowserPage = (route: any) => {
 
   return (<Router basename="/mainpage">
     <Switch>
-    <Route exact path="/preview">
-      <Preview />
-    </Route>
+      <Route exact path="/preview">
+        <Preview />
+      </Route>
       <Route path="/">
-    <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
-      <Flex flexDirection="row" justifyContent="center" alignItems="center">
-        <ArweaveLogo />
-      </Flex>
-      <ButtonGroup pr={1} >
-        {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
-        <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
-        {/* @ts-ignore*/}
-        <Link as={ReactLink} to="/pages"><Button leftIcon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg">Pages</Button></Link>
-        {/*@ts-ignore*/}
-        <Link as={ReactLink} to="/transfers"><Button leftIcon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg">Transfers</Button></Link>
-        <Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('wallets')}>Wallets</Button>
-        <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
-      </ButtonGroup>
-    </Flex >
-    <PseudoBox bg="#4a4a4a"px={2}>
-        <Flex direction="row" alignItems="center" justifyContent="space-around">
-          <Text justifySelf="start" color="white" fontSize={24}>{headerLabel[history.location.pathname.split('/')[2].toString()]}</Text>
-          <Stack marginLeft="auto">
-            <Text color="white">{state.activeWallet}</Text>
-            <Text color="white">{parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6)} AR </Text>
-          </Stack>
-          <Button marginLeft={2} color="black" bg="white" onClick={() => setArModal(true)}>Send AR</Button>
-        </Flex>
-      </PseudoBox>
-    <Box position="absolute" bg="#f6f6f7" w="100%" h="90%" px={8} pt={4} justifyContent="space between" alignItems="center">
-      <Switch>
-        <Route path="/pages">
-          <Pages />
-        </Route>
-        <Route path="/pdfs">
-          <Pdfs />
-        </Route>
-        <Route path="/transfers">
-          <Transfers />
-        </Route>
-        <Route path="/wallets/open">
-          {() => handleOpen('wallets')}
-        </Route>
-        <Route path="/preview">
-          <Preview />
-        </Route>
-      </Switch>
-      <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer"
-        onClick={() => openModal(true)}>
-        <Stack isInline align="center" px="5px" py="10px">
-          <Text>{state.network.connected ? "Connected" : "Disconnected"}</Text>
-          <FaCircle color={state.network.connected ? "#86dc22" : "red"} />
-        </Stack>
-      </PseudoBox>
-      <Modal isOpen={arModal} onClose={() => setArModal(false)}><TransferModal /></Modal>
-      <NetworkModal />
-    </Box>
-    <Drawer
-      placement="right"
-      onClose={handleClose}
-      isOpen={isOpen}>
-      <DrawerOverlay />
-      {drawer === 'wallets' ? <Wallets /> : <Settings />}
-    </Drawer>
-    </Route>
+        <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+          <Flex flexDirection="row" justifyContent="center" alignItems="center">
+            <ArweaveLogo />
+          </Flex>
+          <ButtonGroup pr={1} >
+            {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
+            <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
+            {/* @ts-ignore*/}
+            <Link as={ReactLink} to="/pages"><Button leftIcon={FaRegFileAlt} bg="white" color="grey" border="none" size="lg">Pages</Button></Link>
+            {/*@ts-ignore*/}
+            <Link as={ReactLink} to="/transfers"><Button leftIcon={FaMoneyCheckAlt} bg="white" color="grey" border="none" size="lg">Transfers</Button></Link>
+            <Button leftIcon={FaWallet} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('wallets')}>Wallets</Button>
+            <Button leftIcon={FaCog} bg="white" color="grey" border="none" size="lg" onClick={() => handleOpen('settings')}>Settings</Button>
+          </ButtonGroup>
+        </Flex >
+        <PseudoBox bg="#4a4a4a" px={2}>
+          <Flex direction="row" alignItems="center" justifyContent="space-around">
+            <Text justifySelf="start" color="white" fontSize={24}>{headerLabel[history.location.pathname.split('/')[2].toString()]}</Text>
+            <Stack marginLeft="auto">
+              <Text color="white">{state.activeWallet}</Text>
+              <Text color="white">{parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6)} AR </Text>
+            </Stack>
+            <Button marginLeft={2} color="black" bg="white" onClick={() => setArModal(true)}>Send AR</Button>
+          </Flex>
+        </PseudoBox>
+        <Box position="absolute" bg="#f6f6f7" w="100%" h="90%" px={8} pt={4} justifyContent="space between" alignItems="center">
+          <Switch>
+            <Route path="/pages">
+              <Pages />
+            </Route>
+            <Route path="/pdfs">
+              <Pdfs />
+            </Route>
+            <Route path="/transfers">
+              <Transfers />
+            </Route>
+            <Route path="/wallets/open">
+              {() => handleOpen('wallets')}
+            </Route>
+            <Route path="/preview">
+              <Preview />
+            </Route>
+          </Switch>
+          <PseudoBox position="fixed" bottom="20px" right="20px" bg="#434750" color="white" cursor="pointer"
+            onClick={() => openModal(true)}>
+            <Stack isInline align="center" px="5px" py="10px">
+              <Text>{state.network.connected ? "Connected" : "Disconnected"}</Text>
+              <FaCircle color={state.network.connected ? "#86dc22" : "red"} />
+            </Stack>
+          </PseudoBox>
+          <Modal isOpen={arModal} onClose={() => setArModal(false)}><TransferModal /></Modal>
+          <NetworkModal />
+        </Box>
+        <Drawer
+          placement="right"
+          onClose={handleClose}
+          isOpen={isOpen}>
+          <DrawerOverlay />
+          {drawer === 'wallets' ? <Wallets /> : <Settings />}
+        </Drawer>
+      </Route>
     </Switch>
   </Router>
   )

@@ -54,7 +54,7 @@ const PagePreview = () => {
       title: "Warning",
       description: "Remember to make sure there's no personal information present, as this data will be archived permanently and publicly.",
       status: "warning",
-      duration: null,
+      duration: 5000,
       isClosable: true,
       position: 'top'
     })
