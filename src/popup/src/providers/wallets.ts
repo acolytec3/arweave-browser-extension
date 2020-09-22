@@ -101,6 +101,7 @@ export const archivePage = async (page: any, password: string, store: any): Prom
     const response = await arweave.transactions.post(transaction);
     console.log(response);
     chrome.runtime.sendMessage({ success: 'page' })
+    transaction.data = Uint8Array.from([]) //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
     let pageDetails: page = {
       'title': page.title,
       'url': page.url,
@@ -139,6 +140,7 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
 
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    transaction.data = Uint8Array.from([])  //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
     chrome.runtime.sendMessage({ success: 'pdf' })
     let pdfDetails: any = {
       'url': pdf.url,

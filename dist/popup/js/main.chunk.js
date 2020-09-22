@@ -3521,8 +3521,8 @@ const TransferModal = () => {
   const history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
   const toast = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useToast"])();
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_3__["getFee"])(0).then(res => setFee(res));
-  }, []);
+    updateFee();
+  }, [message]);
 
   const updateFee = () => {
     let messageSize = message === '' ? 0 : new Blob([message]).size;
@@ -3556,15 +3556,13 @@ const TransferModal = () => {
   };
 
   const validateAmount = () => {
-    setValid(parseFloat(balance) - parseFloat(fee) - parseFloat(amount) >= 0);
+    amount === '' ? setValid(true) : setValid(parseFloat((parseFloat(balance) - parseFloat(fee) - parseFloat(amount)).toFixed(12)) >= 0);
   };
 
   const setMax = async () => {
     let balance = parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance);
-    let fee = await Object(_providers_wallets__WEBPACK_IMPORTED_MODULE_3__["getFee"])(0);
     let amount = balance - parseFloat(fee);
-    setFee(fee);
-    setAmount((balance - parseFloat(fee)).toString());
+    setAmount(amount.toString());
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
@@ -5956,6 +5954,8 @@ const archivePage = async (page, password, store) => {
     chrome.runtime.sendMessage({
       success: 'page'
     });
+    transaction.data = Uint8Array.from([]); //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
+
     let pageDetails = {
       'title': page.title,
       'url': page.url,
@@ -5995,6 +5995,8 @@ const archivePdf = async (pdf, password, store) => {
     await arweave.transactions.sign(transaction, key);
     const response = await arweave.transactions.post(transaction);
     console.log(response);
+    transaction.data = Uint8Array.from([]); //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
+
     chrome.runtime.sendMessage({
       success: 'pdf'
     });

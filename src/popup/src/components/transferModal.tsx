@@ -29,8 +29,8 @@ const TransferModal = () => {
     const toast = useToast()
 
     useEffect(() => {
-        getFee(0).then(res => setFee(res))
-    }, [])
+        updateFee()
+    }, [message])
 
     const updateFee = () => {
         let messageSize = (message === '' ? 0 : new Blob([message]).size)
@@ -59,15 +59,15 @@ const TransferModal = () => {
     }
 
     const validateAmount = () => {
-        setValid((parseFloat(balance) - parseFloat(fee) - parseFloat(amount) >= 0))
+        amount === '' ? 
+            setValid(true) : 
+            setValid(parseFloat((parseFloat(balance) - parseFloat(fee) - parseFloat(amount)).toFixed(12)) >= 0)
     }
 
     const setMax = async () => {
         let balance = parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance)
-        let fee = await getFee(0)
-        let amount = balance - parseFloat(fee)
-        setFee(fee)
-        setAmount((balance - parseFloat(fee)).toString())
+        let amount = balance - parseFloat(fee)       
+        setAmount(amount.toString())
     }
 
     return (<Fragment>
