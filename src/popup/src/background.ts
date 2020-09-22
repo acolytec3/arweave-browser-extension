@@ -1,6 +1,7 @@
 import { createStore } from 'redux'
 import { wrapStore } from 'webext-redux'
-import { updateWallets } from './providers/wallets'
+import { updateWallets, archivePage, archivePdf, sendTransfer } from './providers/wallets'
+import axios from 'axios'
 
 export type wallet = {
   'address': string,
@@ -50,7 +51,7 @@ export type settings = {
   'loki': boolean,
   'silo': boolean,
   'lokiGateway': string,
-  'incognito':boolean
+  'incognito': boolean
 }
 
 export type pageSource = {
@@ -72,8 +73,6 @@ export type initialStateType = {
   pageSource?: pageSource
 }
 
-
-
 const initialState = {
   wallets: [],
   activeWallet: '',
@@ -85,7 +84,7 @@ const initialState = {
     'loki': false,
     'silo': false,
     'lokiGateway': 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo',
-    'incognito':false
+    'incognito': false
   }
 }
 
@@ -93,10 +92,10 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
   console.log(state)
   console.log(action)
   switch (action.type) {
-    case 'ADD_WALLET':{
-      let newerWallets:wallet[] = []
+    case 'ADD_WALLET': {
+      let newerWallets: wallet[] = []
       if (state.wallets.filter(wallet => wallet.address === action.payload.address).length === 0) {
-        let newWallet:wallet = {address: action.payload.address, balance:action.payload.balance, nickname:action.payload.nickname, key:action.payload.key}
+        let newWallet: wallet = { address: action.payload.address, balance: action.payload.balance, nickname: action.payload.nickname, key: action.payload.key }
         newerWallets = [...state.wallets, newWallet]
       }
       else newerWallets = [...state.wallets]
@@ -114,15 +113,15 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
         let updatedState = action.payload
         localStorage.setItem('wallets', JSON.stringify(updatedState))
         return updatedState;
-    };
-      
+      };
+
     case 'SET_ACTIVE':
       let newState2 = {
         ...state,
         activeWallet: action.payload.address
-      }  
-        localStorage.setItem('wallets', JSON.stringify(newState2))
-    return newState2;
+      }
+      localStorage.setItem('wallets', JSON.stringify(newState2))
+      return newState2;
 
     case 'REMOVE_WALLET':
       let newWallets = state.wallets.filter(wallet => wallet.address !== action.payload.address)
@@ -140,7 +139,7 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       newWallet.nickname = action.payload.nickname
       let otherWallets = state.wallets.filter(wallet => wallet.address !== action.payload.address)
       let index = state.wallets.findIndex(wallet => wallet.address === action.payload.address)
-      otherWallets.splice(index,0,newWallet)
+      otherWallets.splice(index, 0, newWallet)
       let postNicknameUpdatedState = {
         ...state,
         wallets: otherWallets
@@ -199,8 +198,8 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
         ...state,
         pageSource: action.payload as pageSource
       }
-        return postPageSourceUpdateState
-      
+      return postPageSourceUpdateState
+
     default: return state;
   }
 }
@@ -219,4 +218,44 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 })
 
-chrome.alarms.create('update',{periodInMinutes:720}) //Set alarm to update Wallet balances/transaction status twice a day
+chrome.alarms.create('update', { periodInMinutes: 720 }) //Set alarm to update Wallet balances/transaction status twice a day
+
+chrome.runtime.onMessage.addListener(async (res: any) => {
+  console.log(res)
+  switch (res.action) {
+    case 'archive.page':
+      archivePage(res.payload.page, res.payload.password, store);
+      break;
+    case 'archive.pdf':
+      console.log(res.payload.pdf)
+      axios({
+        url: res.payload.pdf.url,
+        method: 'get',
+        responseType: 'blob',
+        headers: {
+          Accept: 'application/pdf',
+          'Content-Type': 'application/pdf',
+          mode: 'no-cors'
+        }
+      })
+        .then(response => {
+          console.log(response)
+          const reader = new FileReader()
+          reader.onabort = () => console.log('file reading was aborted')
+          reader.onerror = () => console.log('file reading has failed')
+          reader.onload = ((file) => {
+            let pdf = {...res.payload.pdf, source :file!.target!.result as ArrayBuffer}
+            console.log(pdf)
+            archivePdf(pdf, res.payload.password, store);
+          })
+          reader.readAsArrayBuffer(response.data)
+        })
+        .catch(err => console.log(err))
+
+      break;
+    case 'send.transfer':
+      sendTransfer(res.payload.transfer, res.payload.password, store);
+      break;
+    }
+  }
+)

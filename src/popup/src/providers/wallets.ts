@@ -8,8 +8,8 @@ import ArweaveCrypto from './arweaveCrypto'
 const store = new Store()
 const arweaveCrypto = new ArweaveCrypto();
 
-export const getArweaveInstance = async (): Promise<Arweave> => {
-  await store.ready()
+const getArweaveInstance = async (store: Store): Promise<Arweave> => {
+  //await store.ready()
   let state = await store.getState() as initialStateType;
   let protocol = state.settings.gateway.split('://')[0]
   let port = state.settings.gateway.split(':')[2]
@@ -21,11 +21,11 @@ export const getArweaveInstance = async (): Promise<Arweave> => {
   })
 }
 
-const unicodeToAscii = (string: string): string => {
+export const unicodeToAscii = (string: string): string => {
   return btoa(unescape(encodeURIComponent(string)));
 }
 
-const asciiToUnicode = (string: string): string => {
+export const asciiToUnicode = (string: string): string => {
   return decodeURIComponent(escape(atob(string)));
 }
 
@@ -41,21 +41,21 @@ export const decryptKey = async (password: string, address: string): Promise<str
 
 export const generateKey = async (): Promise<any> => {
   let key = await arweaveCrypto.jwk()
-  let arweave = await getArweaveInstance()
+  let arweave = await getArweaveInstance(store)
   //@ts-ignore
   let address = await arweave.wallets.jwkToAddress(key)
   return { address: address, key: key }
 }
 
 export const getAddress = async (key: any): Promise<string> => {
-  let arweave = await getArweaveInstance()
+  let arweave = await getArweaveInstance(store)
   //@ts-ignore
   let address = await arweave.wallets.jwkToAddress(key)
   return address
 }
 
 export const addWallet = async (key: any, nickname: string, password: string): Promise<boolean> => {
-  let arweave = await getArweaveInstance()
+  let arweave = await getArweaveInstance(store)
   let address = await arweave.wallets.jwkToAddress(key)
   if (store.getState().wallets.filter((wallet: wallet) => wallet.address === address).length !== 0) return false
   let encryptedKey = Arweave.utils.bufferTob64Url(await arweaveCrypto.encrypt(Arweave.utils.b64UrlToBuffer(unicodeToAscii(JSON.stringify(key))), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password))))
@@ -79,18 +79,18 @@ export const getFee = async (size: number): Promise<string> => {
   await store.ready()
   let state = store.getState() as initialStateType
   let res = await axios.get(`${state.settings.gateway}/price/${size}`)
-  let arweave = await getArweaveInstance()
+  let arweave = await getArweaveInstance(store)
   return arweave.ar.winstonToAr(res.data)
 }
 
-export const archivePage = async (page: any, password: string): Promise<boolean> => {
+export const archivePage = async (page: any, password: string, store: any): Promise<boolean> => {
   try {
-    await store.ready()
+    //await store.ready()
     let state = store.getState() as initialStateType
-    let arweave = await getArweaveInstance()
+    let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
     let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-    let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
+    let key = JSON.parse(asciiToUnicode(Arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
 
     let transaction = await arweave.createTransaction({ data: page.html }, key);
     console.log(transaction)
@@ -111,7 +111,7 @@ export const archivePage = async (page: any, password: string): Promise<boolean>
       'debug': transaction,
       'size': page.size
     }
-    await store.ready()
+
     let result = await store.dispatch({
       type: 'ARCHIVE_PAGE',
       payload: pageDetails
@@ -124,13 +124,13 @@ export const archivePage = async (page: any, password: string): Promise<boolean>
   return true
 }
 
-export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> => {
+export const archivePdf = async (pdf: pdf, password: string, store: Store): Promise<boolean> => {
   try {
     let state = store.getState() as initialStateType
-    let arweave = await getArweaveInstance()
+    let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
     let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
-    let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
+    let key = JSON.parse(asciiToUnicode(Arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
     let transaction = await arweave.createTransaction({ data: pdf.source }, key);
     transaction.addTag('Content-Type', 'application/pdf')
     transaction.addTag('App-Name', 'Arweave Web Wallet v2.0')
@@ -161,11 +161,10 @@ export const archivePdf = async (pdf: pdf, password: string): Promise<boolean> =
   return true
 }
 
-export const sendTransfer = async (transfer: any, password: string): Promise<boolean> => {
+export const sendTransfer = async (transfer: any, password: string, store: Store): Promise<boolean> => {
   try {
-    await store.ready()
     let state = store.getState() as initialStateType
-    let arweave = await getArweaveInstance()
+    let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
     let rawKey = await arweaveCrypto.decrypt(Arweave.utils.b64UrlToBuffer(encryptedKey), Arweave.utils.b64UrlToBuffer(unicodeToAscii(password)))
     let key = JSON.parse(asciiToUnicode(arweave.utils.bufferTob64Url(new Uint8Array(rawKey))))
@@ -218,7 +217,7 @@ export const updateWallets = async () => {
     let netInfo = {} as any
 
     try {
-      let arweave = await getArweaveInstance()
+      let arweave = await getArweaveInstance(store)
       updatedWallets = await Promise.all(state.wallets.map(async (wallet) => {
         let balance = arweave.ar.winstonToAr(await arweave.wallets.getBalance(wallet.address));
         netInfo = await arweave.api.get(state.settings.gateway)

@@ -32,45 +32,25 @@ const Pdfs = () => {
   const toast = useToast();
 
   useEffect(() => {
-    axios({
-      url: window.location.hash.substr(16,).split('#')[0],
-      method: 'get',
-      responseType: 'blob',
-      headers: {
-        Accept: 'application/pdf',
-        'Content-Type': 'application/pdf',
-        mode: 'no-cors'
-      }
-    })
-      .then(response => {
-
-        const reader = new FileReader()
-        reader.onabort = () => console.log('file reading was aborted')
-        reader.onerror = () => toast({
-          title: 'Error',
-          status: 'error',
-          duration: 3000,
-          position: 'bottom-left',
-          description: 'Unable to read wallet file'
-        })
-        reader.onload = ((file) => {
-          setSource(file!.target!.result)
-        })
-        setSize(response.data.size)
-        getFee(response.data.size).then((res) => {
-          setFee(res);
-          setOpen(true)
-        })
-        .catch(() => toast({
-          title: 'Error',
-          status: 'error',
-          duration: 3000,
-          position: 'bottom-left',
-          description: 'Error getting fee, check your network connection and try again'
-        }))
-        reader.readAsArrayBuffer(response.data)
+      axios.head(window.location.hash.substr(16,).split('#')[0]).
+      then((res) => {
+        let size = parseInt(res.headers["content-length"])
+        console.log(size)
+        setSize(size.toString())
+        return getFee(size)
       })
-
+      .then((res) => {
+        console.log(res)
+        setFee(res);
+        setOpen(true);
+      })
+      .catch(() => toast({
+        title: 'Error',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: 'Error getting fee, check your network connection and try again'
+      }))
   }, [])
 
   const pdfSaver = async () => {
@@ -85,7 +65,9 @@ const Pdfs = () => {
       'size':parseInt(size)
     }
 
-    let res = await archivePdf(pdfDeets, password)
+    //let res = await archivePdf(pdfDeets, password)
+    chrome.runtime.sendMessage({ action: 'archive.pdf', payload: { pdf: pdfDeets, password: password } })
+    let res = false
     res ? toast({
       title: 'PDF archived',
       status: 'success',

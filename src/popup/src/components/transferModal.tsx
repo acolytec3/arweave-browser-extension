@@ -54,7 +54,8 @@ const TransferModal = () => {
             'amount': amount,
             'message': message
         }
-        sendTransfer(transfterDeets, password)
+        chrome.runtime.sendMessage({ action: 'send.transfer', payload: { transfer: transfterDeets, password: password } })
+        setOpen(false)
     }
 
     const validateAmount = () => {
@@ -92,20 +93,19 @@ const TransferModal = () => {
                                 <FormErrorMessage>Recipient address cannot be the same as the sending address</FormErrorMessage>
                             </FormControl>
                             <Stack isInline>
-                            <FormControl isInvalid={!validAmount}>
-                                <InputGroup>
-                                    <Input
-                                        placeholder="Amount"
-                                        value={amount}
-                                        onChange={(e: any) => setAmount(e.target.value)}
-                                        onBlur={() => validateAmount()}
-                                        isInvalid={!validAmount}
-                                    />
-                                    <InputRightElement children='AR' />
-                                </InputGroup>
-                                <FormErrorMessage>Amount cannot be greater than wallet balance</FormErrorMessage>
-                            </FormControl>
-
+                                <FormControl isInvalid={!validAmount}>
+                                    <InputGroup>
+                                        <Input
+                                            placeholder="Amount"
+                                            value={amount}
+                                            onChange={(e: any) => setAmount(e.target.value)}
+                                            onBlur={() => validateAmount()}
+                                            isInvalid={!validAmount}
+                                        />
+                                        <InputRightElement children='AR' />
+                                    </InputGroup>
+                                    <FormErrorMessage>Amount cannot be greater than wallet balance</FormErrorMessage>
+                                </FormControl>
                                 <Button border="none" onClick={setMax}>Entire Wallet</Button>
                             </Stack>
                             <Input placeholder="Message (optional)" value={message} onChange={(evt: any) => setMessage(evt.target.value)} onBlur={updateFee} />

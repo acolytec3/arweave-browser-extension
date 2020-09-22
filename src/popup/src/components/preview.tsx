@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {  useHistory } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Text, Flex, Button, Modal, Input, Spinner, Stack, useToast, Switch, FormLabel, Box,
   ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, StatHelpText
@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType, wallet } from '../background'
 import { attachIncognitoFilter, removeIncognitoFilter, incognitoRequestFilter } from '../providers/browser'
 import Arweave from 'arweave';
+import { Store } from 'webext-redux';
 interface inline {
   title: string,
   size: number,
@@ -32,23 +33,31 @@ const PagePreview = () => {
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const toast = useToast();
   const history = useHistory();
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
 
-  const previewStyle = {
-    bg: state.settings.incognito ? "grey" : "white",
-    color: state.settings.incognito ? "white" : "grey"
-  }
   const updateIncognito = async (incognito: boolean): Promise<boolean> => {
     setLoading(true)
-    await setTimeout(() => {}, 1000)
-    let payload = {...state.settings, incognito: incognito};
+    await setTimeout(() => { }, 1000)
+    let payload = { ...state.settings, incognito: incognito };
     let res = await dispatch({ type: 'UPDATE_SETTINGS', payload: payload })
 
-    if (state.settings.incognito){
+    if (state.settings.incognito) {
       getIncognitoRequest()
     }
     else getRegularRequest()
     return true
+  }
+
+  const handleArchive = () => {
+    setOpen(true)
+    toast({
+      title: "Warning",
+      description: "Remember to make sure there's no personal information present, as this data will be archived permanently and publicly.",
+      status: "warning",
+      duration: null,
+      isClosable: true,
+      position: 'top'
+    })
   }
 
   const pageSaver = async () => {
@@ -62,7 +71,10 @@ const PagePreview = () => {
       'size': source.size,
       'html': source.html
     }
-    let res = await archivePage(pageDeets, password)
+    //let res = await archivePage(pageDeets, password)
+    //let res = await dispatch({'type':'PAGE_ALIAS',payload:{'page':pageDeets,'password':password}})
+    let res = false
+    chrome.runtime.sendMessage({ action: 'archive.page', payload: { page: pageDeets, password: password } })
     res ? toast({
       title: 'Page archived',
       status: 'success',
@@ -75,22 +87,22 @@ const PagePreview = () => {
       position: 'bottom-left'
     })
   }
-  
+
   const getIncognitoRequest = () => {
     attachIncognitoFilter();
     axios.get(state.pageSource!.url, {
       withCredentials: false
     })
       .then((res) => inline.html(res.data, state.pageSource!.url))
-      .then((res) => { 
+      .then((res) => {
         getFee(res.size).then((res) => fee = res)
-        .catch(() => toast({
-          title: 'Error',
-          status: 'error',
-          duration: 3000,
-          position: 'bottom-left',
-          description: 'Error getting fee, check your network connection and try again'
-        }))
+          .catch(() => toast({
+            title: 'Error',
+            status: 'error',
+            duration: 3000,
+            position: 'bottom-left',
+            description: 'Error getting fee, check your network connection and try again'
+          }))
         setLoading(false)
         setSource(res);
       })
@@ -110,13 +122,13 @@ const PagePreview = () => {
   const getRegularRequest = () => {
     inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
       getFee(res.size).then((res) => fee = res)
-      .catch(() => toast({
-        title: 'Error',
-        status: 'error',
-        duration: 3000,
-        position: 'bottom-left',
-        description: 'Error getting fee, check your network connection and try again'
-      }))
+        .catch(() => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Error getting fee, check your network connection and try again'
+        }))
       setLoading(false)
       setSource(res)
     })
@@ -133,14 +145,14 @@ const PagePreview = () => {
   useEffect(() => {
     inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
       getFee(res.size).then((res) => fee = res)
-      .catch(() => toast({
-        title: 'Error',
-        status: 'error',
-        duration: 3000,
-        position: 'bottom-left',
-        description: 'Error getting fee, check your network connection and try again'
-      }))
-     setLoading(false)
+        .catch(() => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Error getting fee, check your network connection and try again'
+        }))
+      setLoading(false)
       setSource(res)
     })
       .catch(() => toast({
@@ -168,50 +180,50 @@ const PagePreview = () => {
   }
 
   return (
-  <Box position="absolute" width="100%" height="100%" p="10px">
+    <Box position="absolute" width="100%" height="100%" p="10px">
 
-    <Flex px="5%" direction="row" justifyContent="space-between" paddingBottom="5px">
-      <ArweaveLogo />
-      <Text fontSize="lg">{source.title}</Text>
-      <Stack isInline alignContent="center" alignSelf="end" justifyContent="space-between">
-        <FormLabel htmlFor='incognito' color="black">Safe mode</FormLabel>
-        <Switch id="incognito" size="md" color="green" value={state.settings.incognito}
-          onChange={(evt:any) => { 
-            state.settings.incognito ? 
-               updateIncognito(false)
-               :
-             updateIncognito(true)
-          }} />
-      </Stack></Flex>
+      <Flex px="5%" direction="row" justifyContent="space-between" paddingBottom="5px">
+        <ArweaveLogo />
+        <Text fontSize="lg">{source.title}</Text>
+        <Stack isInline alignContent="center" alignSelf="end" justifyContent="space-between">
+          <FormLabel htmlFor='incognito' color="black">Safe mode</FormLabel>
+          <Switch id="incognito" size="md" color="green" value={state.settings.incognito}
+            onChange={(evt: any) => {
+              state.settings.incognito ?
+                updateIncognito(false)
+                :
+                updateIncognito(true)
+            }} />
+        </Stack></Flex>
       <Box px="auto" width="100%" height="90%">
-      <iframe sandbox="" width="98%" height="90%" srcDoc={source ? source.html : undefined} ></iframe>
-    </Box>
-    <Button width="300px" position="fixed" bottom="20px" right="40px" onClick={() => setOpen(true)}>
-      Archive this on Arweave
+        <iframe sandbox="" width="98%" height="90%" srcDoc={source ? source.html : undefined} ></iframe>
+      </Box>
+      <Button width="300px" position="fixed" bottom="20px" right="40px" onClick={handleArchive}>
+        Archive this on Arweave
       </Button>
-    <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Confirm Transaction</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          <Text>From: {state.activeWallet}</Text>
-          <Text>Page Title: {state.pageSource!.title}</Text>
-          <Text>Page URL: {state.pageSource!.url}</Text>
-          <Text>Page Size: {source.size}</Text>
-          <Text>Fee: {fee}</Text>
-          <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
-          <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
-        </ModalBody>
-        <ModalFooter>
-          <Button  onClick={function () {
-            pageSaver();
-            history.push('/pages')
-          }}>Archive Page</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-    <LoadingModal />
+      <Modal isOpen={isOpen} onClose={() => setOpen(false)} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Transaction</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>From: {state.activeWallet}</Text>
+            <Text>Page Title: {state.pageSource!.title}</Text>
+            <Text>Page URL: {state.pageSource!.url}</Text>
+            <Text>Page Size: {source.size}</Text>
+            <Text>Fee: {fee}</Text>
+            <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+            <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={function () {
+              pageSaver();
+              history.push('/pages')
+            }}>Archive Page</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <LoadingModal />
     </Box>)
 }
 
