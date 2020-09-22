@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
-import { getFee, archivePdf } from '../providers/wallets'
+import { getFee } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, pdf } from '../background'
 
@@ -22,7 +22,6 @@ const Pdfs = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [balance, setBalance] = useState(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance)
   const history = useHistory();
-  const [source, setSource] = useState(null as any)
   const [fee, setFee] = useState('0')
   const [size, setSize] = useState('0')
   const [password, setPassword] = useState('')
@@ -35,12 +34,10 @@ const Pdfs = () => {
       axios.head(window.location.hash.substr(16,).split('#')[0]).
       then((res) => {
         let size = parseInt(res.headers["content-length"])
-        console.log(size)
         setSize(size.toString())
         return getFee(size)
       })
       .then((res) => {
-        console.log(res)
         setFee(res);
         setOpen(true);
       })
@@ -60,7 +57,7 @@ const Pdfs = () => {
       'status': 'pending',
       'txnId': '',
       'timestamp': '',
-      'source': source,
+      'source': null,
       'debug':{},
       'size':parseInt(size)
     }
