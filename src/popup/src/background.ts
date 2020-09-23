@@ -254,7 +254,7 @@ chrome.runtime.onMessage.addListener(async (res: any) => {
 
       break;
     case 'send.transfer':
-      //sendTransfer(res.payload.transfer, res.payload.password, store);
+      sendTransfer(res.payload.transfer, res.payload.password, store);
       break;
     }
   }
