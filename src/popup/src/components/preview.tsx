@@ -68,40 +68,24 @@ const PagePreview = () => {
     chrome.runtime.sendMessage({ action: 'archive.page', payload: { page: pageDeets, password: password } })
   }
 
-  const getIncognitoRequest = () => {
+  const getIncognitoRequest = async () => {
     attachIncognitoFilter();
-    axios.get(state.pageSource!.url, {
+    let res = await axios.get(state.pageSource!.url, {
       withCredentials: false
     })
-      .then((res) => inline.html(res.data, state.pageSource!.url))
-      .then((res) => {
-        getFee(res.size).then((res) => fee = res)
-          .catch(() => toast({
-            title: 'Error',
-            status: 'error',
-            duration: 3000,
-            position: 'bottom-left',
-            description: 'Error getting fee, check your network connection and try again'
-          }))
-        setLoading(false)
-        setSource(res);
-      })
-      .catch(() => toast({
-        title: 'Network error',
-        status: 'error',
-        duration: 3000,
-        position: 'bottom-left',
-        description: 'Error fetching page, check your network connection and try again'
-      }))
-      .finally(() => {
-        removeIncognitoFilter()
-        setLoading(false)
-      })
-  }
-
-  const getRegularRequest = () => {
-    inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
-      getFee(res.size).then((res) => fee = res)
+    try {
+      let deets = await inline.html(res.data, state.pageSource!.url)
+      if (deets.size > 3145728) {
+        toast({
+          title: '',
+          status: 'info',
+          duration: 3000,
+          position: 'bottom-left',
+          description: `Page over 3MB, loading with embedded images disabled`
+        })
+        deets = await inline.html(state.pageSource!.html, state.pageSource!.url, { embed: false })
+      }      
+      getFee(deets.size).then((res) => fee = res)
         .catch(() => toast({
           title: 'Error',
           status: 'error',
@@ -110,16 +94,54 @@ const PagePreview = () => {
           description: 'Error getting fee, check your network connection and try again'
         }))
       setLoading(false)
-      setSource(res)
-    })
-      .catch(() => toast({
+      setSource(deets)
+    }
+    catch {
+      toast({
         title: 'Processing error',
         status: 'error',
         duration: 3000,
         position: 'bottom-left',
         description: 'Error fetching page, please try again'
-      }))
-      .finally(() => setLoading(false))
+      })
+      setLoading(false)
+    }
+  }
+
+  const getRegularRequest = async () => {
+    try {
+      let deets = await inline.html(state.pageSource!.html, state.pageSource!.url)
+      if (deets.size > 3145728) {
+        toast({
+          title: '',
+          status: 'info',
+          duration: 3000,
+          position: 'bottom-left',
+          description: `Page over 3MB, loading with embedded images disabled`
+        })
+        deets = await inline.html(state.pageSource!.html, state.pageSource!.url, { embed: false })
+      }      
+      getFee(deets.size).then((res) => fee = res)
+        .catch(() => toast({
+          title: 'Error',
+          status: 'error',
+          duration: 3000,
+          position: 'bottom-left',
+          description: 'Error getting fee, check your network connection and try again'
+        }))
+      setLoading(false)
+      setSource(deets)
+    }
+    catch {
+      toast({
+        title: 'Processing error',
+        status: 'error',
+        duration: 3000,
+        position: 'bottom-left',
+        description: 'Error fetching page, please try again'
+      })
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
