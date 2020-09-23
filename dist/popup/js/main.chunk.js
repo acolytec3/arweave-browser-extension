@@ -836,6 +836,7 @@ const BrowserPage = route => {
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transferModal__WEBPACK_IMPORTED_MODULE_11__["default"], {
     open: arModal,
+    close: closeTransferModal,
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -3932,6 +3933,7 @@ const TransferModal = open => {
       initiateTransfer();
       history.push('/transfers');
       setOpen(false);
+      open.close();
     },
     __self: undefined,
     __source: {

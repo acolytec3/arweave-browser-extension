@@ -178,7 +178,7 @@ const BrowserPage = (route: any) => {
               <FaCircle color={state.network.connected ? "#86dc22" : "red"} />
             </Stack>
           </PseudoBox>
-          <TransferModal open={arModal} />
+          <TransferModal open={arModal} close={closeTransferModal}/>
           <NetworkModal />
         </Box>
         <Drawer

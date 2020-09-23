@@ -10,7 +10,7 @@ import {
     ModalCloseButton,
     useToast, InputRightElement, InputGroup, FormControl, FormErrorMessage, FormHelperText, FormLabel, Modal
 } from "@chakra-ui/core";
-import { getFee, sendTransfer } from '../providers/wallets'
+import { getFee } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet } from '../background'
 
@@ -155,6 +155,7 @@ const TransferModal = (open: any) => {
                         initiateTransfer();
                         history.push('/transfers')
                         setOpen(false)
+                        open.close();
                     }}>Confirm and Send AR</Button>}
             </ModalFooter>
         </ModalContent>
