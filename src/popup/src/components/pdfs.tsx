@@ -14,7 +14,7 @@ import { FaCheckDouble } from 'react-icons/fa'
 import { getFee } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, pdf } from '../background'
-
+import moment from 'moment'
 
 
 const Pdfs = () => {
@@ -66,20 +66,7 @@ const Pdfs = () => {
       'size': parseInt(size)
     }
 
-    //let res = await archivePdf(pdfDeets, password)
     chrome.runtime.sendMessage({ action: 'archive.pdf', payload: { pdf: pdfDeets, password: password } })
-    let res = false
-    res ? toast({
-      title: 'PDF archived',
-      status: 'success',
-      duration: 3000,
-      position: 'bottom-left'
-    }) : toast({
-      title: 'Error archiving PDF',
-      status: 'error',
-      duration: 3000,
-      position: 'bottom-left'
-    })
   }
 
   const getDebugInfo = async (pdf: pdf) => {
@@ -120,7 +107,7 @@ const Pdfs = () => {
             <Stack borderBottom="1px" marginBottom="20px" isInline>
               <Stack>
                 <Text>Time</Text>
-                <Text>{pdfModal.pdf.timestamp}</Text>
+                <Text>{moment(parseInt(pdfModal.pdf.timestamp)).startOf('minute').fromNow()}</Text>
               </Stack>
               <Stack>
                 <Text>Status</Text>
@@ -161,13 +148,15 @@ const Pdfs = () => {
 
   const PdfRow = (pdf: pdf) => {
     return (
-      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => {
+      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} 
+        borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
+        onClick={() => {
         getDebugInfo(pdf);
         setPdfModal({ open: true, pdf: pdf })
       }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
-        <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
+        <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).startOf('minute').fromNow()}</Text>
           {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
         </Stack>
       </SimpleGrid>
@@ -179,7 +168,7 @@ const Pdfs = () => {
     return <Fragment><Flex direction="column">
       {pdfs && <SimpleGrid columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>
-        <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
+        <Text fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Time</Text>
       </SimpleGrid>}
       {pdfs && pdfs.map((pdf: pdf) => {
@@ -205,8 +194,8 @@ const Pdfs = () => {
                 <Text>From: {state.activeWallet}</Text>
                 <Text>Page URL: {window.location.hash.substr(16,).split('#')[0]}</Text>
                 <Text>Page Size: {parseInt(size) / 1000} kb</Text>
-                <Text>Fee: {fee}</Text>
-                <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+                <Text>Fee: {fee} AR</Text>
+                <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)} AR</Text>
                 <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>

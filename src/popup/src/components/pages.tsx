@@ -7,7 +7,7 @@ import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, page } from '../background'
-
+import moment from 'moment'
 
 const Pages = () => {
   const [pageModal, setPageOpen] = useState({ open: false, page: {} as page || null })
@@ -39,7 +39,7 @@ const Pages = () => {
   }
   
   const PageRow = (page: page) => {
-    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'}
+    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
       onClick={() => {
         getDebugInfo(page);
         setPageOpen({ open: true, page: page })
@@ -47,13 +47,14 @@ const Pages = () => {
       <Text overflow="hidden" key={page.title}>{page.title}</Text>
       <Text overflow="hidden" key={page.url} >{page.url}</Text>
       <Text key={page.fee}>{parseFloat(page.fee).toFixed(6).toLocaleString()} AR</Text>
-      <Stack isInline><Text key={page.timestamp}>{Date.now() - parseInt(page.timestamp)} ago</Text>
+      <Stack isInline><Text key={page.timestamp}>{moment(parseInt(page.timestamp)).startOf('minute').fromNow()}</Text>
         {page.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
       </Stack>
     </SimpleGrid>
   }
 
   const PageModal = () => {
+    console.log(pageModal.page.size)
     return (
       <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
         <ModalOverlay />
@@ -84,7 +85,7 @@ const Pages = () => {
             <Stack borderBottom="1px" marginBottom="20px" isInline>
               <Stack>
                 <Text>Time</Text>
-                <Text>{pageModal.page.timestamp}</Text>
+                <Text>{moment(parseInt(pageModal.page.timestamp)).startOf('minute').fromNow()}</Text>
               </Stack>
               <Stack>
                 <Text>Status</Text>

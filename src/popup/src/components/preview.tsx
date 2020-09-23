@@ -193,9 +193,9 @@ const PagePreview = () => {
             <Text>From: {state.activeWallet}</Text>
             <Text>Page Title: {state.pageSource!.title}</Text>
             <Text>Page URL: {state.pageSource!.url}</Text>
-            <Text>Page Size: {source.size}</Text>
-            <Text>Fee: {fee}</Text>
-            <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)}</Text>
+            <Text>Page Size: {source.size/1000} KB</Text>
+            <Text>Fee: {fee} AR</Text>
+            <Text>Balance after transaction: {parseFloat(typeof (balance) === 'string' ? balance : '0') - parseFloat(fee)} AR</Text>
             <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
           </ModalBody>
           <ModalFooter>

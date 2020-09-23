@@ -136,11 +136,11 @@ const BrowserPage = (route: any) => {
         <Preview />
       </Route>
       <Route path="/">
-        <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-between" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+        <Flex overflow="none" w="100%" px={5} py={4} justifyContent="space-around" alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
           <Flex flexDirection="row" justifyContent="center" alignItems="center">
             <ArweaveLogo />
           </Flex>
-          <ButtonGroup pr={1} >
+          <ButtonGroup marginLeft="auto">
             {/* @ts-ignore*/}  {/* Just following the Chakra-ui docs!*/}
             <Link as={ReactLink} to="/pdfs"><Button leftIcon={FaFilePdf} bg="white" color="grey" border="none" size="lg">PDFs</Button></Link>
             {/* @ts-ignore*/}
@@ -190,6 +190,7 @@ const BrowserPage = (route: any) => {
           <NetworkModal />
         </Box>
         <Drawer
+          size="sm"
           placement="right"
           onClose={handleClose}
           isOpen={isOpen}>

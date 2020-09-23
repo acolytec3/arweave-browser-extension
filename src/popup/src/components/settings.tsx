@@ -56,20 +56,20 @@ const Settings = () => {
           <Text>Settings</Text>
           <FaCog /></Stack></DrawerHeader>
       <DrawerBody bg="#282d33">
-        <Flex direction="column" >
+        <Stack spacing={4}>
           <Stack isInline alignContent="center" justifyContent="space-between">
             <FormLabel htmlFor='debug-toggle' color="white">Debug</FormLabel>
             <Switch id="debug-toggle" size="md" color="green" value={debug} isChecked={debug} onChange={() => { setDebug(!debug) }} />
           </Stack>
-          <Text fontSize="small" color="#999">Show debug information on transaction receipts.</Text>
-          <Divider bg="white" />
+          <Text color="#999">Show debug information on transaction receipts.</Text>
+          <Divider color="#999" />
           <FormControl isInvalid={!validGateway}>
-            <FormLabel htmlFor='host' color="white">Host</FormLabel>
-            <Input isInvalid={!validGateway} onBlur={() => validateAddress(gateway)} value={gateway} onChange={(evt: any) => setGateway(evt.target.value)}></Input>
+            <FormLabel py="20px" htmlFor='host' color="white">Host</FormLabel>
+            <Input bg="#383a3e" color="#EEE" isInvalid={!validGateway} onBlur={() => validateAddress(gateway)} value={gateway} onChange={(evt: any) => setGateway(evt.target.value)}></Input>
             <FormErrorMessage>Gateway address is invalid</FormErrorMessage>
-            <FormHelperText>
+            <Text py="10px" color="#999">
               Use an alternative host when connecting to Arweave. E.g. https://arweave.net:443 or http://159.65.213.43:1984
-          </FormHelperText>
+          </Text>
           </FormControl>
 
           <Divider bg="white" />
@@ -84,13 +84,15 @@ const Settings = () => {
             <Switch isDisabled id="loki-toggle" size="md" color="green" value={loki} isChecked={loki} onChange={() => setLoki(!loki)} />
           </Stack>
           <Text fontSize="small" color="#999">Use Loki when accessing Silo data.</Text>
-          <Input isDisabled={!loki || !silo} value={lokiGateway} onChange={(evt: any) => setLokiGateway(evt.target.value)}></Input>
+          <Input bg="#383a3e" color="#EEE" isDisabled={!loki || !silo} value={lokiGateway} onChange={(evt: any) => setLokiGateway(evt.target.value)}></Input>
           <Text fontSize="small" color="#999">Set the Silo + Loki gateway host to use.</Text>
-          <Divider />
-          <Text fontSize="small" color="#999">We do not collect any user data in this web extension, this is outlined in our </Text><Link href="https://docs.arweave.org/info/wallets/privacy-policy">privacy policy</Link>
-        </Flex></DrawerBody>
-      <DrawerFooter bg="#282d33" alignItems="center">
-        <Button isDisabled={!validGateway} onClick={updateSettings} >Save Changes</Button>
+          <Divider color="#999" />
+          <Text fontSize="small" color="#999">We do not collect any user data in this web extension, this is outlined in our <a href="https://docs.arweave.org/info/wallets/privacy-policy"><u>privacy policy</u></a></Text>
+
+            
+        </Stack></DrawerBody>
+      <DrawerFooter bg="#282d33" justifyContent="center">
+        <Button w="100%" isDisabled={!validGateway} onClick={updateSettings} >Save Changes</Button>
       </DrawerFooter>
     </DrawerContent>
   )

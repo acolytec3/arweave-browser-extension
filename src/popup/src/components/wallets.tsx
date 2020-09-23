@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter
+  ModalFooter, DrawerFooter
 } from "@chakra-ui/core";
 import { addWallet, decryptKey, generateKey, getAddress } from '../providers/wallets'
 import Dropzone from 'react-dropzone'
@@ -83,10 +83,10 @@ const Wallets = () => {
 
   const WalletTable = () => {
     let wallets = state.wallets
-    return (<Flex direction="column" >{wallets.length > 0 && wallets.map((wallet: any) => {
+    return (<Stack spacing={0} margin="none" padding="none" width="100%" >{wallets.length > 0 && wallets.map((wallet: any) => {
       return (
         Wallet(wallet))
-    })}</Flex>)
+    })}</Stack>)
   }
 
   const Wallet = (wallet: any) => {
@@ -94,7 +94,7 @@ const Wallets = () => {
     const [showEdit, setEdit] = useState(false)
 
     return (
-      <PseudoBox key={wallet.nickname + 'pseudo1'} borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
+      <PseudoBox key={wallet.nickname + 'pseudo1'} p="20px" marginBottom="10px" w="100%" bg="#32353c" borderBottom="1px" borderColor="#44474c" overflow="ellipsis" >
         {/*@ts-ignore*/}
         {!showEdit ? <Text color="#f9f9f9" fontSize="md" my={2} key={wallet.nickname}>{wallet.nickname}</Text>
           : <Input padding={0}
@@ -238,7 +238,7 @@ const Wallets = () => {
 
   const WalletLoader = () => {
     return (
-      <Box w="200px" borderStyle='dashed' borderWidth="2px">
+      <Box w="100%" borderStyle='dashed' borderWidth="2px">
         <Dropzone onDrop={onDrop} accept="application/json">
           {({ getRootProps, getInputProps }) => (
             <section>
@@ -249,6 +249,12 @@ const Wallets = () => {
             </section>
           )}
         </Dropzone>
+        <Stack direction="column" width="90%" position="fixed" bottom="10px">
+          <Button onClick={() => {
+            setLoadingWallet(false);
+            setProcessing(false);
+          }}>Go Back</Button>
+        </Stack>
       </Box>
     )
   }
@@ -257,7 +263,7 @@ const Wallets = () => {
     const [nickname, setNickname] = useState('')
     const [password, setPassword] = useState('')
     return (
-      <Box w="200px">
+      <Box w="100%">
         <Stack>
           <Text color="white">Address</Text>
           <Text color="white">{loadingWalletAddress}</Text>
@@ -279,12 +285,12 @@ const Wallets = () => {
           my={2} placeholder="Set an encryption phrase" value={password} onChange={(evt: any) => setPassword(evt.target.value)} type="password" />
         <Text color="white">This encryption passphrase keeps your key file secure, so you'll need it each time you send AR or archive a page.
         If you forget your passphrase you'll need to reimport this file again</Text>
-        <Stack direction="column" position="fixed" bottom="10px">
+        <Stack direction="column" width="90%" position="fixed" bottom="10px">
           <Button onClick={() => loadWallet(nickname, password)}>Continue</Button>
           <Button onClick={() => {
-                setLoadingWallet(false);
-                setProcessing(false);
-              }}>Go Back</Button>
+            setLoadingWallet(false);
+            setProcessing(false);
+          }}>Go Back</Button>
         </Stack>
       </Box>
     )
@@ -298,19 +304,21 @@ const Wallets = () => {
         <Stack isInline align="center" justify="space-between">
           <Text>Wallets</Text>
           <FaWallet /></Stack></DrawerHeader>
-      <DrawerBody bg="#282d33">
-        <Flex direction="column">
+      <DrawerBody padding="0px" bg="#282d33">
           {state.activeWallet && !loadingWallet && !processingWallet &&
             <WalletTable />}
-          {!loadingWallet && !processingWallet &&
-            <Stack direction="column" position="fixed" bottom="10px">
-              <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
-              <Button onClick={generateWallet}>Create New Wallet</Button>
-              <Button onClick={generateCSV}>Export Transactions</Button></Stack>}
           {(loadingWallet) && <WalletLoader />}
           {(processingWallet) &&
             <WalletProcessor />}
-        </Flex></DrawerBody>
+      </DrawerBody>
+      <DrawerFooter bg="#282d33">
+        {!loadingWallet && !processingWallet &&
+          <Stack width="100%" direction="column" >
+            <Button onClick={() => setLoadingWallet(true)}>Load Wallet</Button>
+            <Button onClick={generateWallet}>Create New Wallet</Button>
+            <Button onClick={generateCSV}>Export Transactions</Button></Stack>}
+        {loadingWallet && !processingWallet}
+      </DrawerFooter>
     </DrawerContent>
   )
 }

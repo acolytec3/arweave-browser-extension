@@ -11,7 +11,7 @@ import { FaCheckDouble } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, transfer } from '../background'
 import axios, { AxiosResponse } from 'axios'
-
+import moment from 'moment'
 
 
 const Transfers = () => {
@@ -56,7 +56,7 @@ const Transfers = () => {
             <Stack borderBottom="1px" marginBottom="20px" isInline>
               <Stack>
                 <Text>Time</Text>
-                <Text>{transferModal.transfer.timestamp}</Text>
+                <Text>{moment(parseInt(transferModal.transfer.timestamp)).startOf('minute').fromNow()}</Text>
               </Stack>
               <Stack>
                 <Text>Status</Text>
@@ -106,13 +106,14 @@ const Transfers = () => {
           </SimpleGrid>
           {transfers.map((transfer: any) => {
             return (
-              <SimpleGrid columns={4} key={transfer.txnId + '1'} cursor="pointer" onClick={() => { 
+              <SimpleGrid columns={4} key={transfer.txnId + '1'} cursor="pointer" 
+                borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"onClick={() => { 
                 getDebugInfo(transfer);
                 setTransferModal({ open: true, transfer: transfer }) }}>
                 <Text key={transfer.to}>{transfer.to}</Text>
                 <Text mx={5} key={transfer.fee}>{parseFloat(transfer.fee).toFixed(6).toLocaleString()} AR</Text>
                 <Text key={transfer.amount}>{parseFloat(transfer.amount).toFixed(6).toLocaleString()} AR</Text>
-                <Stack isInline><Text key={transfer.timestamp}>{Date.now() - parseInt(transfer.timestamp)} seconds ago</Text>
+                <Stack isInline><Text key={transfer.timestamp}>{moment(parseInt(transfer.timestamp)).startOf('minute').fromNow()}</Text>
                   {transfer.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
                 </Stack>
               </SimpleGrid>
