@@ -148,7 +148,7 @@ const PagePreview = () => {
         <Text fontSize="lg">{source.title}</Text>
         <Stack isInline alignContent="center" alignSelf="end" justifyContent="space-between">
           <FormLabel htmlFor='incognito' color="black">Safe mode</FormLabel>
-          <Switch id="incognito" size="md" color="green" value={state.settings.incognito}
+          <Switch id="incognito" size="md" color="green" value={state.settings.incognito} isChecked={state.settings.incognito}
             onChange={(evt: any) => {
               state.settings.incognito ?
                 updateIncognito(false)

@@ -2862,6 +2862,7 @@ const PagePreview = () => {
     size: "md",
     color: "green",
     value: state.settings.incognito,
+    isChecked: state.settings.incognito,
     onChange: evt => {
       state.settings.incognito ? updateIncognito(false) : updateIncognito(true);
     },
@@ -6249,5 +6250,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map
