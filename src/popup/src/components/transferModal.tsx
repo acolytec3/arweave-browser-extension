@@ -17,7 +17,7 @@ import { initialStateType, wallet } from '../background'
 const TransferModal = (open: any) => {
     const [isOpen, setOpen] = useState(open.open)
     const state = useSelector((rootState: initialStateType) => rootState)
-    const [balance, setBalance] = useState(state ? state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance : '')
+    const [balance, setBalance] = useState(state.activeWallet ? state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance : '')
     const [amount, setAmount] = useState('')
     const [fee, setFee] = useState('0')
     const [to, setToAddress] = useState('')

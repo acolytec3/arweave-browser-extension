@@ -147,8 +147,8 @@ const BrowserPage = (route: any) => {
           <Flex direction="row" alignItems="center" justifyContent="space-around">
             <Text justifySelf="start" color="white" fontSize={24}>{headerLabel[history.location.pathname.split('/')[2].toString()]}</Text>
             <Stack marginLeft="auto">
-              <Text color="white">{state.activeWallet}</Text>
-              <Text color="white">{parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6)} AR </Text>
+              <Text color="white">{state.activeWallet ? state.activeWallet : null}</Text>
+              <Text color="white">{state.activeWallet ? parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6) : 0} AR </Text>
             </Stack>
             <Button marginLeft={2} color="black" bg="white" onClick={() => setArModal(true)}>Send AR</Button>
           </Flex>

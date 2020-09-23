@@ -685,7 +685,7 @@ const BrowserPage = route => {
       lineNumber: 150,
       columnNumber: 15
     }
-  }, state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+  }, state.activeWallet ? state.activeWallet : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     color: "white",
     __self: undefined,
     __source: {
@@ -693,7 +693,7 @@ const BrowserPage = route => {
       lineNumber: 151,
       columnNumber: 15
     }
-  }, parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance).toFixed(6), " AR ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+  }, state.activeWallet ? parseFloat(state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance).toFixed(6) : 0, " AR ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     marginLeft: 2,
     color: "black",
     bg: "white",
@@ -2655,10 +2655,6 @@ const PagePreview = () => {
       type: 'UPDATE_SETTINGS',
       payload: payload
     });
-
-    if (state.settings.incognito) {
-      getIncognitoRequest();
-    } else getRegularRequest();
   };
 
   const handleArchive = () => {
@@ -2740,9 +2736,8 @@ const PagePreview = () => {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    console.log(`Incognito mode is ${state.settings.incognito} on first render`);
     state.settings.incognito ? getIncognitoRequest() : getRegularRequest();
-  }, []);
+  }, [state.settings.incognito]);
 
   const LoadingModal = () => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
@@ -2752,14 +2747,14 @@ const PagePreview = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 136,
+        lineNumber: 131,
         columnNumber: 7
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 137,
+        lineNumber: 132,
         columnNumber: 9
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
@@ -2767,7 +2762,7 @@ const PagePreview = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 138,
+        lineNumber: 133,
         columnNumber: 9
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
@@ -2778,7 +2773,7 @@ const PagePreview = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 139,
+        lineNumber: 134,
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Spinner"], {
@@ -2789,7 +2784,7 @@ const PagePreview = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 140,
+        lineNumber: 135,
         columnNumber: 13
       }
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -2799,7 +2794,7 @@ const PagePreview = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 141,
+        lineNumber: 136,
         columnNumber: 13
       }
     }, "Fetching Assets and Repackaging"))));
@@ -2813,7 +2808,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 149,
+      lineNumber: 144,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -2824,14 +2819,14 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 151,
+      lineNumber: 146,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ArweaveLogo, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 152,
+      lineNumber: 147,
       columnNumber: 9
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -2839,7 +2834,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 153,
+      lineNumber: 148,
       columnNumber: 9
     }
   }, source.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
@@ -2850,7 +2845,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 154,
+      lineNumber: 149,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["FormLabel"], {
@@ -2859,7 +2854,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 155,
+      lineNumber: 150,
       columnNumber: 11
     }
   }, "Safe mode"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Switch"], {
@@ -2873,7 +2868,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 156,
+      lineNumber: 151,
       columnNumber: 11
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Box"], {
@@ -2883,7 +2878,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 164,
+      lineNumber: 159,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("iframe", {
@@ -2894,7 +2889,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 165,
+      lineNumber: 160,
       columnNumber: 9
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -2906,7 +2901,7 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 167,
+      lineNumber: 162,
       columnNumber: 7
     }
   }, "Archive this on Arweave"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
@@ -2916,84 +2911,84 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 170,
+      lineNumber: 165,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 171,
+      lineNumber: 166,
       columnNumber: 9
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 172,
+      lineNumber: 167,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 173,
+      lineNumber: 168,
       columnNumber: 11
     }
   }, "Confirm Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 174,
+      lineNumber: 169,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 175,
+      lineNumber: 170,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 176,
+      lineNumber: 171,
       columnNumber: 13
     }
   }, "From: ", state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 177,
+      lineNumber: 172,
       columnNumber: 13
     }
   }, "Page Title: ", state.pageSource.title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 178,
+      lineNumber: 173,
       columnNumber: 13
     }
   }, "Page URL: ", state.pageSource.url), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 179,
+      lineNumber: 174,
       columnNumber: 13
     }
   }, "Page Size: ", source.size), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 180,
+      lineNumber: 175,
       columnNumber: 13
     }
   }, "Fee: ", fee), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 181,
+      lineNumber: 176,
       columnNumber: 13
     }
   }, "Balance after transaction: ", parseFloat(typeof balance === 'string' ? balance : '0') - parseFloat(fee)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Input"], {
@@ -3004,14 +2999,14 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 182,
+      lineNumber: 177,
       columnNumber: 13
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalFooter"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 184,
+      lineNumber: 179,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -3022,14 +3017,14 @@ const PagePreview = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 185,
+      lineNumber: 180,
       columnNumber: 13
     }
   }, "Archive Page")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LoadingModal, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 192,
+      lineNumber: 187,
       columnNumber: 7
     }
   }));
@@ -3476,7 +3471,7 @@ var _jsxFileName = "/home/jim/development/ar2/src/popup/src/components/transferM
 const TransferModal = open => {
   const [isOpen, setOpen] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(open.open);
   const state = Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["useSelector"])(rootState => rootState);
-  const [balance, setBalance] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(state ? state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance : '');
+  const [balance, setBalance] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(state.activeWallet ? state.wallets.filter(wallet => wallet.address === state.activeWallet)[0].balance : '');
   const [amount, setAmount] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [fee, setFee] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('0');
   const [to, setToAddress] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');

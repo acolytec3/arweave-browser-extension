@@ -40,10 +40,6 @@ const PagePreview = () => {
     let payload = { ...state.settings, incognito: incognito };
     let res = await dispatch({ type: 'UPDATE_SETTINGS', payload: payload })
 
-    if (state.settings.incognito) {
-      getIncognitoRequest()
-    }
-    else getRegularRequest()
   }
 
   const handleArchive = () => {
@@ -127,9 +123,8 @@ const PagePreview = () => {
   }
 
   useEffect(() => {
-    console.log(`Incognito mode is ${state.settings.incognito} on first render`)
     state.settings.incognito ? getIncognitoRequest() : getRegularRequest()
-  }, [])
+  }, [state.settings.incognito])
 
   const LoadingModal = () => {
     return (
