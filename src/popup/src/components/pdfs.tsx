@@ -32,7 +32,7 @@ const Pdfs = () => {
 
   useEffect(() => {
     let location = window.location.hash.substr(16,).split('#')[0]
-    
+
     if (!location) return;  //only run this effect if actually retrieving a PDF and not just navigating to the PDFs page
 
     axios.head(location).
@@ -80,11 +80,11 @@ const Pdfs = () => {
   const PdfModal = () => {
 
     return (
-      <Modal isOpen={pdfModal.open} onClose={() => setPdfModal({ open: false, pdf: {} as pdf })}>
+      <Modal isOpen={pdfModal.open} onClose={() => setPdfModal({ open: false, pdf: {} as pdf })} scrollBehavior="inside" size="450px">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Archived Page
+            Archived PDF
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody >
@@ -127,13 +127,13 @@ const Pdfs = () => {
                 <Text>Debug Transaction</Text>
                 <Code>
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pdfModal.pdf.debug, null, '\t')} />
+                  <Textarea overflow="scroll" height="200px" readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pdfModal.pdf.debug, null, '\t')} />
                 </Code>
                 <Text>Debug Response</Text>
                 {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
                 {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
                   overflow="auto"
-                  maxHeight="30px"
+                  height="200px"
                   defaultValue={JSON.stringify(debugResponse, null, '\t')} />
                 </Code>}
               </Stack>
@@ -148,12 +148,12 @@ const Pdfs = () => {
 
   const PdfRow = (pdf: pdf) => {
     return (
-      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} 
+      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'}
         borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
         onClick={() => {
-        getDebugInfo(pdf);
-        setPdfModal({ open: true, pdf: pdf })
-      }}>
+          getDebugInfo(pdf);
+          setPdfModal({ open: true, pdf: pdf })
+        }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
         <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).startOf('minute').fromNow()}</Text>

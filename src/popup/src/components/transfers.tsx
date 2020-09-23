@@ -29,11 +29,11 @@ const Transfers = () => {
 
   const TransferModal = () => {
     return (
-      <Modal isOpen={transferModal.open} onClose={() => setTransferModal({ open: false, transfer: {} as transfer })}>
+      <Modal isOpen={transferModal.open} onClose={() => setTransferModal({ open: false, transfer: {} as transfer })} size="450px">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Archived Page
+            Transfer
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody >
@@ -76,13 +76,13 @@ const Transfers = () => {
                 <Text>Debug Transaction</Text>
                 <Code>
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(transferModal.transfer.debug, null, '\t')} />
+                  <Textarea overflow="scroll" height="200px" readOnly={true} fontSize='xs' defaultValue={JSON.stringify(transferModal.transfer.debug, null, '\t')} />
                 </Code>
                 <Text>Debug Response</Text>
                 {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
                 {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
-                  overflow="auto"
-                  maxHeight="30px"
+                  overflow="scroll"
+                  height="200px"
                   defaultValue={JSON.stringify(debugResponse, null, '\t')} />
                 </Code>}
               </Stack>

@@ -56,7 +56,7 @@ const Pages = () => {
   const PageModal = () => {
     console.log(pageModal.page.size)
     return (
-      <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })}>
+      <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })} scrollBehavior="inside" size="450px">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -105,13 +105,13 @@ const Pages = () => {
                 <Text>Debug Transaction</Text>
                 <Code>
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
+                  <Textarea overflow="scroll" height="200px" readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pageModal.page.debug, null, '\t')} />
                 </Code>
                 <Text>Debug Response</Text>
                 {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
                 {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
-                  overflow="auto"
-                  maxHeight="30px"
+                  overflow="scroll"
+                  height="200px"
                   defaultValue={JSON.stringify(debugResponse, null, '\t')} />
                 </Code>}
               </Stack>

@@ -1100,6 +1100,8 @@ const Pages = () => {
         open: false,
         page: {}
       }),
+      scrollBehavior: "inside",
+      size: "450px",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1377,6 +1379,8 @@ const Pages = () => {
         columnNumber: 17
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Textarea"], {
+      overflow: "scroll",
+      height: "200px",
       readOnly: true,
       fontSize: "xs",
       defaultValue: JSON.stringify(pageModal.page.debug, null, '\t'),
@@ -1412,8 +1416,8 @@ const Pages = () => {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Textarea"], {
       fontSize: "xs",
       readOnly: true,
-      overflow: "auto",
-      maxHeight: "30px",
+      overflow: "scroll",
+      height: "200px",
       defaultValue: JSON.stringify(debugResponse, null, '\t'),
       __self: undefined,
       __source: {
@@ -1586,6 +1590,8 @@ const Pdfs = () => {
         open: false,
         pdf: {}
       }),
+      scrollBehavior: "inside",
+      size: "450px",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1613,7 +1619,7 @@ const Pdfs = () => {
         lineNumber: 86,
         columnNumber: 11
       }
-    }, "Archived Page", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
+    }, "Archived PDF", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -1849,6 +1855,8 @@ const Pdfs = () => {
         columnNumber: 17
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Textarea"], {
+      overflow: "scroll",
+      height: "200px",
       readOnly: true,
       fontSize: "xs",
       defaultValue: JSON.stringify(pdfModal.pdf.debug, null, '\t'),
@@ -1885,7 +1893,7 @@ const Pdfs = () => {
       fontSize: "xs",
       readOnly: true,
       overflow: "auto",
-      maxHeight: "30px",
+      height: "200px",
       defaultValue: JSON.stringify(debugResponse, null, '\t'),
       __self: undefined,
       __source: {
@@ -4064,6 +4072,7 @@ const Transfers = () => {
         open: false,
         transfer: {}
       }),
+      size: "450px",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4091,7 +4100,7 @@ const Transfers = () => {
         lineNumber: 35,
         columnNumber: 11
       }
-    }, "Archived Page", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalCloseButton"], {
+    }, "Transfer", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["ModalCloseButton"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4327,6 +4336,8 @@ const Transfers = () => {
         columnNumber: 17
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Textarea"], {
+      overflow: "scroll",
+      height: "200px",
       readOnly: true,
       fontSize: "xs",
       defaultValue: JSON.stringify(transferModal.transfer.debug, null, '\t'),
@@ -4362,8 +4373,8 @@ const Transfers = () => {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Textarea"], {
       fontSize: "xs",
       readOnly: true,
-      overflow: "auto",
-      maxHeight: "30px",
+      overflow: "scroll",
+      height: "200px",
       defaultValue: JSON.stringify(debugResponse, null, '\t'),
       __self: undefined,
       __source: {
