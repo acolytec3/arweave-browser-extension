@@ -65,6 +65,12 @@ const BrowserPage = (route: any) => {
     });
   }, [])
 
+  useEffect(() => {
+    console.log(window.location.hash)
+    if (window.location.hash === '#/mainpage/transfers/modal')
+      setArModal(true)
+  })
+
   const handleClose = () => {
     onClose()
   }

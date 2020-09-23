@@ -259,3 +259,48 @@ chrome.runtime.onMessage.addListener(async (res: any) => {
     }
   }
 )
+
+chrome.contextMenus.create({
+  title: "Send AR",
+  contexts: ["browser_action"],
+  onclick: function() {
+      chrome.tabs.create({
+          url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers/modal`)
+      });
+  }
+});
+
+chrome.contextMenus.create({
+  title: "View archives",
+  contexts: ["browser_action"],
+  onclick: function() {
+      chrome.tabs.create({
+          url: chrome.extension.getURL(`popup/main.html#pages`)
+      });
+  }
+});
+chrome.contextMenus.create({
+  title: "View transfers",
+  contexts: ["browser_action"],
+  onclick: function() {
+      chrome.tabs.create({
+          url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers`)
+      });
+  }
+});
+
+chrome.contextMenus.create({
+  title: "Copy wallet address to clipboard",
+  contexts: ["browser_action"],
+  onclick: function() {
+      let state = store.getState()
+      const input = document.createElement("input");
+      input.style.position = "fixed";
+      input.style.opacity = '0';
+      input.value = state.activeWallet ? state.activeWallet : '';
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("Copy");
+      document.body.removeChild(input);
+  }
+});
