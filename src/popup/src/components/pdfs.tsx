@@ -31,7 +31,11 @@ const Pdfs = () => {
   const toast = useToast();
 
   useEffect(() => {
-      axios.head(window.location.hash.substr(16,).split('#')[0]).
+    let location = window.location.hash.substr(16,).split('#')[0]
+    
+    if (!location) return;  //only run this effect if actually retrieving a PDF and not just navigating to the PDFs page
+
+    axios.head(location).
       then((res) => {
         let size = parseInt(res.headers["content-length"])
         setSize(size.toString())
@@ -58,8 +62,8 @@ const Pdfs = () => {
       'txnId': '',
       'timestamp': '',
       'source': null,
-      'debug':{},
-      'size':parseInt(size)
+      'debug': {},
+      'size': parseInt(size)
     }
 
     //let res = await archivePdf(pdfDeets, password)
@@ -70,7 +74,7 @@ const Pdfs = () => {
       status: 'success',
       duration: 3000,
       position: 'bottom-left'
-    }) :toast({
+    }) : toast({
       title: 'Error archiving PDF',
       status: 'error',
       duration: 3000,
@@ -106,7 +110,7 @@ const Pdfs = () => {
             <Stack isInline>
               <Stack>
                 <Text>PDF Size</Text>
-                <Text>{parseInt(size)/1000} KB</Text>
+                <Text>{parseInt(size) / 1000} KB</Text>
               </Stack>
               <Stack>
                 <Text>Fee</Text>
@@ -138,28 +142,29 @@ const Pdfs = () => {
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
                   <Textarea readOnly={true} fontSize='xs' defaultValue={JSON.stringify(pdfModal.pdf.debug, null, '\t')} />
                 </Code>
-                <Text>Debug Response</Text>             
-                  {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
-                  {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
-                    overflow="auto"
-                    maxHeight="30px"
-                    defaultValue={JSON.stringify(debugResponse, null, '\t')} />               
-                     </Code>}
+                <Text>Debug Response</Text>
+                {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}
+                {debugLoading ? <Spinner alignSelf="center" justifySelf="center" /> : <Code><Textarea fontSize="xs" readOnly={true}
+                  overflow="auto"
+                  maxHeight="30px"
+                  defaultValue={JSON.stringify(debugResponse, null, '\t')} />
+                </Code>}
               </Stack>
             </Stack>}
           </ModalBody>
           <ModalFooter>
             <Button width="99%" bg="#333" color="white"
-              onClick={() => window.open(state.settings.gateway  + '/' + pdfModal.pdf.txnId, '_blank')}>View PDF</Button>
+              onClick={() => window.open(state.settings.gateway + '/' + pdfModal.pdf.txnId, '_blank')}>View PDF</Button>
           </ModalFooter></ModalContent>
       </Modal>)
   }
 
   const PdfRow = (pdf: pdf) => {
     return (
-      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => { 
+      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'} onClick={() => {
         getDebugInfo(pdf);
-        setPdfModal({ open: true, pdf: pdf }) }}>
+        setPdfModal({ open: true, pdf: pdf })
+      }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
         <Stack isInline><Text key={pdf.timestamp}>{Date.now() - parseInt(pdf.timestamp)} ago</Text>
@@ -172,11 +177,11 @@ const Pdfs = () => {
 
     let pdfs = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pdfs
     return <Fragment><Flex direction="column">
-      <SimpleGrid columns={3}>
+      {pdfs && <SimpleGrid columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Time</Text>
-      </SimpleGrid>
+      </SimpleGrid>}
       {pdfs && pdfs.map((pdf: pdf) => {
         return PdfRow(pdf)
       })}

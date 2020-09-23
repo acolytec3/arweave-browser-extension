@@ -68,7 +68,7 @@ const Popup = () => {
             {(url.type !== undefined) ? <Button onClick={() => openTab(url.type === 'page' ? 'preview/' : 'pdfs/' + url.url)}
             >Archive this {url.type}</Button>
               :
-              <Text background="gray" color="white" fontSize="xl">Content type not currently supported</Text>}
+              <Text background="#333" color="white" fontSize="xl">Content type not currently supported</Text>}
 
             <Flex direction="row" justifyContent="space-evenly" alignItems="space-between" >
               <PseudoBox bg="white" border="none" as="button" onClick={() => openTab('pdfs')}><FaFilePdf color="grey" size={24} /><Text>PDFs</Text></PseudoBox>

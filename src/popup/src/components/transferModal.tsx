@@ -28,9 +28,9 @@ const TransferModal = (open: any) => {
     const history = useHistory();
     const toast = useToast()
 
-    useEffect(() => {
-        updateFee()
-    }, [message])
+  /*  useEffect(() => {
+       if (isOpen) updateFee()
+    }, [message])*/
 
     useEffect(() => {
         setOpen(open.open)    
