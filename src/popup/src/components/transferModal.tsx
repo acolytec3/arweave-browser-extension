@@ -8,14 +8,14 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useToast, InputRightElement, InputGroup, FormControl, FormErrorMessage, FormHelperText, FormLabel
+    useToast, InputRightElement, InputGroup, FormControl, FormErrorMessage, FormHelperText, FormLabel, Modal
 } from "@chakra-ui/core";
 import { getFee, sendTransfer } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet } from '../background'
 
-const TransferModal = () => {
-    const [isOpen, setOpen] = useState(true)
+const TransferModal = (open: any) => {
+    const [isOpen, setOpen] = useState(open.open)
     const state = useSelector((rootState: initialStateType) => rootState)
     const [balance, setBalance] = useState(state ? state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance : '')
     const [amount, setAmount] = useState('')
@@ -31,6 +31,10 @@ const TransferModal = () => {
     useEffect(() => {
         updateFee()
     }, [message])
+
+    useEffect(() => {
+        setOpen(open.open)    
+    },[open])
 
     const updateFee = () => {
         let messageSize = (message === '' ? 0 : new Blob([message]).size)
@@ -70,7 +74,7 @@ const TransferModal = () => {
         setAmount(amount.toString())
     }
 
-    return (<Fragment>
+    return (<Modal isOpen={isOpen} onClose={() => setOpen(false)}>
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>Send AR</ModalHeader>
@@ -149,13 +153,12 @@ const TransferModal = () => {
                 {!next ? <Button isDisabled={!validAmount || (to === '')} onClick={() => setNext(true)}>Next</Button> :
                     <Button onClick={function () {
                         initiateTransfer();
-                        setOpen(false)
-                        setNext(false)
                         history.push('/transfers')
+                        setOpen(false)
                     }}>Confirm and Send AR</Button>}
             </ModalFooter>
         </ModalContent>
-    </Fragment>
+    </Modal>
     )
 }
 

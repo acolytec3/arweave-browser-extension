@@ -69,6 +69,10 @@ const BrowserPage = (route: any) => {
     onClose()
   }
 
+  function closeTransferModal () {
+    setArModal(false)
+  }
+
   const NetworkModal = () => {
     return (<Modal isOpen={modal} onClose={() => openModal(false)} >
       <ModalOverlay />
@@ -174,7 +178,7 @@ const BrowserPage = (route: any) => {
               <FaCircle color={state.network.connected ? "#86dc22" : "red"} />
             </Stack>
           </PseudoBox>
-          <Modal isOpen={arModal} onClose={() => setArModal(false)}><TransferModal /></Modal>
+          <TransferModal open={arModal} />
           <NetworkModal />
         </Box>
         <Drawer
