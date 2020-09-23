@@ -74,7 +74,9 @@ const TransferModal = (open: any) => {
         setAmount(amount.toString())
     }
 
-    return (<Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+    return (<Modal isOpen={isOpen} onClose={() => {
+        setOpen(false)
+        open.close()}}>
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>Send AR</ModalHeader>

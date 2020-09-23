@@ -66,10 +66,12 @@ const BrowserPage = (route: any) => {
   }, [])
 
   useEffect(() => {
-    console.log(window.location.hash)
-    if (window.location.hash === '#/mainpage/transfers/modal')
-      setArModal(true)
-  })
+    switch (window.location.hash) {
+      case '#/mainpage/transfers/modal':  setArModal(true); break;
+      case '#/mainpage/settings': onOpen(); break;
+    }
+    
+  },[])
 
   const handleClose = () => {
     onClose()
@@ -171,7 +173,7 @@ const BrowserPage = (route: any) => {
               <Transfers />
             </Route>
             <Route path="/wallets/open">
-              {() => handleOpen('wallets')}
+              {() => {handleOpen('wallets'); console.log('i see wallets')}}
             </Route>
             <Route path="/preview">
               <Preview />

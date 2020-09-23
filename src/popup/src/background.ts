@@ -260,6 +260,7 @@ chrome.runtime.onMessage.addListener(async (res: any) => {
   }
 )
 
+chrome.contextMenus.removeAll();
 chrome.contextMenus.create({
   title: "Send AR",
   contexts: ["browser_action"],
@@ -302,5 +303,15 @@ chrome.contextMenus.create({
       input.select();
       document.execCommand("Copy");
       document.body.removeChild(input);
+  }
+});
+
+chrome.contextMenus.create({
+  title: "Settings",
+  contexts: ["browser_action"],
+  onclick: function() {
+      chrome.tabs.create({
+          url: chrome.extension.getURL(`popup/index.html#/mainpage/settings`)
+      });
   }
 });
