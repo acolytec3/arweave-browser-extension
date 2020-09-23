@@ -6,12 +6,11 @@ import {
 } from "@chakra-ui/core";
 import axios from 'axios'
 import inline from '../providers/inline'
-import { getFee, archivePage } from '../providers/wallets'
+import { getFee } from '../providers/wallets'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialStateType, wallet } from '../background'
-import { attachIncognitoFilter, removeIncognitoFilter, incognitoRequestFilter } from '../providers/browser'
-import Arweave from 'arweave';
-import { Store } from 'webext-redux';
+import { attachIncognitoFilter, removeIncognitoFilter } from '../providers/browser'
+
 interface inline {
   title: string,
   size: number,
@@ -35,7 +34,7 @@ const PagePreview = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true)
 
-  const updateIncognito = async (incognito: boolean): Promise<boolean> => {
+  const updateIncognito = async (incognito: boolean) => {
     setLoading(true)
     await setTimeout(() => { }, 1000)
     let payload = { ...state.settings, incognito: incognito };
@@ -45,7 +44,6 @@ const PagePreview = () => {
       getIncognitoRequest()
     }
     else getRegularRequest()
-    return true
   }
 
   const handleArchive = () => {
@@ -71,21 +69,7 @@ const PagePreview = () => {
       'size': source.size,
       'html': source.html
     }
-    //let res = await archivePage(pageDeets, password)
-    //let res = await dispatch({'type':'PAGE_ALIAS',payload:{'page':pageDeets,'password':password}})
-    let res = false
     chrome.runtime.sendMessage({ action: 'archive.page', payload: { page: pageDeets, password: password } })
-    res ? toast({
-      title: 'Page archived',
-      status: 'success',
-      duration: 3000,
-      position: 'bottom-left'
-    }) : toast({
-      title: 'Error archiving page',
-      status: 'error',
-      duration: 3000,
-      position: 'bottom-left'
-    })
   }
 
   const getIncognitoRequest = () => {
@@ -143,26 +127,8 @@ const PagePreview = () => {
   }
 
   useEffect(() => {
-    inline.html(state.pageSource!.html, state.pageSource!.url).then((res) => {
-      getFee(res.size).then((res) => fee = res)
-        .catch(() => toast({
-          title: 'Error',
-          status: 'error',
-          duration: 3000,
-          position: 'bottom-left',
-          description: 'Error getting fee, check your network connection and try again'
-        }))
-      setLoading(false)
-      setSource(res)
-    })
-      .catch(() => toast({
-        title: 'Processing error',
-        status: 'error',
-        duration: 3000,
-        position: 'bottom-left',
-        description: 'Error fetching page, please try again'
-      }))
-      .finally(() => setLoading(false))
+    console.log(`Incognito mode is ${state.settings.incognito} on first render`)
+    state.settings.incognito ? getIncognitoRequest() : getRegularRequest()
   }, [])
 
   const LoadingModal = () => {
