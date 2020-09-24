@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Flex, Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack, useToast,
+  Box, Button, Text, Input, PseudoBox, DrawerContent, DrawerBody, DrawerHeader, Stack, useToast,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -114,6 +114,7 @@ const Wallets = () => {
         }
         <Text color="#9da1ab" overflow="hidden" key={wallet.address}>{wallet.address}</Text>
         <Text color="#6d727d" key={wallet.balance}>{parseFloat(wallet.balance).toFixed(5).toLocaleString()} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
+
         <Stack isInline>
           <PseudoBox key={wallet.nickname + 'pseudo2'} color="white" as="button" onClick={() => {
             dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
