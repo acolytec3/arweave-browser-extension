@@ -2351,13 +2351,21 @@ const Popup = () => {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     fontSize: "4xl",
+    paddingBottom: "8px",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 55,
       columnNumber: 13
     }
-  }, parseFloat(wallet.balance).toFixed(3).toLocaleString(), " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+  }, parseFloat(wallet.balance).toFixed(3).toLocaleString(), " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 56,
+      columnNumber: 13
+    }
+  }, wallet.nickname), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
     cursor: "pointer",
     onMouseEnter: () => setHover(true),
     onMouseLeave: () => setHover(false),
@@ -2369,14 +2377,15 @@ const Popup = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56,
+      lineNumber: 57,
       columnNumber: 13
     }
   }, !hover && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+    color: "#999",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 63,
+      lineNumber: 64,
       columnNumber: 26
     }
   }, wallet.address), hover && !copied && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
@@ -2385,7 +2394,7 @@ const Popup = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 65,
       columnNumber: 36
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaClone"], {
@@ -2394,14 +2403,14 @@ const Popup = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 65,
       columnNumber: 69
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64,
+      lineNumber: 65,
       columnNumber: 102
     }
   }, "Click to copy")), hover && copied && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
@@ -2410,7 +2419,7 @@ const Popup = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65,
+      lineNumber: 66,
       columnNumber: 35
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaClone"], {
@@ -2419,42 +2428,42 @@ const Popup = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65,
+      lineNumber: 66,
       columnNumber: 68
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65,
+      lineNumber: 66,
       columnNumber: 101
     }
-  }, "Copied!"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-    __self: undefined,
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 67,
-      columnNumber: 13
-    }
-  }, wallet.nickname), url.type !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-    onClick: () => Object(_providers_browser__WEBPACK_IMPORTED_MODULE_3__["openTab"])(url.type === 'page' ? 'preview/' : 'pdfs/' + url.url),
+  }, "Copied!"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Box"], {
+    py: "5px",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 68,
-      columnNumber: 41
+      columnNumber: 13
     }
-  }, "Archive this ", url.type) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
+  }, url.type === undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     background: "#333",
     color: "white",
     fontSize: "xl",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
+      lineNumber: 70,
+      columnNumber: 15
+    }
+  }, "Content type not currently supported") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Divider"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
       lineNumber: 71,
       columnNumber: 15
     }
-  }, "Content type not currently supported"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
     direction: "row",
     justifyContent: "space-evenly",
     alignItems: "space-between",
@@ -2464,7 +2473,10 @@ const Popup = () => {
       lineNumber: 73,
       columnNumber: 13
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    justify: "center",
+    shouldWrapChildren: true,
+    spacing: 2,
     bg: "white",
     border: "none",
     as: "button",
@@ -2482,16 +2494,19 @@ const Popup = () => {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 74,
-      columnNumber: 95
+      columnNumber: 139
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 74,
-      columnNumber: 131
+      columnNumber: 175
     }
-  }, "PDFs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+  }, "PDFs")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    justify: "center",
+    shouldWrapChildren: true,
+    spacing: 2,
     bg: "white",
     border: "none",
     as: "button",
@@ -2509,16 +2524,19 @@ const Popup = () => {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 75,
-      columnNumber: 96
+      columnNumber: 140
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 75,
-      columnNumber: 135
+      columnNumber: 179
     }
-  }, "Pages")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+  }, "Pages")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    justify: "center",
+    shouldWrapChildren: true,
+    spacing: 2,
     bg: "white",
     border: "none",
     as: "button",
@@ -2536,16 +2554,19 @@ const Popup = () => {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 76,
-      columnNumber: 100
+      columnNumber: 144
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 76,
-      columnNumber: 142
+      columnNumber: 186
     }
-  }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["PseudoBox"], {
+  }, "Transfers")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    justify: "center",
+    shouldWrapChildren: true,
+    spacing: 2,
     bg: "white",
     border: "none",
     as: "button",
@@ -2563,16 +2584,42 @@ const Popup = () => {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 77,
-      columnNumber: 103
+      columnNumber: 148
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 77,
-      columnNumber: 138
+      columnNumber: 183
     }
-  }, "Wallets"))))));
+  }, "Wallets"))), url.type !== undefined && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Box"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80,
+      columnNumber: 42
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Divider"], {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80,
+      columnNumber: 47
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    background: "#333",
+    color: "white",
+    w: "90%",
+    marginBottom: "5px",
+    onClick: () => Object(_providers_browser__WEBPACK_IMPORTED_MODULE_3__["openTab"])(url.type === 'page' ? 'preview/' : 'pdfs/' + url.url),
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 81,
+      columnNumber: 13
+    }
+  }, "Archive this ", url.type)))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Popup);
@@ -3318,6 +3365,7 @@ const Settings = () => {
   }, "Gateway address is invalid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     py: "10px",
     color: "#999",
+    fontFamily: "Roboto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -4745,6 +4793,7 @@ const Wallets = () => {
       }
     }, parseFloat(wallet.balance).toFixed(5).toLocaleString(), " AR ", wallet.address === state.activeWallet && "- ACTIVE", " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
       isInline: true,
+      justifyContent: "space-around",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4771,6 +4820,7 @@ const Wallets = () => {
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaCheck"], {
+      size: 16,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4795,7 +4845,6 @@ const Wallets = () => {
           }
         });
       },
-      alignContent: "center",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4803,6 +4852,7 @@ const Wallets = () => {
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaTrash"], {
+      size: 16,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4820,7 +4870,6 @@ const Wallets = () => {
       color: "white",
       as: "button",
       onClick: () => setEdit(true),
-      alignContent: "center",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4828,6 +4877,7 @@ const Wallets = () => {
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaPen"], {
+      size: 16,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -4856,6 +4906,7 @@ const Wallets = () => {
         columnNumber: 11
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_5__["FaKey"], {
+      size: 16,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,

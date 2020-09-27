@@ -67,7 +67,7 @@ const Settings = () => {
             <FormLabel py="20px" htmlFor='host' color="white">Host</FormLabel>
             <Input bg="#383a3e" color="#EEE" isInvalid={!validGateway} onBlur={() => validateAddress(gateway)} value={gateway} onChange={(evt: any) => setGateway(evt.target.value)}></Input>
             <FormErrorMessage>Gateway address is invalid</FormErrorMessage>
-            <Text py="10px" color="#999">
+            <Text py="10px" color="#999" fontFamily="Roboto">
               Use an alternative host when connecting to Arweave. E.g. https://arweave.net:443 or http://159.65.213.43:1984
           </Text>
           </FormControl>

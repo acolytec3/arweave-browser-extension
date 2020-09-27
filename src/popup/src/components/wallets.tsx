@@ -115,26 +115,26 @@ const Wallets = () => {
         <Text color="#9da1ab" overflow="hidden" key={wallet.address}>{wallet.address}</Text>
         <Text color="#6d727d" key={wallet.balance}>{parseFloat(wallet.balance).toFixed(5).toLocaleString()} AR {(wallet.address === state.activeWallet) && "- ACTIVE"} </Text>
 
-        <Stack isInline>
+        <Stack isInline justifyContent="space-around">
           <PseudoBox key={wallet.nickname + 'pseudo2'} color="white" as="button" onClick={() => {
             dispatch({ type: 'SET_ACTIVE', payload: { address: wallet.address } })
           }} alignContent="start">
-            <FaCheck />
+            <FaCheck size={16} />
             <Text>Use</Text></PseudoBox>
           <PseudoBox color="white" as="button" onClick={() => {
             dispatch({ type: 'REMOVE_WALLET', payload: { address: wallet.address } })
-          }} alignContent="center">
-            <FaTrash />
+          }}>
+            <FaTrash size={16} />
             <Text>Remove</Text></PseudoBox>
-          <PseudoBox color="white" as="button" onClick={() => setEdit(true)} alignContent="center">
-            <FaPen />
+          <PseudoBox color="white" as="button" onClick={() => setEdit(true)} >
+            <FaPen size={16}  />
             <Text>Rename</Text>
           </PseudoBox>
           <PseudoBox color="white" as="button" onClick={() => {
             setModalAddress(wallet.address)
             setModal(true)
           }} alignContent="center">
-            <FaKey />
+            <FaKey size={16} />
             <Text>Export Key</Text></PseudoBox>
         </Stack>
       </PseudoBox>
