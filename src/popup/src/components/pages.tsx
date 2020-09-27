@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
   Text, Flex, Button, Modal, SimpleGrid, Spinner, Stack, Code, Textarea,
-  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link } from "@chakra-ui/core";
+  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link, Divider } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -64,44 +64,46 @@ const Pages = () => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody >
-            <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
-            <Text>{pageModal.page.txnId}</Text>
-            <Text>From</Text>
-            <Text>{state.activeWallet}</Text>
-            <Text>Page Title</Text>
-            <Text>{pageModal.page.title}</Text>
-            <Text>Page URL</Text>
-            <Text>{pageModal.page.url}</Text>
+            <Text color="#888" paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
+            <Text fontSize={14} paddingBottom="5px">{pageModal.page.txnId}</Text>
+            <Text color="#888">From</Text>
+            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <Text color="#888">Page Title</Text>
+            <Text fontSize={14} paddingBottom="5px">{pageModal.page.title}</Text>
+            <Text color="#888">Page URL</Text>
+            <Link isExternal fontSize={14} paddingBottom="5px" href={pageModal.page.url}>{pageModal.page.url}</Link>
             <Stack isInline>
-              <Stack>
-                <Text>Page Size</Text>
-                <Text>{pageModal.page.size / 1000} KB</Text>
+              <Stack w="50%">
+                <Text color="#888">Page Size</Text>
+                <Text fontSize={14}>{pageModal.page.size / 1000} KB</Text>
               </Stack>
               <Stack>
-                <Text>Fee</Text>
-                <Text>{pageModal.page.fee} AR</Text>
+                <Text color="#888">Fee</Text>
+                <Text fontSize={14}>{pageModal.page.fee} AR</Text>
               </Stack>
             </Stack>
-            <Stack borderBottom="1px" marginBottom="20px" isInline>
-              <Stack>
-                <Text>Time</Text>
-                <Text>{moment(parseInt(pageModal.page.timestamp)).startOf('minute').fromNow()}</Text>
+            <Stack marginBottom="20px" isInline>
+              <Stack w="50%">
+                <Text color="#888">Time</Text>
+                <Text fontSize={14}>{moment(parseInt(pageModal.page.timestamp)).format()}</Text>
               </Stack>
               <Stack>
-                <Text>Status</Text>
-                <Text>{pageModal.page.status}</Text>
+                <Text color="#888">Status</Text>
+                <Text fontSize={14}>{pageModal.page.status}</Text>
               </Stack>
+            </Stack>
+            <Divider />
+            <Stack>
+              <Text color="#888">Raw Transaction</Text>
+              <Link fontSize={14} isExternal href={state.settings.gateway + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
-              <Text>Raw Transaction</Text>
-              <Link isExternal href={state.settings.gateway + '/tx/' + pageModal.page.txnId}>View raw transaction</Link>
-            </Stack>
-            <Stack>
-              <Text>Block Explorers</Text>
-              <Link isExternal href={'https://viewblock.io/arweave/tx/' + pageModal.page.txnId}>View on ViewBlock</Link>
+              <Text color="#888">Block Explorers</Text>
+              <Link fontSize={14} isExternal href={'https://viewblock.io/arweave/tx/' + pageModal.page.txnId}>View on ViewBlock</Link>
             </Stack>
             {state.settings.debug && <Stack>
               <Stack>
+                <Divider />
                 <Text>Debug Transaction</Text>
                 <Code>
                   {/*@ts-ignore  --makes these readonly text areas, even if the Chakra-UI component doesn't recognize the prop*/}

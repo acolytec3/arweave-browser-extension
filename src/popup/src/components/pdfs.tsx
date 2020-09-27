@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
+  ModalCloseButton, Divider
 } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
@@ -88,41 +88,44 @@ const Pdfs = () => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody >
-            <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
-            <Text>{pdfModal.pdf.txnId}</Text>
-            <Text>From</Text>
-            <Text>{state.activeWallet}</Text>
-            <Text>PDF URL</Text>
-            <Text>{pdfModal.pdf.url}</Text>
+            <Text paddingTop={3} borderTop="1px" borderColor="black" color="#888">ID</Text>
+            <Text fontSize={14} paddingBottom="5px">{pdfModal.pdf.txnId}</Text>
+            <Text color="#888">From</Text>
+            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <Text color="#888" >File URL</Text>
+            <Link isExternal fontSize={14} paddingBottom="5px" href={pdfModal.pdf.url}>{pdfModal.pdf.url}</Link>
+            <Divider />
             <Stack isInline>
-              <Stack>
-                <Text>PDF Size</Text>
-                <Text>{parseInt(size) / 1000} KB</Text>
+              <Stack w="50%">
+                <Text color="#888">PDF Size</Text>
+                <Text fontSize={14} >{parseInt(size) / 1000} KB</Text>
               </Stack>
               <Stack>
-                <Text>Fee</Text>
-                <Text>{pdfModal.pdf.fee} AR</Text>
-              </Stack>
-            </Stack>
-            <Stack borderBottom="1px" marginBottom="20px" isInline>
-              <Stack>
-                <Text>Time</Text>
-                <Text>{moment(parseInt(pdfModal.pdf.timestamp)).startOf('minute').fromNow()}</Text>
-              </Stack>
-              <Stack>
-                <Text>Status</Text>
-                <Text>{pdfModal.pdf.status}</Text>
+                <Text color="#888">Fee</Text>
+                <Text fontSize={14} >{pdfModal.pdf.fee} AR</Text>
               </Stack>
             </Stack>
-            <Stack>
-              <Text>Raw Transaction</Text>
+            <Stack isInline>
+              <Stack w="50%">
+                <Text color="#888">Time</Text>
+                <Text fontSize={14} >{moment(parseInt(pdfModal.pdf.timestamp)).startOf('minute').fromNow()}</Text>
+              </Stack>
+              <Stack>
+                <Text color="#888">Status</Text>
+                <Text fontSize={14} >{pdfModal.pdf.status}</Text>
+              </Stack>
+            </Stack>
+            <Divider />
+            <Stack marginBottom="10px">
+              <Text color="#888">Raw Transaction</Text>
               <Link isExternal href={state.settings.gateway + '/tx/' + pdfModal.pdf.txnId}>View raw transaction</Link>
             </Stack>
             <Stack>
-              <Text>Block Explorers</Text>
+              <Text color="#888">Block Explorers</Text>
               <Link isExternal href={'https://viewblock.io/arweave/tx/' + pdfModal.pdf.txnId}>View on ViewBlock</Link>
             </Stack>
             {state.settings.debug && <Stack>
+              <Divider />
               <Stack>
                 <Text>Debug Transaction</Text>
                 <Code>
@@ -156,7 +159,7 @@ const Pdfs = () => {
         }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
-        <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).startOf('minute').fromNow()}</Text>
+        <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).format()}</Text>
           {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
         </Stack>
       </SimpleGrid>

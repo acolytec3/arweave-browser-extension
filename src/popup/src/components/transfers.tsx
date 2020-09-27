@@ -56,7 +56,7 @@ const Transfers = () => {
             <Stack isInline>
               <Stack w="50%">
                 <Text color="#888">Time</Text>
-                <Text fontSize={14}>{moment(parseInt(transferModal.transfer.timestamp)).startOf('minute').fromNow()}</Text>
+                <Text fontSize={14}>{moment(parseInt(transferModal.transfer.timestamp)).format()}</Text>
               </Stack>
               <Stack>
                 <Text color="#888">Status</Text>
