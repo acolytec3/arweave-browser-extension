@@ -199,7 +199,7 @@ const Pdfs = () => {
                 <Input value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
               </ModalBody>
               <ModalFooter>
-                <Button onClick={function () {
+                <Button bg="#333" color="white" onClick={function () {
                   pdfSaver();
                   history.push('/pdfs')
                 }}>Confirm and Archive Pdf</Button>

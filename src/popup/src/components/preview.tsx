@@ -163,7 +163,7 @@ const PagePreview = () => {
   }
 
   return (
-    <Box position="absolute" width="100%" height="100%" p="10px">
+    <Box position="absolute" width="100%" height="100%" p="10px" >
 
       <Flex px="5%" direction="row" justifyContent="space-between" paddingBottom="5px">
         <ArweaveLogo />
@@ -181,7 +181,7 @@ const PagePreview = () => {
       <Box px="auto" width="100%" height="90%">
         <iframe sandbox="" width="98%" height="90%" srcDoc={source ? source.html : undefined} ></iframe>
       </Box>
-      <Button width="300px" position="fixed" bottom="20px" right="40px" onClick={handleArchive}>
+      <Button width="300px" position="fixed" bottom="20px" right="40px" bg="#333" color="white" onClick={handleArchive}>
         Archive this on Arweave
       </Button>
       <Modal isOpen={isOpen} onClose={() => setOpen(false)} isCentered>
@@ -199,7 +199,7 @@ const PagePreview = () => {
             <Input placeholder="Enter your encryption passphrase" value={password} onChange={((evt: any) => setPassword(evt.target.value))} type="password" />
           </ModalBody>
           <ModalFooter>
-            <Button onClick={function () {
+            <Button bg="#333" color="white" onClick={function () {
               pageSaver();
               history.push('/pages')
             }}>Archive Page</Button>

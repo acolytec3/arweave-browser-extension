@@ -5,7 +5,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton,
+  ModalCloseButton, Divider
 } from "@chakra-ui/core";
 import { FaCheckDouble } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -37,40 +37,42 @@ const Transfers = () => {
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody >
-            <Text paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
-            <Text>{transferModal.transfer.txnId}</Text>
-            <Text>From:</Text>
-            <Text>{state.activeWallet}</Text>
-            <Text>To:</Text>
-            <Text>{transferModal.transfer.to}</Text>
+            <Text paddingTop={3} borderTop="1px" borderColor="black" color="#888">ID</Text>
+            <Text fontSize={14} paddingBottom="5px">{transferModal.transfer.txnId}</Text>
+            <Text color="#888">From:</Text>
+            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <Text color="#888">To:</Text>
+            <Text fontSize={14} paddingBottom="10px">{transferModal.transfer.to}</Text>
             <Stack isInline>
-              <Stack>
-                <Text>Amount</Text>
-                <Text>{transferModal.transfer.amount} AR</Text>
+              <Stack w="50%">
+                <Text color="#888">Amount</Text>
+                <Text fontSize={14}>{transferModal.transfer.amount} AR</Text>
               </Stack>
               <Stack>
-                <Text>Fee</Text>
-                <Text>{transferModal.transfer.fee} AR</Text>
-              </Stack>
-            </Stack>
-            <Stack borderBottom="1px" marginBottom="20px" isInline>
-              <Stack>
-                <Text>Time</Text>
-                <Text>{moment(parseInt(transferModal.transfer.timestamp)).startOf('minute').fromNow()}</Text>
-              </Stack>
-              <Stack>
-                <Text>Status</Text>
-                <Text>{transferModal.transfer.status}</Text>
+                <Text color="#888">Fee</Text>
+                <Text fontSize={14}>{transferModal.transfer.fee} AR</Text>
               </Stack>
             </Stack>
-            <Stack>
+            <Stack isInline>
+              <Stack w="50%">
+                <Text color="#888">Time</Text>
+                <Text fontSize={14}>{moment(parseInt(transferModal.transfer.timestamp)).startOf('minute').fromNow()}</Text>
+              </Stack>
+              <Stack>
+                <Text color="#888">Status</Text>
+                <Text fontSize={14}>{transferModal.transfer.status}</Text>
+              </Stack>
+            </Stack>
+            <Divider />
+            <Stack paddingBottom="5px">
               <Text>Raw Transaction</Text>
               <Link isExternal href={state.settings.gateway + '/tx/' + transferModal.transfer.txnId}>View raw transaction</Link>
             </Stack>
-            <Stack>
+            <Stack paddingBottom="5px">
               <Text>Block Explorers</Text>
               <Link isExternal href={'https://viewblock.io/arweave/tx/' + transferModal.transfer.txnId}>View on ViewBlock</Link>
             </Stack>
+            {state.settings.debug && <Divider />}
             {state.settings.debug && <Stack>
               <Stack>
                 <Text>Debug Transaction</Text>

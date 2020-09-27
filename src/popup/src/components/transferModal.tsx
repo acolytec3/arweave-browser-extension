@@ -28,12 +28,9 @@ const TransferModal = (open: any) => {
     const history = useHistory();
     const toast = useToast()
 
-  /*  useEffect(() => {
-       if (isOpen) updateFee()
-    }, [message])*/
-
     useEffect(() => {
-        setOpen(open.open)    
+        setOpen(open.open)  
+        updateFee()  
     },[open])
 
     const updateFee = () => {
@@ -74,7 +71,7 @@ const TransferModal = (open: any) => {
         setAmount(amount.toString())
     }
 
-    return (<Modal isOpen={isOpen} onClose={() => {
+    return (<Modal isCentered isOpen={isOpen} onClose={() => {
         setOpen(false)
         open.close()}}>
         <ModalOverlay />
@@ -90,7 +87,6 @@ const TransferModal = (open: any) => {
                     {!next && <Fragment>
                         <Stack spacing={2}>
                             <FormControl isInvalid={to === state.activeWallet}>
-                                <FormLabel htmlFor='to' fontSize={12} color="grey">Send to Arweave wallet address</FormLabel>
                                 <Input placeholder="Send to Arweave wallet address"
                                     value={to}
                                     onChange={(e: any) => setToAddress(e.target.value)}
@@ -112,7 +108,7 @@ const TransferModal = (open: any) => {
                                     </InputGroup>
                                     <FormErrorMessage>Amount cannot be greater than wallet balance</FormErrorMessage>
                                 </FormControl>
-                                <Button border="none" onClick={setMax}>Entire Wallet</Button>
+                                <Button border="none" onClick={setMax}>Use Wallet Balance</Button>
                             </Stack>
                             <Input placeholder="Message (optional)" value={message} onChange={(evt: any) => setMessage(evt.target.value)} onBlur={updateFee} />
                             <Text>Fee</Text>
@@ -152,8 +148,8 @@ const TransferModal = (open: any) => {
                 </Stack>
             </ModalBody>
             <ModalFooter>
-                {!next ? <Button isDisabled={!validAmount || (to === '')} onClick={() => setNext(true)}>Next</Button> :
-                    <Button onClick={function () {
+                {!next ? <Button bg="#333" color="white" w="100%" isDisabled={!validAmount || (to === '')} onClick={() => setNext(true)}>Next</Button> :
+                    <Button bg="#333" color="white" w="100%" onClick={function () {
                         initiateTransfer();
                         history.push('/transfers')
                         setOpen(false)
