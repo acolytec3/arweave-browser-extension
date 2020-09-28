@@ -18,7 +18,7 @@ const Pages = () => {
   const [addrHover, setAddrHover] = useState(false)
   const [copied, setCopied] = useState(false)
   const [copyValue, setCopy] = useState('')
-  const { onCopy, hasCopied } = useClipboard(copyValue);
+  const { onCopy } = useClipboard(copyValue);
 
   const getDebugInfo = async (page: page) => {
     setLoading(true)
@@ -31,7 +31,7 @@ const Pages = () => {
     let pages = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pages
 
     return <Flex direction="column">
-      {pages && pages.length > 0 && <SimpleGrid columns={4}>
+      {pages && pages.length > 0 && <SimpleGrid color="#888" columns={4}>
         <Text fontWeight="bold" key="title">Title</Text>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text fontWeight="bold" key="fee">Fee</Text>
@@ -44,7 +44,7 @@ const Pages = () => {
   }
   
   const PageRow = (page: page) => {
-    return <SimpleGrid background="white" my={1} columns={4} cursor="pointer" key={page.txnId + '1'} borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
+    return <SimpleGrid background="white" my={1} fontSize={14} columns={4} cursor="pointer" key={page.txnId + '1'} borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
       onClick={() => {
         getDebugInfo(page);
         setPageOpen({ open: true, page: page })

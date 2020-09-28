@@ -130,7 +130,7 @@ const BrowserPage = (route: any) => {
     return null
   }
 
-  return (<Router basename="/mainpage">
+  return (<Router basename="/mainpage" >
     <Switch>
       <Route exact path="/preview">
         <Preview />
@@ -154,9 +154,9 @@ const BrowserPage = (route: any) => {
         <PseudoBox bg="#4a4a4a" px={2}>
           <Flex direction="row" alignItems="center" justifyContent="space-around">
             <Text justifySelf="start" color="white" fontSize={24}>{headerLabel[history.location.pathname.split('/')[2].toString()]}</Text>
-            <Stack marginLeft="auto">
-              <Text color="white">{state.activeWallet ? state.activeWallet : null}</Text>
-              <Text color="white">{state.activeWallet ? parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6) : 0} AR </Text>
+            <Stack fontSize={14} color="white" marginLeft="auto">
+              <Text>{state.activeWallet ? state.activeWallet : null}</Text>
+              <Text>{state.activeWallet ? parseFloat(state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].balance).toFixed(6) : 0} AR </Text>
             </Stack>
             <Button marginLeft={2} color="black" bg="white" onClick={() => setArModal(true)}>Send AR</Button>
           </Flex>

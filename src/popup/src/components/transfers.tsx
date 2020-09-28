@@ -24,7 +24,7 @@ const Transfers = () => {
   const [toAddrHover, setToAddrHover] = useState(false)
   const [copied, setCopied] = useState(false)
   const [copyValue, setCopy] = useState('')
-  const { onCopy, hasCopied } = useClipboard(copyValue);
+  const { onCopy } = useClipboard(copyValue);
 
   const getDebugInfo = async (transfer: transfer) => {
     setLoading(true)
@@ -139,21 +139,21 @@ const Transfers = () => {
     return (
       <Fragment>
         {transfers != null && <Flex direction="column">
-          <SimpleGrid columns={4}>
+          <SimpleGrid color="#888" columns={4}>
             <Text fontWeight="bold" key="url">Sendee Address</Text>
-            <Text mx={5} fontWeight="bold" key="fee">Fee</Text>
+            <Text fontWeight="bold" key="fee">Fee</Text>
             <Text fontWeight="bold">Amount</Text>
             <Text fontWeight="bold" key="timestamp">Time</Text>
           </SimpleGrid>
           {transfers.map((transfer: any) => {
             return (
-              <SimpleGrid columns={4} key={transfer.txnId + '1'} cursor="pointer"
+              <SimpleGrid fontSize={14} columns={4} key={transfer.txnId + '1'} cursor="pointer"
                 borderRadius="2px" borderBottom="1px" borderBottomColor="#eee" onClick={() => {
                   getDebugInfo(transfer);
                   setTransferModal({ open: true, transfer: transfer })
                 }}>
                 <Text key={transfer.to}>{transfer.to}</Text>
-                <Text mx={5} key={transfer.fee}>{parseFloat(transfer.fee).toFixed(6).toLocaleString()} AR</Text>
+                <Text key={transfer.fee}>{parseFloat(transfer.fee).toFixed(6).toLocaleString()} AR</Text>
                 <Text key={transfer.amount}>{parseFloat(transfer.amount).toFixed(6).toLocaleString()} AR</Text>
                 <Stack isInline><Text key={transfer.timestamp}>{moment(parseInt(transfer.timestamp)).startOf('minute').fromNow()}</Text>
                   {transfer.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}

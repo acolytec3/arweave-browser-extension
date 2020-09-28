@@ -33,7 +33,7 @@ const Pdfs = () => {
   const [addrHover, setAddrHover] = useState(false)
   const [copied, setCopied] = useState(false)
   const [copyValue, setCopy] = useState('')
-  const { onCopy, hasCopied } = useClipboard(copyValue);
+  const { onCopy } = useClipboard(copyValue);
 
   useEffect(() => {
     let location = window.location.hash.substr(16,).split('#')[0]
@@ -178,7 +178,7 @@ const Pdfs = () => {
 
   const PdfRow = (pdf: pdf) => {
     return (
-      <SimpleGrid columns={3} background="white" my={1} cursor="pointer" key={pdf.txnId + '1'}
+      <SimpleGrid columns={3} background="white" fontSize={14} my={1} cursor="pointer" key={pdf.txnId + '1'}
         borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"
         onClick={() => {
           getDebugInfo(pdf);
@@ -192,11 +192,12 @@ const Pdfs = () => {
       </SimpleGrid>
     )
   }
+
   const PdfTable = () => {
 
     let pdfs = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pdfs
     return <Fragment><Flex direction="column">
-      {pdfs && <SimpleGrid columns={3}>
+      {pdfs && <SimpleGrid colr="#888" columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Time</Text>

@@ -681,6 +681,8 @@ const BrowserPage = route => {
       columnNumber: 13
     }
   }, headerLabel[history.location.pathname.split('/')[2].toString()]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    fontSize: 14,
+    color: "white",
     marginLeft: "auto",
     __self: undefined,
     __source: {
@@ -689,7 +691,6 @@ const BrowserPage = route => {
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-    color: "white",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -697,7 +698,6 @@ const BrowserPage = route => {
       columnNumber: 15
     }
   }, state.activeWallet ? state.activeWallet : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
-    color: "white",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -944,8 +944,7 @@ const Pages = () => {
   const [copied, setCopied] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [copyValue, setCopy] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const {
-    onCopy,
-    hasCopied
+    onCopy
   } = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useClipboard"])(copyValue);
 
   const getDebugInfo = async page => {
@@ -966,6 +965,7 @@ const Pages = () => {
         columnNumber: 12
       }
     }, pages && pages.length > 0 && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["SimpleGrid"], {
+      color: "#888",
       columns: 4,
       __self: undefined,
       __source: {
@@ -1018,6 +1018,7 @@ const Pages = () => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["SimpleGrid"], {
       background: "white",
       my: 1,
+      fontSize: 14,
       columns: 4,
       cursor: "pointer",
       key: page.txnId + '1',
@@ -1722,8 +1723,7 @@ const Pdfs = () => {
   const [copied, setCopied] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [copyValue, setCopy] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const {
-    onCopy,
-    hasCopied
+    onCopy
   } = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["useClipboard"])(copyValue);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     let location = window.location.hash.substr(16).split('#')[0];
@@ -2290,6 +2290,7 @@ const Pdfs = () => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["SimpleGrid"], {
       columns: 3,
       background: "white",
+      fontSize: 14,
       my: 1,
       cursor: "pointer",
       key: pdf.txnId + '1',
@@ -2368,7 +2369,7 @@ const Pdfs = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 198,
+        lineNumber: 199,
         columnNumber: 12
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -2376,15 +2377,16 @@ const Pdfs = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 198,
+        lineNumber: 199,
         columnNumber: 22
       }
     }, pdfs && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["SimpleGrid"], {
+      colr: "#888",
       columns: 3,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 199,
+        lineNumber: 200,
         columnNumber: 16
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -2393,7 +2395,7 @@ const Pdfs = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 200,
+        lineNumber: 201,
         columnNumber: 9
       }
     }, "URL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -2402,7 +2404,7 @@ const Pdfs = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 201,
+        lineNumber: 202,
         columnNumber: 9
       }
     }, "Fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
@@ -2411,7 +2413,7 @@ const Pdfs = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 202,
+        lineNumber: 203,
         columnNumber: 9
       }
     }, "Time")), pdfs && pdfs.map(pdf => {
@@ -2424,14 +2426,14 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 210,
+      lineNumber: 211,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 211,
+      lineNumber: 212,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -2440,21 +2442,21 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 212,
+      lineNumber: 213,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PdfTable, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 213,
+      lineNumber: 214,
       columnNumber: 9
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PdfModal, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 214,
+      lineNumber: 215,
       columnNumber: 9
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -2463,7 +2465,7 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 216,
+      lineNumber: 217,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Flex"], {
@@ -2472,7 +2474,7 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 217,
+      lineNumber: 218,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
@@ -2481,77 +2483,77 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 218,
+      lineNumber: 219,
       columnNumber: 11
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalOverlay"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 219,
+      lineNumber: 220,
       columnNumber: 13
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalContent"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 220,
+      lineNumber: 221,
       columnNumber: 13
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalHeader"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 221,
+      lineNumber: 222,
       columnNumber: 15
     }
   }, "Confirm Transaction"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalCloseButton"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 222,
+      lineNumber: 223,
       columnNumber: 15
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalBody"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 223,
+      lineNumber: 224,
       columnNumber: 15
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 224,
+      lineNumber: 225,
       columnNumber: 17
     }
   }, "From: ", state.activeWallet), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 225,
+      lineNumber: 226,
       columnNumber: 17
     }
   }, "Page URL: ", window.location.hash.substr(16).split('#')[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 226,
+      lineNumber: 227,
       columnNumber: 17
     }
   }, "Page Size: ", parseInt(size) / 1000, " kb"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 227,
+      lineNumber: 228,
       columnNumber: 17
     }
   }, "Fee: ", fee, " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Text"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 228,
+      lineNumber: 229,
       columnNumber: 17
     }
   }, "Balance after transaction: ", parseFloat(typeof balance === 'string' ? balance : '0') - parseFloat(fee), " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Input"], {
@@ -2561,14 +2563,14 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 229,
+      lineNumber: 230,
       columnNumber: 17
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["ModalFooter"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 231,
+      lineNumber: 232,
       columnNumber: 15
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -2581,7 +2583,7 @@ const Pdfs = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 232,
+      lineNumber: 233,
       columnNumber: 17
     }
   }, "Confirm and Archive Pdf"))))))));
@@ -4475,8 +4477,7 @@ const Transfers = () => {
   const [copied, setCopied] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [copyValue, setCopy] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const {
-    onCopy,
-    hasCopied
+    onCopy
   } = Object(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["useClipboard"])(copyValue);
 
   const getDebugInfo = async transfer => {
@@ -5055,6 +5056,7 @@ const Transfers = () => {
         columnNumber: 31
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
+      color: "#888",
       columns: 4,
       __self: undefined,
       __source: {
@@ -5072,7 +5074,6 @@ const Transfers = () => {
         columnNumber: 13
       }
     }, "Sendee Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-      mx: 5,
       fontWeight: "bold",
       key: "fee",
       __self: undefined,
@@ -5100,6 +5101,7 @@ const Transfers = () => {
       }
     }, "Time")), transfers.map(transfer => {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
+        fontSize: 14,
         columns: 4,
         key: transfer.txnId + '1',
         cursor: "pointer",
@@ -5128,7 +5130,6 @@ const Transfers = () => {
           columnNumber: 17
         }
       }, transfer.to), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
-        mx: 5,
         key: transfer.fee,
         __self: undefined,
         __source: {
@@ -7023,5 +7024,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",0]]]);
+},[[0,"runtime-main",1]]]);
 //# sourceMappingURL=main.chunk.js.map
