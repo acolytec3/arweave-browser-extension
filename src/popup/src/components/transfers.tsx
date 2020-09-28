@@ -5,9 +5,9 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton, Divider
+  ModalCloseButton, Divider, PseudoBox, useClipboard
 } from "@chakra-ui/core";
-import { FaCheckDouble } from 'react-icons/fa'
+import { FaCheckDouble, FaClone } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, transfer } from '../background'
 import axios, { AxiosResponse } from 'axios'
@@ -19,7 +19,13 @@ const Transfers = () => {
   const [transferModal, setTransferModal] = useState({ open: false, transfer: {} as transfer })
   const [debugResponse, setRes] = useState({} as AxiosResponse)
   const [debugLoading, setLoading] = useState(false)
- 
+  const [txnHover, setTxnHover] = useState(false)
+  const [fromAddrHover, setFromAddrHover] = useState(false)
+  const [toAddrHover, setToAddrHover] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [copyValue, setCopy] = useState('')
+  const { onCopy, hasCopied } = useClipboard(copyValue);
+
   const getDebugInfo = async (transfer: transfer) => {
     setLoading(true)
     let txn = await axios.get(`${state.settings.gateway}/tx/${transfer.txnId}`)
@@ -38,11 +44,44 @@ const Transfers = () => {
           </ModalHeader>
           <ModalBody >
             <Text paddingTop={3} borderTop="1px" borderColor="black" color="#888">ID</Text>
-            <Text fontSize={14} paddingBottom="5px">{transferModal.transfer.txnId}</Text>
-            <Text color="#888">From:</Text>
-            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setTxnHover(true)} onMouseLeave={() => setTxnHover(false)}
+              onClick={() => {
+                setCopy(transferModal.transfer.txnId)
+                onCopy!();
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000)
+              }
+              }>
+              {!txnHover && <Text fontSize={14} paddingBottom="5px">{transferModal.transfer.txnId}</Text>}
+              {txnHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Click to copy</Text></Stack>}
+              {txnHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Copied!</Text></Stack>}
+            </PseudoBox>
+            <Text color="#888">From</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setFromAddrHover(true)} onMouseLeave={() => setFromAddrHover(false)}
+              onClick={() => {
+                setCopy(state.activeWallet)
+                onCopy!();
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000)
+              }
+              }>
+              {!fromAddrHover && <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>}
+              {fromAddrHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Click to copy</Text></Stack>}
+              {fromAddrHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text color="#888">To:</Text>
-            <Text fontSize={14} paddingBottom="10px">{transferModal.transfer.to}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setToAddrHover(true)} onMouseLeave={() => setToAddrHover(false)}
+              onClick={() => {
+                setCopy(transferModal.transfer.to)
+                onCopy!();
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000)
+              }
+              }>
+              {!toAddrHover && <Text fontSize={14} paddingBottom="5px">{transferModal.transfer.to}</Text>}
+              {toAddrHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Click to copy</Text></Stack>}
+              {toAddrHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12} /><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Stack isInline>
               <Stack w="50%">
                 <Text color="#888">Amount</Text>
@@ -108,10 +147,11 @@ const Transfers = () => {
           </SimpleGrid>
           {transfers.map((transfer: any) => {
             return (
-              <SimpleGrid columns={4} key={transfer.txnId + '1'} cursor="pointer" 
-                borderRadius="2px" borderBottom="1px" borderBottomColor="#eee"onClick={() => { 
-                getDebugInfo(transfer);
-                setTransferModal({ open: true, transfer: transfer }) }}>
+              <SimpleGrid columns={4} key={transfer.txnId + '1'} cursor="pointer"
+                borderRadius="2px" borderBottom="1px" borderBottomColor="#eee" onClick={() => {
+                  getDebugInfo(transfer);
+                  setTransferModal({ open: true, transfer: transfer })
+                }}>
                 <Text key={transfer.to}>{transfer.to}</Text>
                 <Text mx={5} key={transfer.fee}>{parseFloat(transfer.fee).toFixed(6).toLocaleString()} AR</Text>
                 <Text key={transfer.amount}>{parseFloat(transfer.amount).toFixed(6).toLocaleString()} AR</Text>

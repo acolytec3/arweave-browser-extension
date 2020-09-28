@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
   Text, Flex, Button, Modal, SimpleGrid, Spinner, Stack, Code, Textarea,
-  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link, Divider } from "@chakra-ui/core";
+  ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Link, Divider, PseudoBox, useClipboard } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
-import { FaCheckDouble } from 'react-icons/fa'
+import { FaCheckDouble, FaClone } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, page } from '../background'
 import moment from 'moment'
@@ -14,6 +14,11 @@ const Pages = () => {
   const state = useSelector((rootState: initialStateType) => rootState)
   const [debugResponse, setRes] = useState({} as AxiosResponse)
   const [debugLoading, setLoading] = useState(false)
+  const [txnHover, setTxnHover] = useState(false)
+  const [addrHover, setAddrHover] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [copyValue, setCopy] = useState('')
+  const { onCopy, hasCopied } = useClipboard(copyValue);
 
   const getDebugInfo = async (page: page) => {
     setLoading(true)
@@ -54,7 +59,6 @@ const Pages = () => {
   }
 
   const PageModal = () => {
-    console.log(pageModal.page.size)
     return (
       <Modal isOpen={pageModal.open} onClose={() => setPageOpen({ open: false, page: {} as page })} scrollBehavior="inside" size="450px">
         <ModalOverlay />
@@ -65,9 +69,31 @@ const Pages = () => {
           </ModalHeader>
           <ModalBody >
             <Text color="#888" paddingTop={3} borderTop="1px" borderColor="black">ID</Text>
-            <Text fontSize={14} paddingBottom="5px">{pageModal.page.txnId}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setTxnHover(true)} onMouseLeave={() => setTxnHover(false)} 
+            onClick={() => {
+              onCopy!();
+              setCopy(pageModal.page.txnId)
+              setCopied(true);
+              setTimeout(() => setCopied(false),2000)
+            }
+            }>
+              {!txnHover && <Text fontSize={14} paddingBottom="5px">{pageModal.page.txnId}</Text>}
+              {txnHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Click to copy</Text></Stack>}
+              {txnHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text color="#888">From</Text>
-            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setAddrHover(true)} onMouseLeave={() => setAddrHover(false)} 
+            onClick={() => {
+              onCopy!();
+              setCopy(state.activeWallet)
+              setCopied(true);
+              setTimeout(() => setCopied(false),2000)
+            }
+            }>
+              {!addrHover && <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>}
+              {addrHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Click to copy</Text></Stack>}
+              {addrHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text color="#888">Page Title</Text>
             <Text fontSize={14} paddingBottom="5px">{pageModal.page.title}</Text>
             <Text color="#888">Page URL</Text>

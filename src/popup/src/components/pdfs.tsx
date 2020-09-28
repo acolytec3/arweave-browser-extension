@@ -7,7 +7,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton, Divider
+  ModalCloseButton, Divider, useClipboard, PseudoBox
 } from "@chakra-ui/core";
 import axios, { AxiosResponse } from 'axios'
 import { FaCheckDouble } from 'react-icons/fa'
@@ -15,7 +15,7 @@ import { getFee } from '../providers/wallets'
 import { useSelector } from 'react-redux'
 import { initialStateType, wallet, pdf } from '../background'
 import moment from 'moment'
-
+import { FaClone } from 'react-icons/fa'
 
 const Pdfs = () => {
   const [isOpen, setOpen] = useState(false)
@@ -29,6 +29,11 @@ const Pdfs = () => {
   const [debugResponse, setRes] = useState({} as AxiosResponse)
   const [debugLoading, setLoading] = useState(false)
   const toast = useToast();
+  const [txnHover, setTxnHover] = useState(false)
+  const [addrHover, setAddrHover] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [copyValue, setCopy] = useState('')
+  const { onCopy, hasCopied } = useClipboard(copyValue);
 
   useEffect(() => {
     let location = window.location.hash.substr(16,).split('#')[0]
@@ -89,9 +94,31 @@ const Pdfs = () => {
           </ModalHeader>
           <ModalBody >
             <Text paddingTop={3} borderTop="1px" borderColor="black" color="#888">ID</Text>
-            <Text fontSize={14} paddingBottom="5px">{pdfModal.pdf.txnId}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setTxnHover(true)} onMouseLeave={() => setTxnHover(false)} 
+            onClick={() => {
+              setCopy(pdfModal.pdf.txnId)
+              onCopy!();
+              setCopied(true);
+              setTimeout(() => setCopied(false),2000)
+            }
+            }>
+              {!txnHover && <Text fontSize={14} paddingBottom="5px">{pdfModal.pdf.txnId}</Text>}
+              {txnHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Click to copy</Text></Stack>}
+              {txnHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text color="#888">From</Text>
-            <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>
+            <PseudoBox cursor="pointer" onMouseEnter={() => setAddrHover(true)} onMouseLeave={() => setAddrHover(false)} 
+            onClick={() => {
+              setCopy(state.activeWallet)
+              onCopy!();
+              setCopied(true);
+              setTimeout(() => setCopied(false),2000)
+            }
+            }>
+              {!addrHover && <Text fontSize={14} paddingBottom="5px">{state.activeWallet}</Text>}
+              {addrHover && !copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Click to copy</Text></Stack>}
+              {addrHover && copied && <Stack isInline justify="center"><FaClone color="grey" size={12}/><Text>Copied!</Text></Stack>}
+            </PseudoBox>
             <Text color="#888" >File URL</Text>
             <Link isExternal fontSize={14} paddingBottom="5px" href={pdfModal.pdf.url}>{pdfModal.pdf.url}</Link>
             <Divider />
