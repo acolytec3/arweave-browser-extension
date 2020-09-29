@@ -9,7 +9,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Modal
+  Modal, CSSReset
 } from "@chakra-ui/core";
 import { FaRegFileAlt, FaMoneyCheckAlt, FaWallet, FaFilePdf, FaCog, FaCircle } from 'react-icons/fa'
 import Wallets from './wallets'
@@ -131,6 +131,7 @@ const BrowserPage = (route: any) => {
   }
 
   return (<Router basename="/mainpage" >
+    <CSSReset />
     <Switch>
       <Route exact path="/preview">
         <Preview />

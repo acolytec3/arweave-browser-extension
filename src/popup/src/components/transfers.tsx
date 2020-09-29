@@ -147,7 +147,7 @@ const Transfers = () => {
           </SimpleGrid>
           {transfers.map((transfer: any) => {
             return (
-              <SimpleGrid fontSize={14} columns={4} key={transfer.txnId + '1'} cursor="pointer"
+              <SimpleGrid fontSize={14} background="white" columns={4} key={transfer.txnId + '1'} cursor="pointer"
                 borderRadius="2px" borderBottom="1px" borderBottomColor="#eee" onClick={() => {
                   getDebugInfo(transfer);
                   setTransferModal({ open: true, transfer: transfer })
