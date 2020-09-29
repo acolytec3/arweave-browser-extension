@@ -2388,7 +2388,7 @@ const Pdfs = () => {
         columnNumber: 22
       }
     }, pdfs && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["SimpleGrid"], {
-      colr: "#888",
+      color: "#888",
       columns: 3,
       __self: undefined,
       __source: {
@@ -5064,7 +5064,7 @@ const Transfers = () => {
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
       color: "#888",
-      columns: 4,
+      columns: 5,
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -5073,28 +5073,38 @@ const Transfers = () => {
       }
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
       fontWeight: "bold",
-      key: "url",
+      key: "txid",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 143,
         columnNumber: 13
       }
-    }, "Sendee Address"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+    }, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
       fontWeight: "bold",
-      key: "fee",
+      key: "to",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 144,
         columnNumber: 13
       }
-    }, "Fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+    }, "To"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
       fontWeight: "bold",
+      key: "fee",
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
         lineNumber: 145,
+        columnNumber: 13
+      }
+    }, "Fee"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+      fontWeight: "bold",
+      key: "Amount",
+      __self: undefined,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 146,
         columnNumber: 13
       }
     }, "Amount"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -5103,14 +5113,14 @@ const Transfers = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 146,
+        lineNumber: 147,
         columnNumber: 13
       }
     }, "Time")), transfers.map(transfer => {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["SimpleGrid"], {
         fontSize: 14,
         background: "white",
-        columns: 4,
+        columns: 5,
         key: transfer.txnId + '1',
         cursor: "pointer",
         borderRadius: "2px",
@@ -5126,15 +5136,23 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 150,
+          lineNumber: 151,
           columnNumber: 15
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
+        key: transfer.txnId,
+        __self: undefined,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 156,
+          columnNumber: 19
+        }
+      }, transfer.txnId), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
         key: transfer.to,
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 155,
+          lineNumber: 157,
           columnNumber: 17
         }
       }, transfer.to), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -5142,7 +5160,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 156,
+          lineNumber: 158,
           columnNumber: 17
         }
       }, parseFloat(transfer.fee).toFixed(6).toLocaleString(), " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -5150,7 +5168,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 157,
+          lineNumber: 159,
           columnNumber: 17
         }
       }, parseFloat(transfer.amount).toFixed(6).toLocaleString(), " AR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Stack"], {
@@ -5158,7 +5176,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 158,
+          lineNumber: 160,
           columnNumber: 17
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
@@ -5166,7 +5184,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 158,
+          lineNumber: 160,
           columnNumber: 33
         }
       }, moment__WEBPACK_IMPORTED_MODULE_5___default()(parseInt(transfer.timestamp)).startOf('minute').fromNow()), transfer.status === 'pending' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Spinner"], {
@@ -5175,7 +5193,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 159,
+          lineNumber: 161,
           columnNumber: 52
         }
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_2__["FaCheckDouble"], {
@@ -5184,7 +5202,7 @@ const Transfers = () => {
         __self: undefined,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 159,
+          lineNumber: 161,
           columnNumber: 92
         }
       })));
@@ -5196,21 +5214,21 @@ const Transfers = () => {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 169,
+      lineNumber: 171,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TransfersTable, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 170,
+      lineNumber: 172,
       columnNumber: 7
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(TransferModal, {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 171,
+      lineNumber: 173,
       columnNumber: 7
     }
   }));
@@ -7032,5 +7050,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",0]]]);
+},[[0,"runtime-main",1]]]);
 //# sourceMappingURL=main.chunk.js.map

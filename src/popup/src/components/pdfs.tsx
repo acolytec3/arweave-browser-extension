@@ -197,7 +197,7 @@ const Pdfs = () => {
 
     let pdfs = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].pdfs
     return <Fragment><Flex direction="column">
-      {pdfs && <SimpleGrid colr="#888" columns={3}>
+      {pdfs && <SimpleGrid color="#888" columns={3}>
         <Text fontWeight="bold" key="url">URL</Text>
         <Text fontWeight="bold" key="fee">Fee</Text>
         <Text fontWeight="bold" key="timestamp">Time</Text>
