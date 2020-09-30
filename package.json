@@ -2,7 +2,7 @@
   "name": "arweave-web-wallet",
   "version": "1.0.0",
   "description": "A web wallet for the permaweb",
-  "homepage": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack#readme",
+  "homepage": "https://github.com/acolytec3/arweave-browser-extension",
   "scripts": {
     "clean": "rm -rf dist && cpy manifest.json dist && cpy src/assets/* dist/assets",
     "prebuild": "npm run clean",
@@ -16,11 +16,11 @@
     "zip": "bestzip extension.zip dist/*"
   },
   "bugs": {
-    "url": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack/issues"
+    "url": "https://github.com/acolytec3/arweave-browser-extension/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/thmsgbrt/Chrome-Extension-with-React-and-Typescript-Starter-Pack"
+    "url": "https://github.com/acolytec3/arweave-browser-extension"
   },
   "keywords": [
     "chrome",
@@ -28,7 +28,7 @@
     "typescript",
     "react"
   ],
-  "author": "Guibert Thomas",
+  "author": "acolytec3",
   "license": "ISC",
   "devDependencies": {
     "@types/chrome": "0.0.115",
