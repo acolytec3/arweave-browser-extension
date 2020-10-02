@@ -45,13 +45,29 @@ const BrowserPage = (route: any) => {
   useEffect(() => {
     chrome.runtime.onMessage.addListener((message) => {
       if (message.hasOwnProperty('success')) {
-        toast({
-          title: `Transaction submitted successfully.  You should see it shortly`,
-          status: 'success',
-          duration: 5000,
-          position: 'bottom',
-          isClosable: true
-        })
+        switch (message.success) {
+          case 'page': toast({
+            title: `Page archived successfully.  You should see it shortly`,
+            status: 'success',
+            duration: 5000,
+            position: 'bottom',
+            isClosable: true
+          }); break;
+          case 'pdf': toast({
+            title: `PDF archived successfully.  You should see it shortly`,
+            status: 'success',
+            duration: 5000,
+            position: 'bottom',
+            isClosable: true
+          }); break;
+          case 'transfer': toast({
+            title: `Transaction submitted successfully.  You should see it shortly`,
+            status: 'success',
+            duration: 5000,
+            position: 'bottom',
+            isClosable: true
+          })
+        }
       }
       if (message.hasOwnProperty('failure')) {
         toast({
@@ -61,6 +77,31 @@ const BrowserPage = (route: any) => {
           position: 'bottom',
           isClosable: true
         })
+      }
+      if (message.hasOwnProperty('pending')) {
+        switch (message.pending) {
+          case 'page': toast({
+            title: `Page is being archived - please wait a few moments`,
+            status: 'info',
+            duration: 3000,
+            position: 'bottom',
+            isClosable: true
+          }); break;
+          case 'pdf': toast({
+            title: `PDF is being archived - please wait a few moments`,
+            status: 'info',
+            duration: 3000,
+            position: 'bottom',
+            isClosable: true
+          }); break;
+          case 'transfer': toast({
+            title: `Transfer is being processed - please wait a few moments`,
+            status: 'info',
+            duration: 3000,
+            position: 'bottom',
+            isClosable: true
+          }); break;
+        }
       }
     });
   }, [])

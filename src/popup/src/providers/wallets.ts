@@ -85,7 +85,7 @@ export const getFee = async (size: number): Promise<string> => {
 
 export const archivePage = async (page: any, password: string, store: any): Promise<boolean> => {
   try {
-    //await store.ready()
+    chrome.runtime.sendMessage({ pending: 'page' })
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
@@ -129,6 +129,7 @@ export const archivePage = async (page: any, password: string, store: any): Prom
 
 export const archivePdf = async (pdf: pdf, password: string, store: Store): Promise<boolean> => {
   try {
+    chrome.runtime.sendMessage({ pending: 'pdf' })
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
@@ -169,6 +170,7 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
 
 export const sendTransfer = async (transfer: any, password: string, store: Store): Promise<boolean> => {
   try {
+    chrome.runtime.sendMessage({ pending: 'transfer' })
     let state = store.getState() as initialStateType
     let arweave = await getArweaveInstance(store)
     let encryptedKey = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)[0].key
