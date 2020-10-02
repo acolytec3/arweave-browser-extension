@@ -135,7 +135,7 @@ const Pdfs = () => {
             <Stack isInline>
               <Stack w="50%">
                 <Text color="#888">Time</Text>
-                <Text fontSize={14} >{moment(parseInt(pdfModal.pdf.timestamp)).startOf('minute').fromNow()}</Text>
+                <Text fontSize={14} >{moment(parseInt(pdfModal.pdf.timestamp)).format()}</Text>
               </Stack>
               <Stack>
                 <Text color="#888">Status</Text>
@@ -186,7 +186,7 @@ const Pdfs = () => {
         }}>
         <Text key={pdf.url}>{pdf.url}</Text>
         <Text key={pdf.fee}>{parseFloat(pdf.fee).toFixed(6).toLocaleString()} AR</Text>
-        <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).format()}</Text>
+        <Stack isInline><Text key={pdf.timestamp}>{moment(parseInt(pdf.timestamp)).startOf('minute').fromNow()}</Text>
           {pdf.status === 'pending' ? <Spinner size="md" color="red.500" /> : <FaCheckDouble color="green" size={24} />}
         </Stack>
       </SimpleGrid>

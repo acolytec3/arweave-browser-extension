@@ -2111,7 +2111,7 @@ const Pdfs = () => {
         lineNumber: 138,
         columnNumber: 17
       }
-    }, moment__WEBPACK_IMPORTED_MODULE_7___default()(parseInt(pdfModal.pdf.timestamp)).startOf('minute').fromNow())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
+    }, moment__WEBPACK_IMPORTED_MODULE_7___default()(parseInt(pdfModal.pdf.timestamp)).format())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Stack"], {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
@@ -2349,7 +2349,7 @@ const Pdfs = () => {
         lineNumber: 189,
         columnNumber: 25
       }
-    }, moment__WEBPACK_IMPORTED_MODULE_7___default()(parseInt(pdf.timestamp)).format()), pdf.status === 'pending' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Spinner"], {
+    }, moment__WEBPACK_IMPORTED_MODULE_7___default()(parseInt(pdf.timestamp)).startOf('minute').fromNow()), pdf.status === 'pending' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_2__["Spinner"], {
       size: "md",
       color: "red.500",
       __self: undefined,
@@ -7050,5 +7050,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map
