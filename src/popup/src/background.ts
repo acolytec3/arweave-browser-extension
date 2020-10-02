@@ -70,7 +70,12 @@ export type initialStateType = {
     response: any
   }
   settings: settings,
-  pageSource?: pageSource
+  pageSource?: pageSource,
+  pendingTxns?: {
+    pendingPages: number,
+    pendingPDFs: number,
+    pendingTransfers: number
+  }
 }
 
 const initialState = {
@@ -86,6 +91,14 @@ const initialState = {
     'lokiGateway': 'http://swyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo.lokiswyteha53g6q8yyqatsaz3rfyu3kgxetak4yjc7ggf3zz5qqxcgo',
     'incognito': false
   }
+}
+
+const setPending = (pendingTxns: { pendingPages: number, pendingPDFs: number, pendingTransfers: number }) => {
+  let pending = pendingTxns.pendingPages + pendingTxns.pendingPDFs + pendingTxns.pendingTransfers;
+  if (pending > 0) {
+    chrome.browserAction.setBadgeText({ text: pending.toString() })
+  }
+  else { chrome.browserAction.setBadgeText({ text: '' }) }
 }
 
 const reducer = (state: initialStateType, action: any): initialStateType => {
@@ -110,8 +123,11 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
 
     case 'UPDATE_WALLETS':
       {
-        let updatedState = action.payload
+        let updatedState = action.payload as initialStateType
         localStorage.setItem('wallets', JSON.stringify(updatedState))
+        if (updatedState.pendingTxns?.pendingPDFs! > 0 || updatedState.pendingTxns?.pendingPages! > 0 || updatedState.pendingTxns?.pendingTransfers! > 0) {
+          chrome.alarms.create('pendingAlarm', { periodInMinutes: 5 }) //If wallets just updated, set a longer time out before checking again
+        }
         return updatedState;
       };
 
@@ -153,11 +169,21 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       let txn = action.payload as page
       active[0].pages ? active[0].pages.push(txn) : active[0].pages = [txn]
       other.push(active[0])
-      let newState4 = {
+      let newStates4 = {
         ...state,
-        wallets: other
+        wallets: other,
+      }
+      let newState4 = {
+        ...newStates4,
+        pendingTxns: {
+          pendingPDFs: state.pendingTxns?.pendingPDFs ? state.pendingTxns?.pendingPDFs : 0,
+          pendingPages: state.pendingTxns?.pendingPages ? state.pendingTxns.pendingPages + 1 : 1,
+          pendingTransfers: state.pendingTxns?.pendingTransfers ? state.pendingTxns?.pendingTransfers : 0
+        }
       }
       localStorage.setItem('wallets', JSON.stringify(newState4))
+      chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
+      setPending(newState4.pendingTxns)
       return newState4;
 
     case 'ARCHIVE_PDF':
@@ -166,11 +192,21 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       let txn2 = action.payload as any
       active2[0].pdfs ? active2[0].pdfs.push(txn2) : active2[0].pdfs = [txn2]
       other2.push(active2[0])
-      let newState5 = {
+      let newStates5 = {
         ...state,
         wallets: other2
       }
+      let newState5 = {
+        ...newStates5,
+        pendingTxns: {
+          pendingPDFs: state.pendingTxns?.pendingPDFs ? state.pendingTxns?.pendingPDFs + 1: 1,
+          pendingPages: state.pendingTxns?.pendingPages ? state.pendingTxns.pendingPages : 0,
+          pendingTransfers: state.pendingTxns?.pendingTransfers ? state.pendingTxns?.pendingTransfers : 0
+        }
+      }
       localStorage.setItem('wallets', JSON.stringify(newState5))
+      chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
+      setPending(newState5.pendingTxns)
       return newState5;
 
     case 'INITIATE_TRANSFER':
@@ -179,11 +215,21 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       let txn3 = action.payload as any
       active3[0].transfers ? active3[0].transfers.push(txn3) : active3[0].transfers = [txn3]
       other3.push(active3[0])
-      let newState6 = {
+      let newStates6 = {
         ...state,
         wallets: other3
       }
+      let newState6 = {
+        ...newStates6,
+        pendingTxns: {
+          pendingPDFs: state.pendingTxns?.pendingPDFs ? state.pendingTxns?.pendingPDFs : 0,
+          pendingPages: state.pendingTxns?.pendingPages ? state.pendingTxns.pendingPages : 0,
+          pendingTransfers: state.pendingTxns?.pendingTransfers ? state.pendingTxns?.pendingTransfers + 1: 1
+        }
+      }
       localStorage.setItem('wallets', JSON.stringify(newState6))
+      chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
+      setPending(newState6.pendingTxns)
       return newState6;
     case 'UPDATE_SETTINGS':
       let newState7 = {
@@ -212,9 +258,9 @@ wrapStore(store);
 
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'update') {
+  if ((alarm.name === 'update') || (alarm.name === 'pendingAlarm')) {
     console.log('Updating wallets in background')
-    updateWallets()
+    updateWallets(store)
   }
 })
 
@@ -244,7 +290,7 @@ chrome.runtime.onMessage.addListener(async (res: any) => {
           reader.onabort = () => console.log('file reading was aborted')
           reader.onerror = () => console.log('file reading has failed')
           reader.onload = ((file) => {
-            let pdf = {...res.payload.pdf, source :file!.target!.result as ArrayBuffer}
+            let pdf = { ...res.payload.pdf, source: file!.target!.result as ArrayBuffer }
             console.log(pdf)
             archivePdf(pdf, res.payload.password, store);
           })
@@ -256,62 +302,65 @@ chrome.runtime.onMessage.addListener(async (res: any) => {
     case 'send.transfer':
       sendTransfer(res.payload.transfer, res.payload.password, store);
       break;
-    }
+    case 'update.wallets':
+      updateWallets(store)
   }
+}
 )
 
 chrome.contextMenus.removeAll();
 chrome.contextMenus.create({
   title: "Send AR",
   contexts: ["browser_action"],
-  onclick: function() {
-      chrome.tabs.create({
-          url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers/modal`)
-      });
+  onclick: function () {
+    chrome.tabs.create({
+      url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers/modal`)
+    });
   }
 });
 
 chrome.contextMenus.create({
   title: "View archives",
   contexts: ["browser_action"],
-  onclick: function() {
-      chrome.tabs.create({
-          url: chrome.extension.getURL(`popup/main.html#pages`)
-      });
+  onclick: function () {
+    chrome.tabs.create({
+      url: chrome.extension.getURL(`popup/main.html#pages`)
+    });
   }
 });
 chrome.contextMenus.create({
   title: "View transfers",
   contexts: ["browser_action"],
-  onclick: function() {
-      chrome.tabs.create({
-          url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers`)
-      });
+  onclick: function () {
+    chrome.tabs.create({
+      url: chrome.extension.getURL(`popup/index.html#/mainpage/transfers`)
+    });
   }
 });
 
 chrome.contextMenus.create({
   title: "Copy wallet address to clipboard",
   contexts: ["browser_action"],
-  onclick: function() {
-      let state = store.getState()
-      const input = document.createElement("input");
-      input.style.position = "fixed";
-      input.style.opacity = '0';
-      input.value = state.activeWallet ? state.activeWallet : '';
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand("Copy");
-      document.body.removeChild(input);
+  onclick: function () {
+    let state = store.getState() as initialStateType
+    const input = document.createElement("input");
+    input.style.position = "fixed";
+    input.style.opacity = '0';
+    input.value = state.activeWallet ? state.activeWallet : '';
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand("Copy");
+    document.body.removeChild(input);
   }
 });
 
 chrome.contextMenus.create({
   title: "Settings",
   contexts: ["browser_action"],
-  onclick: function() {
-      chrome.tabs.create({
-          url: chrome.extension.getURL(`popup/index.html#/mainpage/settings`)
-      });
+  onclick: function () {
+    chrome.tabs.create({
+      url: chrome.extension.getURL(`popup/index.html#/mainpage/settings`)
+    });
   }
 });
+

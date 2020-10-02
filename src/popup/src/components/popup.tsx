@@ -4,7 +4,6 @@ import { ThemeProvider, Box, Text, Flex, Button, PseudoBox, useClipboard, Stack,
 import { openTab } from '../providers/browser'
 import { useSelector } from 'react-redux'
 import { initialStateType } from '../background'
-import { updateWallets } from '../providers/wallets';
 
 type pageType = {
   type: string,
@@ -20,7 +19,7 @@ const Popup = () => {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    updateWallets()
+    chrome.runtime.sendMessage({ action: 'update.wallets' })
   },[])
 
   useEffect(() => {

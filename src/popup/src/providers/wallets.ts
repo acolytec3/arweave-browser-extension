@@ -101,6 +101,7 @@ export const archivePage = async (page: any, password: string, store: any): Prom
     const response = await arweave.transactions.post(transaction);
     console.log(response);
     chrome.runtime.sendMessage({ success: 'page' })
+    
     transaction.data = Uint8Array.from([]) //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
     let pageDetails: page = {
       'title': page.title,
@@ -142,6 +143,7 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
     console.log(response);
     transaction.data = Uint8Array.from([])  //Remove data from transaction details being stored with wallet so we don't blow up the session storage limits
     chrome.runtime.sendMessage({ success: 'pdf' })
+
     let pdfDetails: any = {
       'url': pdf.url,
       'fee': pdf.fee,
@@ -209,10 +211,9 @@ export const sendTransfer = async (transfer: any, password: string, store: Store
   return true
 }
 
-export const updateWallets = async () => {
-  await store.ready()
+export const updateWallets = async (store: Store) => {
   let state = store.getState() as initialStateType
-
+  console.log(`Seconds since last updated: ${Date.now() - state.lastUpdated}`)
   if (Date.now() - state.lastUpdated < 120000) {
     return
   }
@@ -256,10 +257,36 @@ export const updateWallets = async () => {
     catch (error) {
       console.log(`Error updating wallets - ${error}`)
     }
+    console.log('got all txn updates')
+    let pending = await countPending(state)
+    console.log(pending)
     let result = store.dispatch({
       type: 'UPDATE_WALLETS',
-      payload: { wallets: updatedWallets ? updatedWallets : state.wallets, activeWallet: state.activeWallet, lastUpdated: Date.now(), network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined }, settings: state.settings }
+      payload: { 
+        wallets: updatedWallets ? updatedWallets : state.wallets, 
+        activeWallet: state.activeWallet, 
+        lastUpdated: Date.now(), 
+        network: { connected: connected, response: netInfo, height: netInfo ? netInfo.height : undefined }, 
+        settings: state.settings,
+        pendingTxns: pending }
     })
   }
 }
 
+const countPending = async (state: initialStateType): Promise<object> => {
+  let txns = state.wallets.filter((wallet: wallet) => wallet.address === state.activeWallet)
+  let pdfs = txns[0].pdfs?.filter(pdf => pdf.status === "pending").length
+  let pages = txns[0].pages?.filter(page => page.status === "pending").length
+  let transfers = txns[0].transfers?.filter(transfer => transfer.status === "pending").length
+  let pendingTxns = (pdfs ? pdfs : 0) + (pages ? pages : 0) + (transfers ? transfers : 0)
+ 
+  if (pendingTxns > 0) {
+    chrome.browserAction.setBadgeText({text: pendingTxns.toString()}) }
+  else {chrome.browserAction.setBadgeText({text: ''}) }
+  
+  return {
+    pdfs: pdfs,
+    pages: pages,
+    transfers: transfers
+  }
+}
