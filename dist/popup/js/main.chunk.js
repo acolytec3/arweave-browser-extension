@@ -6804,6 +6804,8 @@ const archivePage = async (page, password, store) => {
     return false;
   }
 
+  let newState = store.getState();
+  countPending(newState);
   return true;
 };
 const archivePdf = async (pdf, password, store) => {
@@ -6850,6 +6852,8 @@ const archivePdf = async (pdf, password, store) => {
     return false;
   }
 
+  let newState = store.getState();
+  countPending(newState);
   return true;
 };
 const sendTransfer = async (transfer, password, store) => {
@@ -6896,6 +6900,8 @@ const sendTransfer = async (transfer, password, store) => {
     return false;
   }
 
+  let newState = store.getState();
+  countPending(newState);
   return true;
 };
 const updateWallets = async store => {
@@ -6903,6 +6909,7 @@ const updateWallets = async store => {
   console.log(`Seconds since last updated: ${Date.now() - state.lastUpdated}`);
 
   if (Date.now() - state.lastUpdated < 120000) {
+    countPending(state);
     return;
   } else {
     let updatedWallets = null;
@@ -7145,5 +7152,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",1]]]);
+},[[0,"runtime-main",0]]]);
 //# sourceMappingURL=main.chunk.js.map

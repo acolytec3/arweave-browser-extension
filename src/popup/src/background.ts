@@ -93,14 +93,6 @@ const initialState = {
   }
 }
 
-const setPending = (pendingTxns: { pendingPages: number, pendingPDFs: number, pendingTransfers: number }) => {
-  let pending = pendingTxns.pendingPages + pendingTxns.pendingPDFs + pendingTxns.pendingTransfers;
-  if (pending > 0) {
-    chrome.browserAction.setBadgeText({ text: pending.toString() })
-  }
-  else { chrome.browserAction.setBadgeText({ text: '' }) }
-}
-
 const reducer = (state: initialStateType, action: any): initialStateType => {
   console.log(state)
   console.log(action)
@@ -183,7 +175,6 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState4))
       chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
-      setPending(newState4.pendingTxns)
       return newState4;
 
     case 'ARCHIVE_PDF':
@@ -206,7 +197,6 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState5))
       chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
-      setPending(newState5.pendingTxns)
       return newState5;
 
     case 'INITIATE_TRANSFER':
@@ -229,7 +219,6 @@ const reducer = (state: initialStateType, action: any): initialStateType => {
       }
       localStorage.setItem('wallets', JSON.stringify(newState6))
       chrome.alarms.create('pendingAlarm', { periodInMinutes: 3 })
-      setPending(newState6.pendingTxns)
       return newState6;
     case 'UPDATE_SETTINGS':
       let newState7 = {

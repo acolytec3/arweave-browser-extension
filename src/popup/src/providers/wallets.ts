@@ -124,6 +124,9 @@ export const archivePage = async (page: any, password: string, store: any): Prom
     chrome.runtime.sendMessage({ failure: 'page' })
     return false
   }
+  let newState = store.getState() as initialStateType
+  countPending(newState)
+  
   return true
 }
 
@@ -165,6 +168,9 @@ export const archivePdf = async (pdf: pdf, password: string, store: Store): Prom
     chrome.runtime.sendMessage({ failure: 'pdf' })
     return false
   }
+  let newState = store.getState() as initialStateType
+  countPending(newState)
+  
   return true
 }
 
@@ -210,6 +216,8 @@ export const sendTransfer = async (transfer: any, password: string, store: Store
     chrome.runtime.sendMessage({ failure: 'transfer' })
     return false
   }
+  let newState = store.getState() as initialStateType
+  countPending(newState)
   return true
 }
 
@@ -217,6 +225,7 @@ export const updateWallets = async (store: Store) => {
   let state = store.getState() as initialStateType
   console.log(`Seconds since last updated: ${Date.now() - state.lastUpdated}`)
   if (Date.now() - state.lastUpdated < 120000) {
+    countPending(state)
     return
   }
   else {
