@@ -1,7 +1,7 @@
 export default {
     fonts: {
-        body: '"Roboto"',
-        heading: '"Roboto"',
-        mono: '"Roboto"'
+        body: "Roboto",
+        heading: "Roboto",
+        mono: "Roboto"
     }
 }

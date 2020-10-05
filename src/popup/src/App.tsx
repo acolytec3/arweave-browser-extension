@@ -4,17 +4,12 @@ import './App.css';
 import BrowserPage from './components/browserpage'
 import Popup from './components/popup'
 import { theme, CSSReset, ThemeProvider } from '@chakra-ui/core'
-import customTheme from './theme'
 
-const comboTheme = {
-  ...theme,
-  ...customTheme
-}
 
 const App = () => {
 
   return (
-    <ThemeProvider theme={comboTheme}>
+    <ThemeProvider theme={theme}>
       <CSSReset />
       <HashRouter>
         <Switch>

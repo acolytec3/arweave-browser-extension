@@ -29,7 +29,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "body {\n  margin: 0;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',\n    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',\n    sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\ncode {\n  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',\n    monospace;\n}\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  font-family: 'Roboto', 'Open Sans',\n    sans-serif;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n\ncode {\n  font-family: 'Roboto Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',\n    monospace;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -83,7 +83,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_browserpage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/browserpage */ "./src/components/browserpage.tsx");
 /* harmony import */ var _components_popup__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/popup */ "./src/components/popup.tsx");
 /* harmony import */ var _chakra_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @chakra-ui/core */ "./node_modules/@chakra-ui/core/dist/es/index.js");
-/* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./theme */ "./src/theme.js");
 var _jsxFileName = "/home/jim/development/ar2/src/popup/src/App.tsx";
 
 
@@ -92,38 +91,34 @@ var _jsxFileName = "/home/jim/development/ar2/src/popup/src/App.tsx";
 
 
 
-const comboTheme = { ..._chakra_ui_core__WEBPACK_IMPORTED_MODULE_5__["theme"],
-  ..._theme__WEBPACK_IMPORTED_MODULE_6__["default"]
-};
-
 const App = () => {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_5__["ThemeProvider"], {
-    theme: comboTheme,
+    theme: _chakra_ui_core__WEBPACK_IMPORTED_MODULE_5__["theme"],
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17,
+      lineNumber: 12,
       columnNumber: 5
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_5__["CSSReset"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18,
+      lineNumber: 13,
       columnNumber: 7
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["HashRouter"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19,
+      lineNumber: 14,
       columnNumber: 7
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], {
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 20,
+      lineNumber: 15,
       columnNumber: 9
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -133,14 +128,14 @@ const App = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 22,
+        lineNumber: 17,
         columnNumber: 13
       }
     }),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21,
+      lineNumber: 16,
       columnNumber: 11
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
@@ -150,14 +145,14 @@ const App = () => {
       __self: undefined,
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 24,
+        lineNumber: 19,
         columnNumber: 13
       }
     }),
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23,
+      lineNumber: 18,
       columnNumber: 11
     }
   }))));
@@ -3801,7 +3796,6 @@ const Settings = () => {
   }, "Gateway address is invalid"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_chakra_ui_core__WEBPACK_IMPORTED_MODULE_1__["Text"], {
     py: "10px",
     color: "#999",
-    fontFamily: "Roboto",
     __self: undefined,
     __source: {
       fileName: _jsxFileName,
@@ -7121,25 +7115,6 @@ function unregister() {
 
 /***/ }),
 
-/***/ "./src/theme.js":
-/*!**********************!*\
-  !*** ./src/theme.js ***!
-  \**********************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  fonts: {
-    body: '"Roboto"',
-    heading: '"Roboto"',
-    mono: '"Roboto"'
-  }
-});
-
-/***/ }),
-
 /***/ 0:
 /*!*****************************!*\
   !*** multi ./src/index.tsx ***!
@@ -7152,5 +7127,5 @@ module.exports = __webpack_require__(/*! /home/jim/development/ar2/src/popup/src
 
 /***/ })
 
-},[[0,"runtime-main",0]]]);
+},[[0,"runtime-main",1]]]);
 //# sourceMappingURL=main.chunk.js.map
