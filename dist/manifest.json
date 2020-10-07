@@ -1,26 +1,44 @@
 {
     "manifest_version": 2,
-
-    "name": "Chrome Extension (built with TypeScript + React)",
-    "description":
-        "A boilerplate project to quickly build a Chrome extension using TypeScript and React (built using webpack).",
+    "name": "Arweave Web Wallet",
+    "short_name": "Arweave Web Wallet",
     "version": "1.0.0",
-
+    "description": "A web wallet for the permaweb",
+    "permissions": [
+          "storage",
+          "tabs",
+          "webRequest",
+          "webRequestBlocking",
+          "contextMenus",
+          "downloads",
+      "<all_urls>",
+      "activeTab",
+      "alarms"
+    ],
     "browser_action": {
-        "default_icon": "icon16.png",
-        "default_popup": "popup.html"
+      "default_popup": "index.html",
+      "default_title": "Arweave Web Wallet",
+      "default_logo": "./src/popup/assets/icon.png"
     },
-
-    "background": {
-        "scripts": ["js/eventPage.js"],
-        "persistent": false
-    },
-
     "icons": {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+      "128": "./assets/icon.png"
     },
-
-    "permissions": []
-}
+    "content_scripts": [
+      {
+        "js": [
+          "./js/contentscript.js"
+        ],
+        "matches": [
+          "<all_urls>"
+        ]
+      }
+    ],
+    "background": {
+      "scripts": [
+        "./js/background.js"
+      ],
+      "persistent": true
+    },
+    "content_security_policy": "script-src 'self' object-src 'self' connect-src 'self'" 
+  }
+  
